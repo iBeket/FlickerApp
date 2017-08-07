@@ -79,7 +79,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
             viewHolder.image = convertView.findViewById(R.id.image_flickr);
             viewHolder.title = convertView.findViewById(R.id.title_flickr);
             viewHolder.author = convertView.findViewById(R.id.author_flickr);
-
+            viewHolder.dateTaken = convertView.findViewById(R.id.date_flickr);
             //  viewHolder.description = convertView.findViewById(R.id.description_flickr);
             // viewHolder.description.setSelected(true);
 
@@ -105,7 +105,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
         viewHolder.author.setText(obj.getAuthor());
         // viewHolder.description.setText(Html.fromHtml(obj.getDescription()));
         viewHolder.tag.setText(obj.getTags());
-
+        viewHolder.dateTaken.setText(obj.getDate_taken());
         Picasso.with(getContext())
                 .load(obj.getMedia())
                 .into(viewHolder.image);
@@ -232,6 +232,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
         TextView author;
         TextView description;
         TextView tag;
+        TextView dateTaken;
         ImageView image;
         ImageButton optionButton;
 

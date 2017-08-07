@@ -68,12 +68,16 @@ public class MainActivity extends AppCompatActivity {
                         media = jsonObject.getJSONObject("media");
                         model.setMedia(media.getString("m"));
                         model.setTitle(jsonObject.getString("title"));
+
+                        String dateTaken = jsonObject.getString("date_taken");
+                        int idex = dateTaken.indexOf('T');
+                        String date = dateTaken.substring(0, idex);
+                        model.setDate_taken(date);
                         //  model.setDescription(jsonObject.getString("description"));
                         String hashTag = "#" + String.valueOf(jsonObject.getString("tags")).replace(" ", " #");
                         model.setTags(hashTag);
 
-                        String author = String.valueOf(jsonObject.getString("author")).replace("nobody@flickr.com","").replace('(',' ').replace(')', ' ').replace('"', ' ');
-
+                        String author = "By:" + String.valueOf(jsonObject.getString("author")).replace("nobody@flickr.com", "").replace("(", "").replace(")", "");
                         model.setAuthor(author);
 
                         flickrList.add(model);

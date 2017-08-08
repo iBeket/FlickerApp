@@ -1,7 +1,10 @@
 package com.example.milos.flickerapp;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    final Context context = this;
     private ProgressDialog dialog;
     private ListView lv;
     ArrayList<FlickrModel> flickrList = new ArrayList<>();
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         new getData().execute();
 
     }
+
     public class getData extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
@@ -44,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
             dialog.setMessage("Please wait");
             dialog.setCancelable(false);
             dialog.show();
-
         }
 
         @Override
@@ -64,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject media;
                         media = jsonObject.getJSONObject("media");
                         model.setMedia(media.getString("m"));
+
                         model.setTitle(jsonObject.getString("title"));
+                        model.setLink(jsonObject.getString("link"));
 
                         String dateTaken = jsonObject.getString("date_taken");
                         int index = dateTaken.indexOf('T');
@@ -97,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                "No internet connection please check your connectivity",
                                 Toast.LENGTH_LONG)
                                 .show();
                     }
@@ -147,7 +152,31 @@ public class MainActivity extends AppCompatActivity {
             // Updating parsed JSON data into ListView
             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
             lv.setAdapter(flickrAdapter);
+
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                context);
+        alertDialogBuilder.setTitle("      Choose your next step");
+        alertDialogBuilder
+                .setMessage("                   Click yes to exit!")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        MainActivity.super.onBackPressed();
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
 

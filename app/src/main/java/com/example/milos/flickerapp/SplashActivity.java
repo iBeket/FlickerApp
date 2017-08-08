@@ -10,9 +10,6 @@ import android.support.v7.app.AppCompatActivity;
  */
 
 public class SplashActivity extends AppCompatActivity {
-
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
@@ -24,5 +21,4 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, secondsDelayed * 2000);
     }
-
 }

@@ -17,7 +17,6 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.listjson);
         search = (EditText) findViewById(R.id.search);
         new getData().execute();
-
     }
 
     public class getData extends AsyncTask<Void, Void, Void> {
@@ -68,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
                         media = jsonObject.getJSONObject("media");
                         model.setMedia(media.getString("m"));
 
-                        model.setTitle(jsonObject.getString("title"));
+                        String title = String.valueOf(jsonObject.getString("title")).replace("- The Caturday", "").replace(": http://thecaturday.us","");
+                        model.setTitle(title);
+
                         model.setLink(jsonObject.getString("link"));
 
                         String dateTaken = jsonObject.getString("date_taken");
@@ -152,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
             // Updating parsed JSON data into ListView
             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
             lv.setAdapter(flickrAdapter);
-
         }
     }
 
@@ -162,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 context);
         alertDialogBuilder.setTitle("      Choose your next step");
         alertDialogBuilder
-                .setMessage("                   Click yes to exit!")
+                .setMessage("                 Click yes to exit!")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -174,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
-
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }

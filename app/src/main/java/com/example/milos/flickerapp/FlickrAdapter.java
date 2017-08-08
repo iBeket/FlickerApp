@@ -79,7 +79,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
             viewHolder.title = convertView.findViewById(R.id.title_flickr);
             viewHolder.author = convertView.findViewById(R.id.author_flickr);
             viewHolder.dateTaken = convertView.findViewById(R.id.date_flickr);
-            //  viewHolder.description = convertView.findViewById(R.id.description_flickr);
+            // viewHolder.description = convertView.findViewById(R.id.description_flickr);
             // viewHolder.description.setSelected(true);
 
             viewHolder.tag = convertView.findViewById(R.id.tag_flickr);
@@ -182,8 +182,29 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                                     context.startActivity(chooserIntent);
                                 }
                             }
+                            //saves image on sdcard
                         } else if (item.getTitle().equals("Save image")) {
-                            downloadFile(obj.getMedia());
+                            File direct = new File(Environment.getExternalStorageDirectory()
+                                    + "/FlickrPhotos");
+
+                            if (!direct.exists()) {
+                                direct.mkdirs();
+                            }
+
+                            DownloadManager mgr = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+
+                            Uri downloadUri = Uri.parse(obj.getMedia());
+                            DownloadManager.Request request = new DownloadManager.Request(
+                                    downloadUri);
+                            String title = obj.getTitle() + ".jpg";
+                            request.setAllowedNetworkTypes(
+                                    DownloadManager.Request.NETWORK_WIFI
+                                            | DownloadManager.Request.NETWORK_MOBILE)
+                                    .setAllowedOverRoaming(false).setTitle("Demo")
+                                    .setDescription("Flickr photos")
+                                    .setDestinationInExternalPublicDir("/FlickrPhotos", title);
+
+                            mgr.enqueue(request);
                             Toast.makeText(context, "Photo saved to: /sdcard/FlickrPhotos", Toast.LENGTH_SHORT).show();
                         }
                         return true;
@@ -197,31 +218,6 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
         animateView();
         convertView.startAnimation(scale);
         return convertView;
-    }
-
-    public void downloadFile(String uRl) {
-        File direct = new File(Environment.getExternalStorageDirectory()
-                + "/FlickrPhotos");
-
-        if (!direct.exists()) {
-            direct.mkdirs();
-        }
-
-        DownloadManager mgr = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-
-        Uri downloadUri = Uri.parse(uRl);
-        DownloadManager.Request request = new DownloadManager.Request(
-                downloadUri);
-
-        request.setAllowedNetworkTypes(
-                DownloadManager.Request.NETWORK_WIFI
-                        | DownloadManager.Request.NETWORK_MOBILE)
-                .setAllowedOverRoaming(false).setTitle("Demo")
-                .setDescription("Flickr photos")
-                .setDestinationInExternalPublicDir("/FlickrPhotos", "Flickrphoto.jpg");
-
-        mgr.enqueue(request);
-
     }
 
     private static class ViewHolder {

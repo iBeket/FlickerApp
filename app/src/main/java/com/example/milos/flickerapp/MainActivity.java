@@ -15,20 +15,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    final String TAG = "JSON";
+
     private ProgressDialog dialog;
     private ListView lv;
     ArrayList<FlickrModel> flickrList = new ArrayList<>();
     private FlickrAdapter flickrAdapter;
     private EditText search;
-
+    final String TAG = "JSON";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.listjson);
         search = (EditText) findViewById(R.id.search);
         new getData().execute();
-    }
 
+    }
     public class getData extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
@@ -70,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
                         model.setTitle(jsonObject.getString("title"));
 
                         String dateTaken = jsonObject.getString("date_taken");
-                        int idex = dateTaken.indexOf('T');
-                        String date = dateTaken.substring(0, idex);
+                        int index = dateTaken.indexOf('T');
+                        String date = dateTaken.substring(0, index);
                         model.setDate_taken(date);
                         //  model.setDescription(jsonObject.getString("description"));
                         String hashTag = "#" + String.valueOf(jsonObject.getString("tags")).replace(" ", " #");
@@ -105,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
                                 .show();
                     }
                 });
-
             }
 
             return null;
@@ -140,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
                             lv.setAdapter(flickrAdapter);
                         }
                     }
-
                 }
 
                 @Override

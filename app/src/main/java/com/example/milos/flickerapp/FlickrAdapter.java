@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import android.text.Html;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,7 +65,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
     @Override
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         //Initialize the helper class
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         /*
           If convertView is not set, inflate the row layout and get its views' references
           then set the helper class as a tag for the convertView
@@ -230,7 +229,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
         *  each component of the listView row layout */
         TextView title;
         TextView author;
-        TextView description;
+       // TextView description;
         TextView tag;
         TextView dateTaken;
         ImageView image;
@@ -241,6 +240,6 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
     private void animateView() {
         scale = new ScaleAnimation((float) 1.0, (float) 1.0, (float) 0.0, (float) 1.0);
         scale.setFillAfter(true);
-        scale.setDuration(700);
+        scale.setDuration(500);
     }
 }

@@ -225,7 +225,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
         *  each component of the listView row layout */
         TextView title;
         TextView author;
-       // TextView description;
+        // TextView description;
         TextView tag;
         TextView dateTaken;
         ImageView image;

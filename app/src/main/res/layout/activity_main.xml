@@ -38,8 +38,6 @@
         android:background="#fff"
         android:divider="#8c8c8c"
         android:dividerHeight="15px"
-        android:textColor="#000"
-
-        />
+        android:textColor="#000" />
 
 </RelativeLayout>

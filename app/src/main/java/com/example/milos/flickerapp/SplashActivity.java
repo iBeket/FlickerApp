@@ -14,6 +14,12 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.mipmap.logo);
+        getSupportActionBar().setTitle(" Flickr App");
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
         int secondsDelayed = 1;
         new Handler().postDelayed(new Runnable() {
             public void run() {

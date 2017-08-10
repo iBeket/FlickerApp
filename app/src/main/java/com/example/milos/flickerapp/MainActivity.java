@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -36,8 +38,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         lv = (ListView) findViewById(R.id.listjson);
         search = (EditText) findViewById(R.id.search);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.mipmap.logo);
+        getSupportActionBar().setTitle(" Flickr App");
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
         new getData().execute();
     }
+
 
     public class getData extends AsyncTask<Void, Void, Void> {
         @Override

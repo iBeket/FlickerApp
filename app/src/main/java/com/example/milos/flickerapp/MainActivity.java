@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -66,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     flickrList.clear();
                     final String tags = url.replace("kitten", s.toString());
+
+                    if(s.length()>0){
+                        search.setGravity(Gravity.LEFT | Gravity.TOP);
+                    }else{
+                        search.setGravity(Gravity.CENTER);
+                    }
+
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... voids) {
@@ -103,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (Exception e) {
                                     e.toString();
                                 }
+
                             } else {
                                 Log.e(TAG, "Couldn't get json from server.");
                                 runOnUiThread(new Runnable() {

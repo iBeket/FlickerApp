@@ -187,28 +187,32 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                             }
                             //saves image on sdcard
                         } else if (item.getTitle().equals("Save image")) {
-                            File direct = new File(Environment.getExternalStorageDirectory()
-                                    + "/FlickrPhotos");
+                            try {
+                                File direct = new File(Environment.getExternalStorageDirectory()
+                                        + "/FlickrPhotos");
 
-                            if (!direct.exists()) {
-                                direct.mkdirs();
+                                if (!direct.exists()) {
+                                    direct.mkdirs();
+                                }
+
+                                DownloadManager mgr = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+
+                                Uri downloadUri = Uri.parse(obj.getMedia());
+                                DownloadManager.Request request = new DownloadManager.Request(
+                                        downloadUri);
+                                String title = obj.getTitle() + ".jpg";
+                                request.setAllowedNetworkTypes(
+                                        DownloadManager.Request.NETWORK_WIFI
+                                                | DownloadManager.Request.NETWORK_MOBILE)
+                                        .setAllowedOverRoaming(false).setTitle("Demo")
+                                        .setDescription("Flickr photos")
+                                        .setDestinationInExternalPublicDir("/FlickrPhotos", title);
+
+                                mgr.enqueue(request);
+                                Toast.makeText(context, "Photo saved to: /sdcard/FlickrPhotos", Toast.LENGTH_SHORT).show();
+                            }catch (Exception e){
+                                Toast.makeText(context, "Unable to safe image", Toast.LENGTH_SHORT).show();
                             }
-
-                            DownloadManager mgr = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-
-                            Uri downloadUri = Uri.parse(obj.getMedia());
-                            DownloadManager.Request request = new DownloadManager.Request(
-                                    downloadUri);
-                            String title = obj.getTitle() + ".jpg";
-                            request.setAllowedNetworkTypes(
-                                    DownloadManager.Request.NETWORK_WIFI
-                                            | DownloadManager.Request.NETWORK_MOBILE)
-                                    .setAllowedOverRoaming(false).setTitle("Demo")
-                                    .setDescription("Flickr photos")
-                                    .setDestinationInExternalPublicDir("/FlickrPhotos", title);
-
-                            mgr.enqueue(request);
-                            Toast.makeText(context, "Photo saved to: /sdcard/FlickrPhotos", Toast.LENGTH_SHORT).show();
                         }
                         return true;
                     }

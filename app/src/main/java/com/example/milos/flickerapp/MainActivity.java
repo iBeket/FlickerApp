@@ -68,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
                     flickrList.clear();
                     final String tags = url.replace("kitten", s.toString());
 
-                    if(s.length()>0){
+                    if (s.length() > 0) {
                         search.setGravity(Gravity.LEFT | Gravity.TOP);
-                    }else{
+                    } else {
                         search.setGravity(Gravity.CENTER);
                     }
 

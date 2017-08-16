@@ -210,7 +210,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
 
                                 mgr.enqueue(request);
                                 Toast.makeText(context, "Photo saved to: /sdcard/FlickrPhotos", Toast.LENGTH_SHORT).show();
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 Toast.makeText(context, "Unable to safe image", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -237,7 +237,6 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
         TextView dateTaken;
         ImageView image;
         ImageButton optionButton;
-
     }
 
     private void animateView() {

@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/dropdown_menu2"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="ifRoom"
         android:icon="@drawable/share"
         android:title="Share post"
         android:visible="true"

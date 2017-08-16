@@ -22,7 +22,8 @@
             android:gravity="center"
             android:hint="Search"
             android:padding="10dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLength="20"/>
 
     </LinearLayout>
 

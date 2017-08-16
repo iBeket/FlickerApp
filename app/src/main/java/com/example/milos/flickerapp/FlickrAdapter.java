@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import android.text.Html;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -125,7 +126,9 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
         viewHolder.optionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popup = new PopupMenu(context, view);
+                //background color of the popupmenu
+                Context warpper = new ContextThemeWrapper(context, R.style.popupMenuStyle);
+                PopupMenu popup = new PopupMenu(warpper, view);
                 try {
                     Field[] fields = popup.getClass().getDeclaredFields();
                     for (Field field : fields) {

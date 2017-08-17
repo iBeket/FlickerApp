@@ -116,6 +116,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
             public void onClick(View view) {
                 Uri uri = Uri.parse(obj.getMedia());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.setDataAndType(uri, "image/*");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

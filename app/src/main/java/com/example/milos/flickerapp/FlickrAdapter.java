@@ -168,13 +168,17 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                                 for (ResolveInfo resInfo : resInfos) {
                                     String packageName = resInfo.activityInfo.packageName;
 
-                                    if (packageName.contains("com.twitter.android") || packageName.contains("com.facebook.katana") || packageName.contains("com.google.android.gm")) {
+                                    if (packageName.contains("com.whatsapp") || packageName.contains("com.google.android.apps.messaging")
+                                            || packageName.contains("com.twitter.android") || packageName.contains("com.facebook.orca")
+                                            || packageName.contains("com.google.android.gm") || packageName.contains("com.facebook.katana")
+                                            || packageName.contains("com.google.android.talk") || packageName.contains("com.skype.raider")
+                                            || packageName.contains("com.google.android.apps.plus") || packageName.contains("com.android.mms")) {
                                         Intent intent = new Intent();
                                         intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
                                         intent.setAction(Intent.ACTION_SEND);
                                         intent.setType("text/plain");
-                                        intent.putExtra(Intent.EXTRA_TEXT, "Text");
-                                        intent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+                                        intent.putExtra(Intent.EXTRA_TEXT, obj.getMedia());
+                                        intent.putExtra(Intent.EXTRA_SUBJECT, obj.getTitle());
                                         intent.setPackage(packageName);
                                         targetShareIntents.add(intent);
                                     }

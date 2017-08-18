@@ -20,11 +20,9 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -35,7 +33,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener{
+public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
 
     final Context context = this;
     private ProgressDialog dialog;
@@ -77,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new ProgressDialog(context,R.style.AppCompatAlertDialogStyle);
+            dialog = new ProgressDialog(context, R.style.AppCompatAlertDialogStyle);
             dialog.setMessage("Please wait");
             dialog.setCancelable(false);
             dialog.show();
@@ -271,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         }
         return true;
     }
+
     private CharSequence menuIconWithText(Drawable r, String title) {
 
         r.setBounds(0, 0, r.getIntrinsicWidth(), r.getIntrinsicHeight());
@@ -280,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 
         return sb;
     }
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(

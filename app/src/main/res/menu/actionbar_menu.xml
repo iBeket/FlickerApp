@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/list_view"
-        app:showAsAction="always|withText"
-        android:title="List View"
         android:icon="@drawable/list"
-        android:visible="true" />
+        android:title="List View"
+        android:visible="true"
+        app:showAsAction="always|withText" />
     <item
         android:id="@+id/gird_view"
-        app:showAsAction="always|withText"
-        android:title="Grid View"
         android:icon="@drawable/grid"
-        android:visible="true" />
+        android:title="Grid View"
+        android:visible="true"
+        app:showAsAction="always|withText" />
 </menu>

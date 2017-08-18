@@ -1,38 +1,53 @@
 package com.example.milos.flickerapp;
 
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener{
 
     final Context context = this;
     private ProgressDialog dialog;
     private ListView lv;
+    private GridView gv;
     ArrayList<FlickrModel> flickrList = new ArrayList<>();
     private FlickrAdapter flickrAdapter;
     private EditText search;
     final String TAG = "JSON";
     private String url = "https://api.flickr.com/services/feeds/photos_public.gne?tags=kitten&format=json&nojsoncallback=1";
     private JSONPareser pareser = new JSONPareser();
+    private FlickrGidAdapter flickrGridAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         lv = (ListView) findViewById(R.id.listjson);
+        gv = (GridView) findViewById(R.id.flickr_grid);
+        gv.setVisibility(View.GONE);
         search = (EditText) findViewById(R.id.search);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -51,11 +68,16 @@ public class MainActivity extends AppCompatActivity {
         new getData().execute();
     }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        return false;
+    }
+
     public class getData extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new ProgressDialog(MainActivity.this);
+            dialog = new ProgressDialog(context,R.style.AppCompatAlertDialogStyle);
             dialog.setMessage("Please wait");
             dialog.setCancelable(false);
             dialog.show();
@@ -135,13 +157,15 @@ public class MainActivity extends AppCompatActivity {
                             flickrAdapter.notifyDataSetChanged();
                             lv.setAdapter(flickrAdapter);
 
+                            flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
+                            flickrGridAdapter.notifyDataSetChanged();
+                            gv.setAdapter(flickrGridAdapter);
                         }
                     }.execute();
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-
                 }
             });
         }
@@ -216,14 +240,46 @@ public class MainActivity extends AppCompatActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-
             // Updating parsed JSON data into ListView
             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
             lv.setAdapter(flickrAdapter);
-
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getTitle().toString().equalsIgnoreCase("List View")) {
+            lv.setVisibility(View.VISIBLE);
+            gv.setVisibility(View.GONE);
+
+            flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
+            lv.setAdapter(flickrAdapter);
+        } else {
+            if (item.getTitle().toString().equalsIgnoreCase("Grid View")) {
+                gv.setVisibility(View.VISIBLE);
+                lv.setVisibility(View.GONE);
+
+                flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
+                gv.setAdapter(flickrGridAdapter);
+            }
+        }
+        return true;
+    }
+    private CharSequence menuIconWithText(Drawable r, String title) {
+
+        r.setBounds(0, 0, r.getIntrinsicWidth(), r.getIntrinsicHeight());
+        SpannableString sb = new SpannableString("    " + title);
+        ImageSpan imageSpan = new ImageSpan(r, ImageSpan.ALIGN_BOTTOM);
+        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return sb;
+    }
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(

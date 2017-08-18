@@ -41,4 +41,20 @@
         android:dividerHeight="15px"
         android:textColor="#000" />
 
+    <GridView
+        android:id="@+id/flickr_grid"
+        android:layout_below="@+id/linear"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#fff"
+        android:columnWidth="50dp"
+        android:gravity="center"
+        android:numColumns="3"
+        android:padding="2dp"
+        android:verticalSpacing="8dp"
+        android:horizontalSpacing="8dp"
+        android:stretchMode="columnWidth">
+
+    </GridView>
+
 </RelativeLayout>

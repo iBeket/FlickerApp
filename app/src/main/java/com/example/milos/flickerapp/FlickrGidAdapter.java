@@ -1,6 +1,7 @@
 package com.example.milos.flickerapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 
 /**
@@ -54,6 +57,19 @@ public class FlickrGidAdapter extends ArrayAdapter<FlickrModel> {
         Picasso.with(getContext())
                 .load(obj.getMedia())
                 .into(viewHolder.imageGrid);
+
+        viewHolder.imageGrid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context.getApplicationContext(), GridInfoActivity.class);
+                intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("date", obj.getDate_taken());
+                intent.putExtra("tag", obj.getTags());
+                intent.putExtra("title", obj.getTitle());
+                intent.putExtra("author", obj.getAuthor());
+                context.getApplicationContext().startActivity(intent);
+            }
+        });
 
         return convertView;
     }

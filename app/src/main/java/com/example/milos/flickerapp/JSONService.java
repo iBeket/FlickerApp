@@ -25,7 +25,6 @@ import static com.example.milos.flickerapp.MainActivity.baseURL;
 public class JSONService extends Service {
 
     private static String TAG = "JsonService";
-    public boolean isRunning = false;
     private JSONPareser pareser;
     private JSONPareser pareserNew;
     private String jsonStrOld;

@@ -1,12 +1,11 @@
 package com.example.milos.flickerapp;
 
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -29,8 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,19 +39,17 @@ public class MainActivity extends AppCompatActivity {
     private FlickrAdapter flickrAdapter;
     private EditText search;
     final String TAG = "JSON";
-    public static final String baseURL = "https://api.flickr.com/services/feeds/photos_public.gne";
-    public static final String tailAllPhotos = "?tags=&format=json&nojsoncallback=1";
-    private String url = "https://api.flickr.com/services/feeds/photos_public.gne?tags=&format=json&nojsoncallback=1";
+    public static final String baseURL = "https://api.flickr.com/services/feeds/photos_public.gne?tags=nature&format=json&nojsoncallback=1";
     private JSONPareser pareser = new JSONPareser();
     private FlickrGidAdapter flickrGridAdapter;
     private SwipeRefreshLayout swipeRefreshList;
-    private SwipeRefreshLayout swipeRefreshLayoutGrid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
         lv = (ListView) findViewById(R.id.listjson);
         gv = (GridView) findViewById(R.id.flickr_grid);
@@ -111,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     public class getData extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute() {
@@ -128,10 +124,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     flickrList.clear();
-                    final String tags = url.replace("", s.toString());
+                    final String tags = baseURL.replace("nature", s.toString());
 
                     if (s.length() > 0) {
-                        search.setGravity(Gravity.LEFT | Gravity.TOP);
+                        search.setGravity(Gravity.START | Gravity.TOP);
                     } else {
                         search.setGravity(Gravity.CENTER);
                     }
@@ -211,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... params) {
 
-            String jsonStr = pareser.makeServiceCall(baseURL + tailAllPhotos);
+            String jsonStr = pareser.makeServiceCall(baseURL);
             if (jsonStr != null) {
                 try {
                     JSONObject obj = new JSONObject(jsonStr);
@@ -278,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
+            startService(new Intent(MainActivity.this, JSONService.class));
             // Updating parsed JSON data into ListView
             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
             flickrAdapter.notifyDataSetChanged();
@@ -314,35 +311,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
-//    private void setRepeatingAsyncTask() {
-//
-//        final Handler handler = new Handler();
-//        Timer timer = new Timer();
-//        if (dialog.isShowing()) {
-//            dialog.dismiss();
-//        }
-//        TimerTask task = new TimerTask() {
-//            @Override
-//            public void run() {
-//                handler.post(new Runnable() {
-//                    public void run() {
-//                        try {
-//                            flickrList.clear();
-//                            getData get = new getData();
-//                            get.execute();
-//
-//                        } catch (Exception e) {
-//                            // error, do something
-//                        }
-//                    }
-//                });
-//            }
-//        };
-//
-//        timer.schedule(task, 0, 30000);  // interval of one minute
-//
-//    }
 
     @Override
     public void onBackPressed() {

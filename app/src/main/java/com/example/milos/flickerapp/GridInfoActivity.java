@@ -61,7 +61,7 @@ public class GridInfoActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         context = this;
-
+        // geting info from flickrgridAdapter
         titleG = getIntent().getStringExtra("title");
         authorG = getIntent().getStringExtra("author");
         tagG = getIntent().getStringExtra("tag");

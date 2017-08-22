@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -26,8 +29,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
     final Context context = this;
     private ProgressDialog dialog;
@@ -37,9 +42,13 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
     private FlickrAdapter flickrAdapter;
     private EditText search;
     final String TAG = "JSON";
-    private String url = "https://api.flickr.com/services/feeds/photos_public.gne?tags=kitten&format=json&nojsoncallback=1";
+    public static final String baseURL = "https://api.flickr.com/services/feeds/photos_public.gne";
+    public static final String tailAllPhotos = "?tags=&format=json&nojsoncallback=1";
+    private String url = "https://api.flickr.com/services/feeds/photos_public.gne?tags=&format=json&nojsoncallback=1";
     private JSONPareser pareser = new JSONPareser();
     private FlickrGidAdapter flickrGridAdapter;
+    private SwipeRefreshLayout swipeRefreshList;
+    private SwipeRefreshLayout swipeRefreshLayoutGrid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +67,48 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         new getData().execute();
-    }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-        return false;
+
+        swipeRefreshList = (SwipeRefreshLayout) findViewById(R.id.list_refresh);
+        swipeRefreshList.setColorScheme(new int[]{android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_green_light});
+        swipeRefreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new getData().execute();
+                swipeRefreshList.setRefreshing(false);
+                flickrList.clear();
+
+            }
+        });
+
+        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int topRowVerticalPosition =
+                        (lv == null || lv.getChildCount() == 0) ?
+                                0 : lv.getChildAt(0).getTop();
+                swipeRefreshList.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
+
+            }
+        });
+
+        gv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int topRowVerticalPositionGrid =
+                        (gv == null || gv.getChildCount() == 0) ?
+                                0 : gv.getChildAt(0).getTop();
+                swipeRefreshList.setEnabled(firstVisibleItem == 0 && topRowVerticalPositionGrid >= 0);
+            }
+        });
     }
 
     public class getData extends AsyncTask<String, Void, Void> {
@@ -82,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     flickrList.clear();
-                    final String tags = url.replace("kitten", s.toString());
+                    final String tags = url.replace("", s.toString());
 
                     if (s.length() > 0) {
                         search.setGravity(Gravity.LEFT | Gravity.TOP);
@@ -165,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         @Override
         protected Void doInBackground(String... params) {
 
-            String jsonStr = pareser.makeServiceCall(url);
+            String jsonStr = pareser.makeServiceCall(baseURL + tailAllPhotos);
             if (jsonStr != null) {
                 try {
                     JSONObject obj = new JSONObject(jsonStr);
@@ -234,7 +280,12 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
             }
             // Updating parsed JSON data into ListView
             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
+            flickrAdapter.notifyDataSetChanged();
             lv.setAdapter(flickrAdapter);
+
+            flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
+            flickrGridAdapter.notifyDataSetChanged();
+            gv.setAdapter(flickrGridAdapter);
         }
     }
 
@@ -263,6 +314,35 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         }
         return true;
     }
+
+//    private void setRepeatingAsyncTask() {
+//
+//        final Handler handler = new Handler();
+//        Timer timer = new Timer();
+//        if (dialog.isShowing()) {
+//            dialog.dismiss();
+//        }
+//        TimerTask task = new TimerTask() {
+//            @Override
+//            public void run() {
+//                handler.post(new Runnable() {
+//                    public void run() {
+//                        try {
+//                            flickrList.clear();
+//                            getData get = new getData();
+//                            get.execute();
+//
+//                        } catch (Exception e) {
+//                            // error, do something
+//                        }
+//                    }
+//                });
+//            }
+//        };
+//
+//        timer.schedule(task, 0, 30000);  // interval of one minute
+//
+//    }
 
     @Override
     public void onBackPressed() {

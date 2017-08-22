@@ -1,60 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#8c8c8c"
-    android:padding="10dp">
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/linear">
 
-    <LinearLayout
-        android:id="@+id/linear"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="#8c8c8c"
+        android:padding="10dp">
 
-        <EditText
-            android:id="@+id/search"
+        <LinearLayout
+            android:id="@+id/linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#ffff"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="#ffff"
+                android:gravity="center"
+                android:hint="Search"
+                android:maxLength="20"
+                android:padding="10dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <ListView
+            android:id="@+id/listjson"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/linear"
+            android:background="#fff"
+            android:divider="#8c8c8c"
+            android:dividerHeight="15px"
+            android:textColor="#000" />
+
+
+        <GridView
+            android:id="@+id/flickr_grid"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/linear"
+            android:background="#fff"
+            android:columnWidth="50dp"
             android:gravity="center"
-            android:hint="Search"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:maxLength="20"/>
+            android:horizontalSpacing="8dp"
+            android:numColumns="3"
+            android:padding="2dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="8dp" />
 
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/listjson"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linear"
-        android:background="#fff"
-        android:divider="#8c8c8c"
-        android:dividerHeight="15px"
-        android:textColor="#000" />
-
-    <GridView
-        android:id="@+id/flickr_grid"
-        android:layout_below="@+id/linear"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#fff"
-        android:columnWidth="50dp"
-        android:gravity="center"
-        android:numColumns="3"
-        android:padding="2dp"
-        android:verticalSpacing="8dp"
-        android:horizontalSpacing="8dp"
-        android:stretchMode="columnWidth">
-
-    </GridView>
-
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

@@ -6,16 +6,19 @@
     android:background="#cccccc"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/page_title"
+    <ImageView
+        android:id="@+id/image_gird"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:text="Image Description "
-        android:background="#a6a6a6"
-        android:textColor="#000"
-        android:textSize="24sp" />
+        android:layout_height="300dp"
+        android:layout_gravity="center" />
+
+    <ImageButton
+        android:id="@+id/button_option_gird"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right"
+        android:background="#cccccc"
+        android:src="@drawable/dot" />
 
     <TextView
         android:id="@+id/grid_title"

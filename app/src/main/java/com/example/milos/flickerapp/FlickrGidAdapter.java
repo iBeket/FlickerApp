@@ -67,6 +67,8 @@ public class FlickrGidAdapter extends ArrayAdapter<FlickrModel> {
                 intent.putExtra("tag", obj.getTags());
                 intent.putExtra("title", obj.getTitle());
                 intent.putExtra("author", obj.getAuthor());
+                intent.putExtra("image",obj.getMedia());
+                intent.putExtra("link",obj.getLink());
                 context.getApplicationContext().startActivity(intent);
             }
         });

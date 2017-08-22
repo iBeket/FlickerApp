@@ -53,6 +53,7 @@ public class GridInfoActivity extends AppCompatActivity {
     private Context context;
     private ClipboardManager clipboardManager;
     private ClipData clipData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +118,7 @@ public class GridInfoActivity extends AppCompatActivity {
                         if (item.getTitle().equals("Copy link to clipboard")) {
 
                             clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
-                            clipData = ClipData.newPlainText("text",linkG);
+                            clipData = ClipData.newPlainText("text", linkG);
                             clipboardManager.setPrimaryClip(clipData);
                             Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
 

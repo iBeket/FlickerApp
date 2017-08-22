@@ -41,7 +41,6 @@ public class JSONService extends Service {
         Log.d(TAG, "onCreate");
     }
 
-
     @Override
     public synchronized void onDestroy() {
         super.onDestroy();

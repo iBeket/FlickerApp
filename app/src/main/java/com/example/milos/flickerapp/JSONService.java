@@ -14,6 +14,9 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static com.example.milos.flickerapp.MainActivity.baseURL;
 
@@ -67,8 +70,9 @@ public class JSONService extends Service {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                Timer timer = new Timer();
-                timer.scheduleAtFixedRate(new TimerTask() {
+                ScheduledExecutorService scheduleTaskExecutor = Executors.newSingleThreadScheduledExecutor();
+
+                scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
                     @Override
                     public void run() {
                         jsonStrNew = pareserNew.makeServiceCall(baseURL);
@@ -77,7 +81,7 @@ public class JSONService extends Service {
                             jsonStrOld = jsonStrNew;
                         }
                     }
-                }, 0, 5 * Calendar.MINUTE);
+                },0,5, TimeUnit.MINUTES);
             }
         }.execute();
     }
@@ -85,7 +89,7 @@ public class JSONService extends Service {
     private void addNotification() {
         NotificationCompat.Builder builder =
                 (NotificationCompat.Builder) new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.mipmap.logo)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo))
                         .setContentTitle("FlickrApp")
                         .setContentText("Someone posted new image, check it out")

@@ -86,6 +86,16 @@ public class GridInfoActivity extends AppCompatActivity {
                 .load(getIntent().getStringExtra("image"))
                 .into(imageGird);
 
+        imageGird.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse(imageG);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.setDataAndType(uri, "image/*");
+                context.startActivity(intent);
+            }
+        });
+
         buttonGrid = (ImageButton) findViewById(R.id.button_option_gird);
 
         buttonGrid.setOnClickListener(new View.OnClickListener() {

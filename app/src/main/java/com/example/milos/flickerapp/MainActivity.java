@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     public class getData extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute() {

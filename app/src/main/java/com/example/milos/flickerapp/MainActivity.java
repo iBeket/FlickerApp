@@ -29,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     final Context context = this;
     private ProgressDialog dialog;
@@ -312,7 +312,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                context);
+                context, R.style.AppCompatAlertDialogStyle);
         alertDialogBuilder.setTitle("      Choose your next step");
         alertDialogBuilder
                 .setMessage("                 Click yes to exit!")

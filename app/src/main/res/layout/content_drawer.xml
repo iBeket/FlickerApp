@@ -47,7 +47,6 @@
             android:dividerHeight="15px"
             android:textColor="#000" />
 
-
         <GridView
             android:id="@+id/flickr_grid"
             android:layout_width="fill_parent"

@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity{
 
         new getData().execute();
 
-
         swipeRefreshList = (SwipeRefreshLayout) findViewById(R.id.list_refresh);
         swipeRefreshList.setColorScheme(new int[]{android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_green_light});
         swipeRefreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

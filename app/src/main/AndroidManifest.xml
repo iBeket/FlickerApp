@@ -13,22 +13,18 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/popupMenuStyle">
+
         <activity android:name=".SplashActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".GridInfoActivity" />
-
-        <service android:name=".JSONService" />
-
-        <activity
-            android:name=".DrawerActivity"
-            android:label="@string/title_activity_drawer"
-            android:theme="@style/popupMenuStyle.NoActionBar" />
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".GridInfoActivity"></activity>
+        <service android:name=".JSONService"></service>
     </application>
 
 </manifest>

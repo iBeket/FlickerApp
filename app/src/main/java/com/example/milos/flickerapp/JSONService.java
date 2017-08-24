@@ -12,9 +12,6 @@ import android.os.IBinder;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -72,7 +69,6 @@ public class JSONService extends Service {
             @Override
             protected void onPostExecute(Void aVoid) {
                 ScheduledExecutorService scheduleTaskExecutor = Executors.newSingleThreadScheduledExecutor();
-
                 scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
                     @Override
                     public void run() {
@@ -82,7 +78,7 @@ public class JSONService extends Service {
                             jsonStrOld = jsonStrNew;
                         }
                     }
-                },0,5, TimeUnit.MINUTES);
+                },0,15,TimeUnit.MINUTES);
             }
         }.execute();
     }
@@ -90,7 +86,7 @@ public class JSONService extends Service {
     private void addNotification() {
         NotificationCompat.Builder builder =
                 (NotificationCompat.Builder) new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.logo)
+                        .setSmallIcon(R.drawable.logo)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo))
                         .setContentTitle("FlickrApp")
                         .setContentText("Someone posted new image, check it out")

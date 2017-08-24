@@ -32,7 +32,6 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-
         <ListView
             android:id="@+id/listjson"
             android:layout_width="fill_parent"

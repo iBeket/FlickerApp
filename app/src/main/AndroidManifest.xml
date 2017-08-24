@@ -30,5 +30,4 @@
             android:label="@string/title_activity_drawer"
             android:theme="@style/popupMenuStyle.NoActionBar" />
     </application>
-
 </manifest>

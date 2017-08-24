@@ -218,6 +218,8 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                             } catch (Exception e) {
                                 Toast.makeText(context, "Unable to safe image", Toast.LENGTH_SHORT).show();
                             }
+                        }else if (item.getTitle().equals("Add to favorites")){
+
                         }
                         return true;
                     }

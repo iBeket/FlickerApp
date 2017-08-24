@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
             int secondsDelayed = 1;
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    startActivity(new Intent(SplashActivity.this, DrawerActivity.class));
                     finish();
                 }
             }, secondsDelayed * 2000);
@@ -51,7 +51,7 @@ public class SplashActivity extends AppCompatActivity {
             int secondsDelayed = 1;
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    startActivity(new Intent(SplashActivity.this, DrawerActivity.class));
                     finish();
                 }
             }, secondsDelayed * 1000);
@@ -60,7 +60,7 @@ public class SplashActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Toast.makeText(SplashActivity.this, "You are not able to safe photos", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    startActivity(new Intent(SplashActivity.this, DrawerActivity.class));
                     finish();
                 }
             }, secondsDelayed * 1000);

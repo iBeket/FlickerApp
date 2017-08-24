@@ -1,65 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list_refresh"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_below="@+id/linear">
 
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#8c8c8c"
-        android:padding="10dp">
+        android:layout_height="wrap_content"
+        android:theme="@style/popupMenuStyle.AppBarOverlay">
 
-        <LinearLayout
-            android:id="@+id/linear"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical">
+            android:layout_height="@dimen/toolbat_margin"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/popupMenuStyle.PopupOverlay" />
 
-            <EditText
-                android:id="@+id/search"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#8c8c8c"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:id="@+id/linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="#ffff"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="#ffff"
+                    android:gravity="center"
+                    android:hint="Search"
+                    android:maxLength="20"
+                    android:padding="10dp"
+                    android:textColorHint="#8c8c8c"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listjson"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linear"
+                android:background="#fff"
+                android:divider="#8c8c8c"
+                android:dividerHeight="15px"
+                android:textColor="#000" />
+
+            <GridView
+                android:id="@+id/flickr_grid"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/linear"
+                android:background="#fff"
+                android:columnWidth="50dp"
                 android:gravity="center"
-                android:hint="Search"
-                android:maxLength="20"
-                android:padding="10dp"
-                android:textStyle="bold" />
+                android:horizontalSpacing="8dp"
+                android:numColumns="3"
+                android:padding="2dp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="8dp" />
 
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/listjson"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linear"
-            android:background="#fff"
-            android:divider="#8c8c8c"
-            android:dividerHeight="15px"
-            android:textColor="#000" />
-
-        <GridView
-            android:id="@+id/flickr_grid"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/linear"
-            android:background="#fff"
-            android:columnWidth="50dp"
-            android:gravity="center"
-            android:horizontalSpacing="8dp"
-            android:numColumns="3"
-            android:padding="2dp"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="8dp" />
-
-    </RelativeLayout>
+        </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

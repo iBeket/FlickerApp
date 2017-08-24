@@ -7,7 +7,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.v7.app.NotificationCompat;
@@ -17,8 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.example.milos.flickerapp.MainActivity.baseURL;
-
+import static com.example.milos.flickerapp.DrawerActivity.baseURL;
 
 /**
  * Created by Milos on 22-Aug-17.
@@ -79,7 +77,7 @@ public class JSONService extends Service {
                             jsonStrOld = jsonStrNew;
                         }
                     }
-                },0,15,TimeUnit.MINUTES);
+                }, 0, 15, TimeUnit.MINUTES);
             }
         }.execute();
     }
@@ -94,7 +92,7 @@ public class JSONService extends Service {
                         .setDefaults(Notification.DEFAULT_SOUND)
                         .setAutoCancel(true);
 
-        Intent notificationIntent = new Intent(this, MainActivity.class);
+        Intent notificationIntent = new Intent(this, DrawerActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);

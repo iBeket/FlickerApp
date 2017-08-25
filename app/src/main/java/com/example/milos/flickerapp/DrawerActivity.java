@@ -26,6 +26,7 @@ import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -38,7 +39,7 @@ public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    final Context context = this;
+    private Context context;
     private ProgressDialog dialog;
     private ListView lv;
     private GridView gv;
@@ -50,15 +51,21 @@ public class DrawerActivity extends AppCompatActivity
     private JSONPareser pareser = new JSONPareser();
     private FlickrGidAdapter flickrGridAdapter;
     private SwipeRefreshLayout swipeRefreshList;
+    private SqlHelper sqlHelper;
+    private TextView entries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(" Flickr App");
+        getSupportActionBar().setTitle("Flickr App");
+
+        context = this;
+        entries = (TextView) findViewById(R.id.entries);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -127,6 +134,7 @@ public class DrawerActivity extends AppCompatActivity
             dialog.setMessage("Please wait");
             dialog.setCancelable(false);
             dialog.show();
+
             search.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -135,18 +143,21 @@ public class DrawerActivity extends AppCompatActivity
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    flickrList.clear();
+
                     final String tags = baseURL.replace("nature", s.toString());
 
                     if (s.length() > 0) {
                         search.setGravity(Gravity.START | Gravity.TOP);
+                        search.setCursorVisible(true);
                     } else {
                         search.setGravity(Gravity.CENTER);
+                        search.setCursorVisible(false);
                     }
 
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... voids) {
+                            flickrList.clear();
                             String searchBar = pareser.makeServiceCall(tags);
                             if (searchBar != null) {
                                 try {
@@ -177,6 +188,7 @@ public class DrawerActivity extends AppCompatActivity
                                         model.setAuthor(author);
 
                                         flickrList.add(model);
+                                        //  sqlHelper.addContact(model);
                                     }
                                 } catch (Exception e) {
                                     e.toString();
@@ -199,6 +211,8 @@ public class DrawerActivity extends AppCompatActivity
 
                         @Override
                         protected void onPostExecute(Void aVoid) {
+
+
                             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
                             flickrAdapter.notifyDataSetChanged();
                             lv.setAdapter(flickrAdapter);
@@ -206,6 +220,14 @@ public class DrawerActivity extends AppCompatActivity
                             flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
                             flickrGridAdapter.notifyDataSetChanged();
                             gv.setAdapter(flickrGridAdapter);
+
+                            if (flickrList.size()==0){
+                                entries.setText("No results found");
+                                entries.bringToFront();
+                            }else{
+                                lv.bringToFront();
+                                gv.bringToFront();
+                            }
                         }
                     }.execute();
                 }
@@ -249,7 +271,7 @@ public class DrawerActivity extends AppCompatActivity
                         model.setAuthor(author);
 
                         flickrList.add(model);
-
+                        // sqlHelper.addContact(model);
 
                     }
                 } catch (final JSONException e) {
@@ -276,7 +298,6 @@ public class DrawerActivity extends AppCompatActivity
                     }
                 });
             }
-
             return null;
         }
 
@@ -286,6 +307,9 @@ public class DrawerActivity extends AppCompatActivity
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
+
+
+
             startService(new Intent(DrawerActivity.this, JSONService.class));
             // Updating parsed JSON data into ListView
             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
@@ -297,15 +321,6 @@ public class DrawerActivity extends AppCompatActivity
             gv.setAdapter(flickrGridAdapter);
         }
     }
-//    @Override
-//    public void onBackPressed() {
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
 
     @Override
     public void onBackPressed() {
@@ -358,7 +373,6 @@ public class DrawerActivity extends AppCompatActivity
                 gv.setAdapter(flickrGridAdapter);
             }
         }
-
         return true;
     }
 
@@ -369,11 +383,13 @@ public class DrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_exit) {
-            Toast.makeText(this, "asgfag", Toast.LENGTH_SHORT).show();
+            onBackPressed();
         } else if (id == R.id.nav_photos) {
 
         } else if (id == R.id.nav_favorites) {
-
+            sqlHelper = new SqlHelper(context);
+            sqlHelper.getAllInfo();
+            sqlHelper.getAllInfo().toString();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

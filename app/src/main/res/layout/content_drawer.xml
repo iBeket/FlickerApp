@@ -41,6 +41,7 @@
                     android:gravity="center"
                     android:hint="Search"
                     android:maxLength="20"
+                    android:textColor="#000"
                     android:padding="10dp"
                     android:textColorHint="#8c8c8c"
                     android:textStyle="bold" />

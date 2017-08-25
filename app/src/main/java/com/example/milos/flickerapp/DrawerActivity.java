@@ -34,6 +34,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -144,96 +147,114 @@ public class DrawerActivity extends AppCompatActivity
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                    final String tags = baseURL.replace("nature", s.toString());
 
-                    if (s.length() > 0) {
-                        search.setGravity(Gravity.START | Gravity.TOP);
-                        search.setCursorVisible(true);
-                    } else {
-                        search.setGravity(Gravity.CENTER);
-                        search.setCursorVisible(false);
-                    }
-
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... voids) {
-                            flickrList.clear();
-                            String searchBar = pareser.makeServiceCall(tags);
-                            if (searchBar != null) {
-                                try {
-                                    JSONObject obj = new JSONObject(searchBar);
-                                    JSONArray list = obj.getJSONArray("items");
-                                    for (int i = 0; i < list.length(); i++) {
-                                        JSONObject jsonObject = list.getJSONObject(i);
-                                        FlickrModel model = new FlickrModel();
-
-                                        JSONObject media;
-                                        media = jsonObject.getJSONObject("media");
-                                        model.setMedia(media.getString("m"));
-
-                                        String title = String.valueOf(jsonObject.getString("title"));
-                                        model.setTitle(title);
-
-                                        model.setLink(jsonObject.getString("link"));
-
-                                        String dateTaken = jsonObject.getString("date_taken");
-                                        int index = dateTaken.indexOf('T');
-                                        String date = dateTaken.substring(0, index);
-                                        model.setDate_taken(date);
-                                        //  model.setDescription(jsonObject.getString("description"));
-                                        String hashTag = "#" + String.valueOf(jsonObject.getString("tags")).replace(" ", " #");
-                                        model.setTags(hashTag);
-
-                                        String author = "By:" + String.valueOf(jsonObject.getString("author").replace("nobody@flickr.com", "").replace("(", "").replace(")", ""));
-                                        model.setAuthor(author);
-
-                                        flickrList.add(model);
-                                        //  sqlHelper.addContact(model);
-                                    }
-                                } catch (Exception e) {
-                                    e.toString();
-                                }
-
-                            } else {
-                                Log.e(TAG, "Couldn't get json from server.");
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(getApplicationContext(),
-                                                "Unable to read json",
-                                                Toast.LENGTH_LONG)
-                                                .show();
-                                    }
-                                });
-                            }
-                            return null;
-                        }
-
-                        @Override
-                        protected void onPostExecute(Void aVoid) {
-
-
-                            flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
-                            flickrAdapter.notifyDataSetChanged();
-                            lv.setAdapter(flickrAdapter);
-
-                            flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
-                            flickrGridAdapter.notifyDataSetChanged();
-                            gv.setAdapter(flickrGridAdapter);
-
-                            if (flickrList.size()==0){
-                                entries.setText("No results found");
-                                entries.bringToFront();
-                            }else{
-                                lv.bringToFront();
-                                gv.bringToFront();
-                            }
-                        }
-                    }.execute();
                 }
 
+                private Timer timer = new Timer();
+                private final long DELAY = 500; // milliseconds
+
                 @Override
-                public void afterTextChanged(Editable s) {
+                public void afterTextChanged(final Editable s) {
+                    timer.cancel();
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    final String tags = baseURL.replace("nature", s.toString());
+
+                                    if (s.length() > 0) {
+                                        search.setGravity(Gravity.START | Gravity.TOP);
+                                        search.setCursorVisible(true);
+                                    } else {
+                                        search.setGravity(Gravity.CENTER);
+                                        search.setCursorVisible(false);
+                                    }
+
+                                    new AsyncTask<Void, Void, Void>() {
+                                        @Override
+                                        protected Void doInBackground(Void... voids) {
+                                            flickrList.clear();
+                                            String searchBar = pareser.makeServiceCall(tags);
+                                            if (searchBar != null) {
+                                                try {
+                                                    JSONObject obj = new JSONObject(searchBar);
+                                                    JSONArray list = obj.getJSONArray("items");
+                                                    for (int i = 0; i < list.length(); i++) {
+                                                        JSONObject jsonObject = list.getJSONObject(i);
+                                                        FlickrModel model = new FlickrModel();
+
+                                                        JSONObject media;
+                                                        media = jsonObject.getJSONObject("media");
+                                                        model.setMedia(media.getString("m"));
+
+                                                        String title = String.valueOf(jsonObject.getString("title"));
+                                                        model.setTitle(title);
+
+                                                        model.setLink(jsonObject.getString("link"));
+
+                                                        String dateTaken = jsonObject.getString("date_taken");
+                                                        int index = dateTaken.indexOf('T');
+                                                        String date = dateTaken.substring(0, index);
+                                                        model.setDate_taken(date);
+                                                        //  model.setDescription(jsonObject.getString("description"));
+                                                        String hashTag = "#" + String.valueOf(jsonObject.getString("tags")).replace(" ", " #");
+                                                        model.setTags(hashTag);
+
+                                                        String author = "By:" + String.valueOf(jsonObject.getString("author").replace("nobody@flickr.com", "").replace("(", "").replace(")", ""));
+                                                        model.setAuthor(author);
+
+                                                        flickrList.add(model);
+                                                        //  sqlHelper.addContact(model);
+                                                    }
+                                                } catch (Exception e) {
+                                                    e.toString();
+                                                }
+
+                                            } else {
+                                                Log.e(TAG, "Couldn't get json from server.");
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(getApplicationContext(),
+                                                                "Unable to read json",
+                                                                Toast.LENGTH_LONG)
+                                                                .show();
+                                                    }
+                                                });
+                                            }
+                                            return null;
+                                        }
+
+                                        @Override
+                                        protected void onPostExecute(Void aVoid) {
+
+
+                                            flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
+                                            flickrAdapter.notifyDataSetChanged();
+                                            lv.setAdapter(flickrAdapter);
+
+                                            flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
+                                            flickrGridAdapter.notifyDataSetChanged();
+                                            gv.setAdapter(flickrGridAdapter);
+
+                                            if (flickrList.size() == 0) {
+                                                entries.setText("No results found");
+                                                entries.bringToFront();
+                                            } else {
+                                                lv.bringToFront();
+                                                gv.bringToFront();
+                                            }
+                                        }
+                                    }.execute();
+
+
+                                }
+                            });
+                        }
+                    }, DELAY);
                 }
             });
         }
@@ -307,7 +328,6 @@ public class DrawerActivity extends AppCompatActivity
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-
 
 
             startService(new Intent(DrawerActivity.this, JSONService.class));

@@ -36,7 +36,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Handler;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,7 +49,7 @@ public class DrawerActivity extends AppCompatActivity
     private FlickrAdapter flickrAdapter;
     private EditText search;
     final String TAG = "JSON";
-    public static final String baseURL = "https://api.flickr.com/services/feeds/photos_public.gne?tags=nature&format=json&nojsoncallback=1";
+    public static final String baseURL = "https://api.flickr.com/services/feeds/photos_public.gne?tags=planet&format=json&nojsoncallback=1";
     private JSONPareser pareser = new JSONPareser();
     private FlickrGidAdapter flickrGridAdapter;
     private SwipeRefreshLayout swipeRefreshList;
@@ -141,13 +140,10 @@ public class DrawerActivity extends AppCompatActivity
             search.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
                 }
 
                 private Timer timer = new Timer();
@@ -163,7 +159,7 @@ public class DrawerActivity extends AppCompatActivity
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    final String tags = baseURL.replace("nature", s.toString());
+                                    final String tags = baseURL.replace("planet", s.toString());
 
                                     if (s.length() > 0) {
                                         search.setGravity(Gravity.START | Gravity.TOP);
@@ -249,8 +245,6 @@ public class DrawerActivity extends AppCompatActivity
                                             }
                                         }
                                     }.execute();
-
-
                                 }
                             });
                         }
@@ -329,8 +323,8 @@ public class DrawerActivity extends AppCompatActivity
                 dialog.dismiss();
             }
 
-
             startService(new Intent(DrawerActivity.this, JSONService.class));
+
             // Updating parsed JSON data into ListView
             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
             flickrAdapter.notifyDataSetChanged();

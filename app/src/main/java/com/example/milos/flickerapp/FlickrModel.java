@@ -16,6 +16,17 @@ public class FlickrModel {
     private String author_id;
     private String tags;
 
+    public FlickrModel(String media, String author, String tags, String date_taken, String title) {
+        this.media = media;
+        this.author = author;
+        this.tags = tags;
+        this.date_taken = date_taken;
+        this.title = title;
+    }
+
+    public FlickrModel() {
+    }
+
     public String getTitle() {
         return title;
     }

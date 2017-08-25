@@ -151,6 +151,15 @@ public class DrawerActivity extends AppCompatActivity
 
                 @Override
                 public void afterTextChanged(final Editable s) {
+
+                    if (s.length() > 0) {
+                        search.setGravity(Gravity.START | Gravity.TOP);
+                        search.setCursorVisible(true);
+                    } else {
+                        search.setGravity(Gravity.CENTER);
+                        search.setCursorVisible(false);
+                    }
+
                     timer.cancel();
                     timer = new Timer();
                     timer.schedule(new TimerTask() {
@@ -160,14 +169,6 @@ public class DrawerActivity extends AppCompatActivity
                                 @Override
                                 public void run() {
                                     final String tags = baseURL.replace("planet", s.toString());
-
-                                    if (s.length() > 0) {
-                                        search.setGravity(Gravity.START | Gravity.TOP);
-                                        search.setCursorVisible(true);
-                                    } else {
-                                        search.setGravity(Gravity.CENTER);
-                                        search.setCursorVisible(false);
-                                    }
 
                                     new AsyncTask<Void, Void, Void>() {
                                         @Override

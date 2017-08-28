@@ -20,5 +20,11 @@
         android:showAsAction="ifRoom"
         android:title="Copy link to clipboard"
         android:visible="true" />
+    <item
+        android:id="@+id/dropdown_menu5"
+        android:icon="@drawable/add_favorites"
+        android:showAsAction="ifRoom"
+        android:title="Add to Favorites"
+        android:visible="true" />
 
 </menu>

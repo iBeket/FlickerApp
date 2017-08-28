@@ -27,6 +27,7 @@ public class SqlHelper extends SQLiteOpenHelper {
 
 
     public SqlHelper(Context context) {
+
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -102,7 +103,6 @@ public class SqlHelper extends SQLiteOpenHelper {
                 contactList.add(information);
             } while (cursor.moveToNext());
         }
-
         // return contact list
         return contactList;
     }

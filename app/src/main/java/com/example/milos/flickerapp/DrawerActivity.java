@@ -40,7 +40,6 @@ import java.util.TimerTask;
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
     private Context context;
     private ProgressDialog dialog;
     private ListView lv;
@@ -228,7 +227,6 @@ public class DrawerActivity extends AppCompatActivity
                                         @Override
                                         protected void onPostExecute(Void aVoid) {
 
-
                                             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
                                             flickrAdapter.notifyDataSetChanged();
                                             lv.setAdapter(flickrAdapter);
@@ -256,7 +254,7 @@ public class DrawerActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(String... params) {
-
+         sqlHelper = new SqlHelper(context);
             String jsonStr = pareser.makeServiceCall(baseURL);
             if (jsonStr != null) {
                 try {
@@ -287,8 +285,7 @@ public class DrawerActivity extends AppCompatActivity
                         model.setAuthor(author);
 
                         flickrList.add(model);
-                        // sqlHelper.addContact(model);
-
+                        sqlHelper.addContact(model);
                     }
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -402,9 +399,7 @@ public class DrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_photos) {
 
         } else if (id == R.id.nav_favorites) {
-            sqlHelper = new SqlHelper(context);
-            sqlHelper.getAllInfo();
-            sqlHelper.getAllInfo().toString();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

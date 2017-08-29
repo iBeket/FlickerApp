@@ -1,12 +1,15 @@
 package com.example.milos.flickerapp;
 
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -33,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -93,7 +97,6 @@ public class DrawerActivity extends AppCompatActivity
                 new getData().execute();
                 swipeRefreshList.setRefreshing(false);
                 flickrList.clear();
-
             }
         });
 
@@ -108,7 +111,6 @@ public class DrawerActivity extends AppCompatActivity
                         (lv == null || lv.getChildCount() == 0) ?
                                 0 : lv.getChildAt(0).getTop();
                 swipeRefreshList.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
-
             }
         });
 
@@ -208,7 +210,6 @@ public class DrawerActivity extends AppCompatActivity
                                                 } catch (Exception e) {
                                                     e.toString();
                                                 }
-
                                             } else {
                                                 Log.e(TAG, "Couldn't get json from server.");
                                                 runOnUiThread(new Runnable() {
@@ -254,12 +255,13 @@ public class DrawerActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(String... params) {
-         sqlHelper = new SqlHelper(context);
+            sqlHelper = new SqlHelper(context);
             String jsonStr = pareser.makeServiceCall(baseURL);
             if (jsonStr != null) {
                 try {
                     JSONObject obj = new JSONObject(jsonStr);
                     JSONArray list = obj.getJSONArray("items");
+                    sqlHelper.clearDatabase();
                     for (int i = 0; i < list.length(); i++) {
                         JSONObject jsonObject = list.getJSONObject(i);
                         FlickrModel model = new FlickrModel();
@@ -284,6 +286,34 @@ public class DrawerActivity extends AppCompatActivity
                         String author = "By:" + String.valueOf(jsonObject.getString("author")).replace("nobody@flickr.com", "").replace("(", "").replace(")", "");
                         model.setAuthor(author);
 
+                        //every time app is opened or refresh it will download all 20 items
+                        File direct = new File(Environment.getExternalStorageDirectory()
+                                + "/FlickrData");
+
+                        if (!direct.exists()) {
+                            direct.mkdirs();
+                        } else {
+                            deleteFile(direct);
+                        }
+
+                        DownloadManager mgr = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+
+                        Uri downloadUri = Uri.parse(model.getMedia());
+                        DownloadManager.Request request = new DownloadManager.Request(
+                                downloadUri);
+                        String titleImage = model.getTitle() + ".jpg";
+                        request.setAllowedNetworkTypes(
+                                DownloadManager.Request.NETWORK_WIFI
+                                        | DownloadManager.Request.NETWORK_MOBILE)
+                                .setAllowedOverRoaming(false).setTitle("Data")
+                                .setDescription("Flickr data")
+                                .setDestinationInExternalPublicDir("/FlickrData", titleImage);
+
+                        mgr.enqueue(request);
+
+                        model.setLocalPath(downloadUri.getPath());
+
+                        //fill the list and database
                         flickrList.add(model);
                         sqlHelper.addContact(model);
                     }
@@ -301,9 +331,18 @@ public class DrawerActivity extends AppCompatActivity
                 }
             } else {
                 Log.e(TAG, "Couldn't get json from server.");
-                runOnUiThread(new Runnable() {
+                runOnUiThread(
+                        new Runnable() {
                     @Override
                     public void run() {
+
+
+                        flickrList = (ArrayList<FlickrModel>) sqlHelper.getAllInfo();
+                        flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
+                        flickrAdapter.notifyDataSetChanged();
+                        lv.setAdapter(flickrAdapter);
+
+                        sqlHelper.getAllInfo().toString();
                         Toast.makeText(getApplicationContext(),
                                 "No internet connection please check your connectivity",
                                 Toast.LENGTH_LONG)
@@ -321,6 +360,7 @@ public class DrawerActivity extends AppCompatActivity
                 dialog.dismiss();
             }
 
+            // start notification service
             startService(new Intent(DrawerActivity.this, JSONService.class));
 
             // Updating parsed JSON data into ListView
@@ -354,7 +394,6 @@ public class DrawerActivity extends AppCompatActivity
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
-
     }
 
     @Override
@@ -405,5 +444,14 @@ public class DrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //Delete file and folders
+    void deleteFile(File file) {
+        if (file.isDirectory())
+            for (File child : file.listFiles())
+                deleteFile(child);
+
+        file.delete();
     }
 }

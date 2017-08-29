@@ -15,13 +15,15 @@ public class FlickrModel {
     private String author;
     private String author_id;
     private String tags;
+    private String localPath;
 
-    public FlickrModel(String media, String author, String tags, String date_taken, String title) {
+    public FlickrModel(String media, String author, String tags, String date_taken, String title, String localPath) {
         this.media = media;
         this.author = author;
         this.tags = tags;
         this.date_taken = date_taken;
         this.title = title;
+        this.localPath = localPath;
     }
 
     public FlickrModel() {
@@ -97,5 +99,13 @@ public class FlickrModel {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getLocalPath() {
+        return localPath;
+    }
+
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
     }
 }

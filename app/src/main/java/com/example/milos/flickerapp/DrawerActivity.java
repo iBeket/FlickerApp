@@ -342,7 +342,10 @@ public class DrawerActivity extends AppCompatActivity
                                 flickrAdapter.notifyDataSetChanged();
                                 lv.setAdapter(flickrAdapter);
 
-                                sqlHelper.getAllInfo().toString();
+                                flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
+                                flickrGridAdapter.notifyDataSetChanged();
+                                gv.setAdapter(flickrGridAdapter);
+
                                 Toast.makeText(getApplicationContext(),
                                         "No internet connection please check your connectivity",
                                         Toast.LENGTH_LONG)

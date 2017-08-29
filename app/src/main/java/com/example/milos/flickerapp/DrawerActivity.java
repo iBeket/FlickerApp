@@ -40,6 +40,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -262,6 +263,14 @@ public class DrawerActivity extends AppCompatActivity
                     JSONObject obj = new JSONObject(jsonStr);
                     JSONArray list = obj.getJSONArray("items");
                     sqlHelper.clearDatabase();
+                    File direct = new File(Environment.getExternalStorageDirectory()
+                            + "/FlickrData");
+
+                    if (!direct.exists()) {
+                        direct.mkdirs();
+                    } else {
+                        deleteFile(direct);
+                    }
                     for (int i = 0; i < list.length(); i++) {
                         JSONObject jsonObject = list.getJSONObject(i);
                         FlickrModel model = new FlickrModel();
@@ -287,21 +296,12 @@ public class DrawerActivity extends AppCompatActivity
                         model.setAuthor(author);
 
                         //every time app is opened or refresh it will download all 20 items
-                        File direct = new File(Environment.getExternalStorageDirectory()
-                                + "/FlickrData");
-
-                        if (!direct.exists()) {
-                            direct.mkdirs();
-                        } else {
-                            deleteFile(direct);
-                        }
-
                         DownloadManager mgr = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
 
                         Uri downloadUri = Uri.parse(model.getMedia());
                         DownloadManager.Request request = new DownloadManager.Request(
                                 downloadUri);
-                        String titleImage = model.getTitle() + ".jpg";
+                        String titleImage = String.valueOf(UUID.randomUUID()) + ".jpg";
                         request.setAllowedNetworkTypes(
                                 DownloadManager.Request.NETWORK_WIFI
                                         | DownloadManager.Request.NETWORK_MOBILE)
@@ -333,22 +333,22 @@ public class DrawerActivity extends AppCompatActivity
                 Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(
                         new Runnable() {
-                    @Override
-                    public void run() {
+                            @Override
+                            public void run() {
+                                sqlHelper = new SqlHelper(context);
 
+                                flickrList = (ArrayList<FlickrModel>) sqlHelper.getAllInfo();
+                                flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
+                                flickrAdapter.notifyDataSetChanged();
+                                lv.setAdapter(flickrAdapter);
 
-                        flickrList = (ArrayList<FlickrModel>) sqlHelper.getAllInfo();
-                        flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
-                        flickrAdapter.notifyDataSetChanged();
-                        lv.setAdapter(flickrAdapter);
-
-                        sqlHelper.getAllInfo().toString();
-                        Toast.makeText(getApplicationContext(),
-                                "No internet connection please check your connectivity",
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }
-                });
+                                sqlHelper.getAllInfo().toString();
+                                Toast.makeText(getApplicationContext(),
+                                        "No internet connection please check your connectivity",
+                                        Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        });
             }
             return null;
         }
@@ -451,7 +451,6 @@ public class DrawerActivity extends AppCompatActivity
         if (file.isDirectory())
             for (File child : file.listFiles())
                 deleteFile(child);
-
         file.delete();
     }
 }

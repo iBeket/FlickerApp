@@ -35,8 +35,8 @@ public class SqlHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "(" + KEY_IMAGE + " TEXT,"
-                + KEY_AUTHOR + " TEXT, " + KEY_TAGS + " TEXT, " + KEY_TITLE + " TEXT, " + KEY_DATE + " TEXT " + LOCAL_PATH + " TEXT" + ")";
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "(" + KEY_IMAGE + " TEXT, "
+                + KEY_AUTHOR + " TEXT, " + KEY_TAGS + " TEXT, " + KEY_DATE + " TEXT, " + KEY_TITLE + " TEXT, " + LOCAL_PATH + " TEXT)";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -99,9 +99,7 @@ public class SqlHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
-           if (cursor !=null) {
-               cursor.moveToFirst();
-               cursor.moveToNext();
+            if (cursor.moveToFirst()) {
                 do {
                     FlickrModel information = new FlickrModel();
                     // contactPhone.setID(Integer.parseInt(cursor.getString(0)));
@@ -115,39 +113,9 @@ public class SqlHelper extends SQLiteOpenHelper {
                     // Adding contact to list
                     contactList.add(information);
                 } while (cursor.moveToNext());
-        }
+            }
         cursor.close();
         // return contact list
         return contactList;
     }
-
-
-//   // Getting All Contacts
-//    public List<FlickrModel> getAllInfo() {
-//        List<FlickrModel> contactList = new ArrayList<FlickrModel>();
-//        // Select All Query
-//        String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        Cursor cursor = db.rawQuery(selectQuery, null);
-//
-//        // looping through all rows and adding to list
-//        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-//            FlickrModel information = new FlickrModel();
-//            // contactPhone.setID(Integer.parseInt(cursor.getString(0)));
-//            information.setMedia(cursor.getString(0));
-//            information.setAuthor(cursor.getString(1));
-//            information.setTags(cursor.getString(2));
-//            information.setDate_taken(cursor.getString(3));
-//            information.setTitle(cursor.getString(4));
-//            information.setLocalPath(cursor.getString(5));
-//
-//            // Adding contact to list
-//            contactList.add(information);
-//        }
-//        cursor.close();
-//        // return contact list
-//        return contactList;
-//    }
 }

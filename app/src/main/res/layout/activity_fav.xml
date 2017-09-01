@@ -6,6 +6,17 @@
     android:background="#8c8c8c"
     android:padding="10dp">
 
+    <TextView
+        android:id="@+id/fav_info"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#8c8c8c"
+        android:gravity="center"
+        android:padding="30dp"
+        android:textColor="#595959"
+        android:textSize="16sp" />
+
+
     <ListView
         android:id="@+id/fav_list"
         android:layout_width="fill_parent"

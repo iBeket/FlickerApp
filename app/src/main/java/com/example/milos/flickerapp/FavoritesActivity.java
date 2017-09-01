@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class FavoritesActivity extends AppCompatActivity {
     private FlickrGidAdapter flickrGidAdapter;
     ArrayList<FlickrModel> flickrModels = new ArrayList<>();
     private SqlHelperFavorites sqlHelper;
-
+    private TextView textView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
         gridView = (GridView) findViewById(R.id.fav_grid);
         listView = (ListView) findViewById(R.id.fav_list);
+        textView = (TextView) findViewById(R.id.fav_info);
 
         gridView.setVisibility(View.VISIBLE);
         listView.setVisibility(View.GONE);
@@ -44,12 +46,15 @@ public class FavoritesActivity extends AppCompatActivity {
         // geting info from flickrgridAdapter
         sqlHelper = new SqlHelperFavorites(context);
         flickrModels = (ArrayList<FlickrModel>) sqlHelper.getAllInfo();
-        flickrModels.toString();
 
-        //filling grid adapter with inforamtion
-        flickrGidAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrModels);
-        gridView.setAdapter(flickrGidAdapter);
-
+        if (flickrModels.size() == 0) {
+            textView.setText("Nothing was added");
+            textView.bringToFront();
+        } else {
+            //filling grid adapter with inforamtion
+            flickrGidAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrModels);
+            gridView.setAdapter(flickrGidAdapter);
+        }
     }
 
     @Override
@@ -68,9 +73,15 @@ public class FavoritesActivity extends AppCompatActivity {
         if (item.getTitle().toString().equalsIgnoreCase("List View")) {
             listView.setVisibility(View.VISIBLE);
             gridView.setVisibility(View.GONE);
+            //if there are no search results
+            if (flickrModels.size() == 0) {
+                textView.setText("Nothing was added");
+                textView.bringToFront();
+            } else {
+                flickrAdapter = new FlickrAdapter(context, R.layout.flickr_item, flickrModels);
+                listView.setAdapter(flickrAdapter);
+            }
 
-            flickrAdapter = new FlickrAdapter(context, R.layout.flickr_item, flickrModels);
-            listView.setAdapter(flickrAdapter);
         } else {
             if (item.getTitle().toString().equalsIgnoreCase("Grid View")) {
                 gridView.setVisibility(View.VISIBLE);
@@ -78,6 +89,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
                 flickrGidAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrModels);
                 gridView.setAdapter(flickrGidAdapter);
+
             }
         }
         return true;

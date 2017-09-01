@@ -370,9 +370,8 @@ public class DrawerActivity extends AppCompatActivity
     public void onBackPressed() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context, R.style.AppCompatAlertDialogStyle);
-        alertDialogBuilder.setTitle("      Choose your next step");
+        alertDialogBuilder.setTitle("         Are you sure you want to exit?");
         alertDialogBuilder
-                .setMessage("                 Click yes to exit!")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

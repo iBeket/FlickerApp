@@ -89,7 +89,6 @@ public class FavoritesActivity extends AppCompatActivity {
 
                 flickrGidAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrModels);
                 gridView.setAdapter(flickrGidAdapter);
-
             }
         }
         return true;

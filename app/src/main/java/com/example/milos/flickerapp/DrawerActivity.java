@@ -1,6 +1,5 @@
 package com.example.milos.flickerapp;
 
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,7 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,7 +19,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,10 +34,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -86,18 +83,19 @@ public class DrawerActivity extends AppCompatActivity
         lv = (ListView) findViewById(R.id.listjson);
         gv = (GridView) findViewById(R.id.flickr_grid);
         gv.setVisibility(View.GONE);
+
         search = (EditText) findViewById(R.id.search);
+        swipeRefreshList = (SwipeRefreshLayout) findViewById(R.id.list_refresh);
 
         new getData().execute();
 
-        swipeRefreshList = (SwipeRefreshLayout) findViewById(R.id.list_refresh);
-        swipeRefreshList.setColorScheme(new int[]{android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_green_light});
+        swipeRefreshList.setColorScheme(new int[]{android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_dark, android.R.color.holo_green_light});
         swipeRefreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new getData().execute();
-                swipeRefreshList.setRefreshing(false);
-                flickrList.clear();
+                    new getData().execute();
+                    swipeRefreshList.setRefreshing(false);
+                    flickrList.clear();
             }
         });
 
@@ -139,6 +137,7 @@ public class DrawerActivity extends AppCompatActivity
             dialog.setCancelable(false);
             dialog.show();
 
+            swipeRefreshList.setEnabled(false);
             search.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -154,11 +153,10 @@ public class DrawerActivity extends AppCompatActivity
                 @Override
                 public void afterTextChanged(final Editable s) {
 
+                    //if there is now text on search bar cursor is not visible
                     if (s.length() > 0) {
-                        search.setGravity(Gravity.START | Gravity.TOP);
                         search.setCursorVisible(true);
                     } else {
-                        search.setGravity(Gravity.CENTER);
                         search.setCursorVisible(false);
                     }
 
@@ -229,14 +227,17 @@ public class DrawerActivity extends AppCompatActivity
                                         @Override
                                         protected void onPostExecute(Void aVoid) {
 
+                                            // Updating parsed JSON data into ListView
                                             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
                                             flickrAdapter.notifyDataSetChanged();
                                             lv.setAdapter(flickrAdapter);
 
+                                            // Updating parsed JSON data into GridView
                                             flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
                                             flickrGridAdapter.notifyDataSetChanged();
                                             gv.setAdapter(flickrGridAdapter);
 
+                                            //if there are no search results
                                             if (flickrList.size() == 0) {
                                                 entries.setText("No results found");
                                                 entries.bringToFront();
@@ -257,20 +258,15 @@ public class DrawerActivity extends AppCompatActivity
         @Override
         protected Void doInBackground(String... params) {
             sqlHelper = new SqlHelper(context);
+
             String jsonStr = pareser.makeServiceCall(baseURL);
             if (jsonStr != null) {
                 try {
                     JSONObject obj = new JSONObject(jsonStr);
                     JSONArray list = obj.getJSONArray("items");
-                    sqlHelper.clearDatabase();
-                    File direct = new File(Environment.getExternalStorageDirectory()
-                            + "/FlickrData");
 
-                    if (!direct.exists()) {
-                        direct.mkdirs();
-                    } else {
-                        deleteFile(direct);
-                    }
+                    sqlHelper.clearDatabase();
+
                     for (int i = 0; i < list.length(); i++) {
                         JSONObject jsonObject = list.getJSONObject(i);
                         FlickrModel model = new FlickrModel();
@@ -296,22 +292,11 @@ public class DrawerActivity extends AppCompatActivity
                         model.setAuthor(author);
 
                         //every time app is opened or refresh it will download all 20 items
-                        DownloadManager mgr = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-
                         Uri downloadUri = Uri.parse(model.getMedia());
-                        DownloadManager.Request request = new DownloadManager.Request(
-                                downloadUri);
-                        String titleImage = String.valueOf(UUID.randomUUID()) + ".jpg";
-                        request.setAllowedNetworkTypes(
-                                DownloadManager.Request.NETWORK_WIFI
-                                        | DownloadManager.Request.NETWORK_MOBILE)
-                                .setAllowedOverRoaming(false).setTitle("Data")
-                                .setDescription("Flickr data")
-                                .setDestinationInExternalPublicDir("/FlickrData", titleImage);
-
-                        mgr.enqueue(request);
-
                         model.setLocalPath(downloadUri.getPath());
+
+                        //cache images
+                        getTempFile(context, baseURL);
 
                         //fill the list and database
                         flickrList.add(model);
@@ -337,11 +322,13 @@ public class DrawerActivity extends AppCompatActivity
                             public void run() {
                                 sqlHelper = new SqlHelper(context);
 
+                                //if there is no internet connection update ListView
                                 flickrList = (ArrayList<FlickrModel>) sqlHelper.getAllInfo();
                                 flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
                                 flickrAdapter.notifyDataSetChanged();
                                 lv.setAdapter(flickrAdapter);
 
+                                //if there is no internet connection update GridView
                                 flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
                                 flickrGridAdapter.notifyDataSetChanged();
                                 gv.setAdapter(flickrGridAdapter);
@@ -362,6 +349,7 @@ public class DrawerActivity extends AppCompatActivity
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
+            swipeRefreshList.setEnabled(true);
 
             // start notification service
             startService(new Intent(DrawerActivity.this, JSONService.class));
@@ -371,6 +359,7 @@ public class DrawerActivity extends AppCompatActivity
             flickrAdapter.notifyDataSetChanged();
             lv.setAdapter(flickrAdapter);
 
+            // Updating parsed JSON data into GridView
             flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
             flickrGridAdapter.notifyDataSetChanged();
             gv.setAdapter(flickrGridAdapter);
@@ -441,7 +430,7 @@ public class DrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_photos) {
 
         } else if (id == R.id.nav_favorites) {
-
+            startActivity(new Intent(DrawerActivity.this, FavoritesActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -449,11 +438,14 @@ public class DrawerActivity extends AppCompatActivity
         return true;
     }
 
-    //Delete file and folders
-    void deleteFile(File file) {
-        if (file.isDirectory())
-            for (File child : file.listFiles())
-                deleteFile(child);
-        file.delete();
+    //saves images on app`s cash directory
+    public File getTempFile(Context context, String url) {
+        File file = null;
+        try {
+            String fileName = Uri.parse(url).getLastPathSegment();
+            file = File.createTempFile(fileName, null, context.getCacheDir());
+        } catch (IOException e) {
+        }
+        return file;
     }
 }

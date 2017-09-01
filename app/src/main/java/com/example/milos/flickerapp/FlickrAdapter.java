@@ -46,6 +46,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
     private ScaleAnimation scale;
     private ClipboardManager clipboardManager;
     private ClipData clipData;
+    private SqlHelperFavorites sqlHelper;
 
     public FlickrAdapter(Context context, int resource, ArrayList<FlickrModel> obj) {
         super(context, resource, obj);
@@ -66,7 +67,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
     @Override
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         //Initialize the helper class
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         /*
           If convertView is not set, inflate the row layout and get its views' references
           then set the helper class as a tag for the convertView
@@ -218,8 +219,9 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                             } catch (Exception e) {
                                 Toast.makeText(context, "Unable to safe image", Toast.LENGTH_SHORT).show();
                             }
-                        }else if(item.getTitle().equals("Add to Favorites")){
-
+                        } else if (item.getTitle().equals("Add to Favorites")) {
+                            sqlHelper = new SqlHelperFavorites(context);
+                            sqlHelper.addContact(obj);
                         }
                         return true;
                     }

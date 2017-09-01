@@ -30,6 +30,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Created by Milos on 21-Aug-17.
  */
@@ -53,6 +54,8 @@ public class GridInfoActivity extends AppCompatActivity {
     private Context context;
     private ClipboardManager clipboardManager;
     private ClipData clipData;
+    private SqlHelperFavorites sqlHelper;
+    private FlickrModel flikrModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,9 @@ public class GridInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_grid_info);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        flikrModel = new FlickrModel();
         context = this;
+
         // geting info from flickrgridAdapter
         titleG = getIntent().getStringExtra("title");
         authorG = getIntent().getStringExtra("author");
@@ -69,11 +74,19 @@ public class GridInfoActivity extends AppCompatActivity {
         linkG = getIntent().getStringExtra("link");
         imageG = getIntent().getStringExtra("image");
 
+        flikrModel.setTitle(titleG);
+        flikrModel.setAuthor(authorG);
+        flikrModel.setTags(tagG);
+        flikrModel.setDate_taken(dateG);
+        flikrModel.setLink(linkG);
+        flikrModel.setMedia(imageG);
+
+
         titleGrid = (TextView) findViewById(R.id.grid_title);
         titleGrid.setText("Title: " + titleG);
 
         authorGrid = (TextView) findViewById(R.id.grid_author);
-        authorGrid.setText("Picture taken by: " + authorG);
+        authorGrid.setText(authorG);
 
         tagGrid = (TextView) findViewById(R.id.gird_tag);
         tagGrid.setText(tagG);
@@ -101,7 +114,6 @@ public class GridInfoActivity extends AppCompatActivity {
         buttonGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 //background color of the popupmenu
                 Context warpper = new ContextThemeWrapper(context, R.style.popupMenuStyle);
                 PopupMenu popup = new PopupMenu(warpper, view);
@@ -124,9 +136,9 @@ public class GridInfoActivity extends AppCompatActivity {
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
+
                         //copies the link to clipboard
                         if (item.getTitle().equals("Copy link to clipboard")) {
-
                             clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                             clipData = ClipData.newPlainText("text", linkG);
                             clipboardManager.setPrimaryClip(clipData);
@@ -193,8 +205,10 @@ public class GridInfoActivity extends AppCompatActivity {
                             } catch (Exception e) {
                                 Toast.makeText(context, "Unable to safe image", Toast.LENGTH_SHORT).show();
                             }
-                        }else if(item.getTitle().equals("Add to Favorites")){
-
+                        } else if (item.getTitle().equals("Add to Favorites")) {
+                            sqlHelper = new SqlHelperFavorites(context);
+                            sqlHelper.addContact(flikrModel);
+                            flikrModel.toString();
                         }
                         return true;
                     }

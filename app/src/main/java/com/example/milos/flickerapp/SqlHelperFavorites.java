@@ -13,11 +13,11 @@ import java.util.List;
  * Created by Milos on 24-Aug-17.
  */
 
-public class SqlHelper extends SQLiteOpenHelper {
+public class SqlHelperFavorites extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "filckerApp";
-    private static final String TABLE_CONTACTS = "favImages";
+    private static final String DATABASE_NAME = "filckerAppFav";
+    private static final String TABLE_CONTACTS = "favImagesFav";
 
     private static final String KEY_IMAGE = "image";
     private static final String KEY_AUTHOR = "author";
@@ -26,7 +26,7 @@ public class SqlHelper extends SQLiteOpenHelper {
     private static final String KEY_TITLE = "title";
     private static final String LOCAL_PATH = "localPath";
 
-    public SqlHelper(Context context) {
+    public SqlHelperFavorites(Context context) {
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }

@@ -47,7 +47,7 @@ public class FavoritesActivity extends AppCompatActivity {
         flickrModels.toString();
 
         //filling grid adapter with inforamtion
-        flickrGidAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item,flickrModels);
+        flickrGidAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrModels);
         gridView.setAdapter(flickrGidAdapter);
 
     }
@@ -69,14 +69,14 @@ public class FavoritesActivity extends AppCompatActivity {
             listView.setVisibility(View.VISIBLE);
             gridView.setVisibility(View.GONE);
 
-            flickrAdapter = new FlickrAdapter(context, R.layout.flickr_item,flickrModels );
+            flickrAdapter = new FlickrAdapter(context, R.layout.flickr_item, flickrModels);
             listView.setAdapter(flickrAdapter);
         } else {
             if (item.getTitle().toString().equalsIgnoreCase("Grid View")) {
                 gridView.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
 
-                flickrGidAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item,flickrModels);
+                flickrGidAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrModels);
                 gridView.setAdapter(flickrGidAdapter);
             }
         }

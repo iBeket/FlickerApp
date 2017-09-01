@@ -47,7 +47,7 @@ public class SqlHelper extends SQLiteOpenHelper {
     }
 
     // Adding new contact
-   public void addContact(FlickrModel flickrModel) {
+    public void addContact(FlickrModel flickrModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_IMAGE, flickrModel.getMedia());
@@ -97,21 +97,21 @@ public class SqlHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
-            if (cursor.moveToFirst()) {
-                do {
-                    FlickrModel information = new FlickrModel();
-                    // contactPhone.setID(Integer.parseInt(cursor.getString(0)));
-                    information.setMedia(cursor.getString(0));
-                    information.setAuthor(cursor.getString(1));
-                    information.setTags(cursor.getString(2));
-                    information.setDate_taken(cursor.getString(3));
-                    information.setTitle(cursor.getString(4));
-                    information.setLocalPath(cursor.getString(5));
+        if (cursor.moveToFirst()) {
+            do {
+                FlickrModel information = new FlickrModel();
+                // contactPhone.setID(Integer.parseInt(cursor.getString(0)));
+                information.setMedia(cursor.getString(0));
+                information.setAuthor(cursor.getString(1));
+                information.setTags(cursor.getString(2));
+                information.setDate_taken(cursor.getString(3));
+                information.setTitle(cursor.getString(4));
+                information.setLocalPath(cursor.getString(5));
 
-                    // Adding contact to list
-                    contactList.add(information);
-                } while (cursor.moveToNext());
-            }
+                // Adding contact to list
+                contactList.add(information);
+            } while (cursor.moveToNext());
+        }
         cursor.close();
         // return contact list
         return contactList;

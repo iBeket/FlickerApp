@@ -207,8 +207,12 @@ public class GridInfoActivity extends AppCompatActivity {
                             }
                         } else if (item.getTitle().equals("Add to Favorites")) {
                             sqlHelper = new SqlHelperFavorites(context);
-                            sqlHelper.addContact(flikrModel);
-                            flikrModel.toString();
+                            if (!sqlHelper.ifExists(flikrModel)) {
+                                sqlHelper.addContact(flikrModel);
+                                Toast.makeText(context, "Item is added to favorites", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "Item is already added", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         return true;
                     }

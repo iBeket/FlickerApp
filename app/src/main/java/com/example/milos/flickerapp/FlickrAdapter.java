@@ -100,7 +100,6 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
         //Populate the row's layout
         final FlickrModel obj = getItem(position);
 
-
         assert obj != null;
         viewHolder.title.setText(obj.getTitle());
         viewHolder.author.setText(obj.getAuthor());
@@ -221,7 +220,12 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                             }
                         } else if (item.getTitle().equals("Add to Favorites")) {
                             sqlHelper = new SqlHelperFavorites(context);
-                            sqlHelper.addContact(obj);
+                            if (!sqlHelper.ifExists(obj)) {
+                                sqlHelper.addContact(obj);
+                                Toast.makeText(context, "Item is added to favorites", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "Item is already added", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         return true;
                     }

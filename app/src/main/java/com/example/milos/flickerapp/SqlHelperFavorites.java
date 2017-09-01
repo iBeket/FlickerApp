@@ -116,4 +116,15 @@ public class SqlHelperFavorites extends SQLiteOpenHelper {
         // return contact list
         return contactList;
     }
+
+    //checks if item is already added
+    public boolean ifExists(FlickrModel flickrModel) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        String checkQuery = "SELECT " + KEY_IMAGE + " FROM " + TABLE_CONTACTS + " WHERE " + KEY_IMAGE + "= '"+ flickrModel.getMedia() + "'";
+        cursor= db.rawQuery(checkQuery,null);
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        return exists;
+    }
 }

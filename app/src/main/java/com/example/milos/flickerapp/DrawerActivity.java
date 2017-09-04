@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,12 +60,16 @@ public class DrawerActivity extends AppCompatActivity
     private SwipeRefreshLayout swipeRefreshList;
     private SqlHelper sqlHelper;
     private TextView entries;
+    private DrawerLayout drawer;
+    private TextView counter;
+    private NavigationView navigationView;
+    private SqlHelperFavorites sqlHelperFavorites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,13 +78,17 @@ public class DrawerActivity extends AppCompatActivity
         context = this;
         entries = (TextView) findViewById(R.id.entries);
 
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        counter = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+                findItem(R.id.nav_favorites));
+
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -126,6 +138,16 @@ public class DrawerActivity extends AppCompatActivity
                 swipeRefreshList.setEnabled(firstVisibleItem == 0 && topRowVerticalPositionGrid >= 0);
             }
         });
+
+        //calls method every second checking if something is added to favorites
+        final Handler handler1 = new Handler();
+        final int delay1 = 1000; //milliseconds
+        handler1.postDelayed(new Runnable(){
+            public void run(){
+                initializeCountDrawer();
+                handler1.postDelayed(this, delay1);
+            }
+        }, delay1);
     }
 
     public class getData extends AsyncTask<String, Void, Void> {
@@ -428,13 +450,18 @@ public class DrawerActivity extends AppCompatActivity
             onBackPressed();
         } else if (id == R.id.nav_photos) {
 
+            lv.setVisibility(View.VISIBLE);
+            gv.setVisibility(View.GONE);
+
+            flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
+            lv.setAdapter(flickrAdapter);
+
         } else if (id == R.id.nav_favorites) {
             startActivity(new Intent(DrawerActivity.this, FavoritesActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
 
     //saves images on app`s cash directory
@@ -446,5 +473,17 @@ public class DrawerActivity extends AppCompatActivity
         } catch (IOException e) {
         }
         return file;
+    }
+
+    private void initializeCountDrawer(){
+        //Gravity property aligns the text
+        sqlHelperFavorites = new SqlHelperFavorites(context);
+        counter.setGravity(Gravity.CENTER_VERTICAL);
+        counter.setTypeface(null, Typeface.BOLD);
+        counter.setTextColor(getResources().getColor(R.color.color_text));
+        sqlHelperFavorites.getCount();
+        long count = sqlHelperFavorites.getCount();
+        String temp = String.valueOf(count);
+        counter.setText(temp);
     }
 }

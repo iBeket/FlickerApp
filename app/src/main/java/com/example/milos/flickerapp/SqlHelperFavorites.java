@@ -48,7 +48,7 @@ public class SqlHelperFavorites extends SQLiteOpenHelper {
     }
 
     // Adding new contact
-   public void addContact(FlickrModel flickrModel) {
+    public void addContact(FlickrModel flickrModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_IMAGE, flickrModel.getMedia());
@@ -98,21 +98,21 @@ public class SqlHelperFavorites extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
-            if (cursor.moveToFirst()) {
-                do {
-                    FlickrModel information = new FlickrModel();
-                    // contactPhone.setID(Integer.parseInt(cursor.getString(0)));
-                    information.setMedia(cursor.getString(0));
-                    information.setAuthor(cursor.getString(1));
-                    information.setTags(cursor.getString(2));
-                    information.setDate_taken(cursor.getString(3));
-                    information.setTitle(cursor.getString(4));
-                    information.setLocalPath(cursor.getString(5));
+        if (cursor.moveToFirst()) {
+            do {
+                FlickrModel information = new FlickrModel();
+                // contactPhone.setID(Integer.parseInt(cursor.getString(0)));
+                information.setMedia(cursor.getString(0));
+                information.setAuthor(cursor.getString(1));
+                information.setTags(cursor.getString(2));
+                information.setDate_taken(cursor.getString(3));
+                information.setTitle(cursor.getString(4));
+                information.setLocalPath(cursor.getString(5));
 
-                    // Adding contact to list
-                    contactList.add(information);
-                } while (cursor.moveToNext());
-            }
+                // Adding contact to list
+                contactList.add(information);
+            } while (cursor.moveToNext());
+        }
         cursor.close();
         // return contact list
         return contactList;
@@ -122,8 +122,8 @@ public class SqlHelperFavorites extends SQLiteOpenHelper {
     public boolean ifExists(FlickrModel flickrModel) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
-        String checkQuery = "SELECT " + KEY_IMAGE + " FROM " + TABLE_CONTACTS + " WHERE " + KEY_IMAGE + "= '"+ flickrModel.getMedia() + "'";
-        cursor= db.rawQuery(checkQuery,null);
+        String checkQuery = "SELECT " + KEY_IMAGE + " FROM " + TABLE_CONTACTS + " WHERE " + KEY_IMAGE + "= '" + flickrModel.getMedia() + "'";
+        cursor = db.rawQuery(checkQuery, null);
         boolean exists = (cursor.getCount() > 0);
         cursor.close();
         return exists;
@@ -132,6 +132,6 @@ public class SqlHelperFavorites extends SQLiteOpenHelper {
     //number of rows in database
     public long getCount() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return DatabaseUtils.queryNumEntries(db,TABLE_CONTACTS);
+        return DatabaseUtils.queryNumEntries(db, TABLE_CONTACTS);
     }
 }

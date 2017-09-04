@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -26,6 +27,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -89,7 +91,6 @@ public class DrawerActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         lv = (ListView) findViewById(R.id.listjson);
@@ -142,8 +143,8 @@ public class DrawerActivity extends AppCompatActivity
         //calls method every second checking if something is added to favorites
         final Handler handler1 = new Handler();
         final int delay1 = 1000; //milliseconds
-        handler1.postDelayed(new Runnable(){
-            public void run(){
+        handler1.postDelayed(new Runnable() {
+            public void run() {
                 initializeCountDrawer();
                 handler1.postDelayed(this, delay1);
             }
@@ -475,15 +476,20 @@ public class DrawerActivity extends AppCompatActivity
         return file;
     }
 
-    private void initializeCountDrawer(){
+    //shows the number of items in drawer menu
+    private void initializeCountDrawer() {
         //Gravity property aligns the text
         sqlHelperFavorites = new SqlHelperFavorites(context);
-        counter.setGravity(Gravity.CENTER_VERTICAL);
+
+        counter.setGravity(Gravity.CENTER);
+        counter.setPadding(10,10,10,10);
         counter.setTypeface(null, Typeface.BOLD);
         counter.setTextColor(getResources().getColor(R.color.color_text));
+
         sqlHelperFavorites.getCount();
         long count = sqlHelperFavorites.getCount();
         String temp = String.valueOf(count);
+
         counter.setText(temp);
     }
 }

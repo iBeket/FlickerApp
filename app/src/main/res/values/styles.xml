@@ -29,6 +29,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Bubble" parent="android:Widget.TextView">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/badge_circle</item>
+    </style>
+
     <style name="popupMenuStyle.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="popupMenuStyle.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

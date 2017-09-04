@@ -106,9 +106,12 @@ public class DrawerActivity extends AppCompatActivity
         swipeRefreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new getData().execute();
-                swipeRefreshList.setRefreshing(false);
-                flickrList.clear();
+                //new getData().execute();
+                //swipeRefreshList.setRefreshing(false);
+                finish();
+                Intent intent = new Intent(context,DrawerActivity.class);
+                startActivity(intent);
+                //flickrList.clear();
             }
         });
 

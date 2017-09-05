@@ -301,6 +301,7 @@ public class GridInfoActivity extends AppCompatActivity {
                                 sqlHelper.deleteFromBase(flikrModel);
                                 Toast.makeText(context, "Item removed", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(context, FavoritesActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             }
                             return true;

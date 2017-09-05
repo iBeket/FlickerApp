@@ -145,92 +145,185 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
 
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        //copies the link to clipboard
-                        if (item.getTitle().equals("Copy link to clipboard")) {
+                //ListView home screen
+                if (!(context.getClass().getName().equalsIgnoreCase("com.example.milos.flickerapp.FavoritesActivity"))) {
 
-                            clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
-                            clipData = ClipData.newPlainText("text", obj.getLink());
-                            clipboardManager.setPrimaryClip(clipData);
-                            Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
+                    popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
 
-                        } else if (item.getTitle().equals("Share post")) {
-                            //gives us option to choose on which social network we want to share post
-                            List<Intent> targetShareIntents = new ArrayList<>();
-                            Intent shareIntent = new Intent();
-                            shareIntent.setAction(Intent.ACTION_SEND);
-                            shareIntent.setType("text/plain");
-                            List<ResolveInfo> resInfos = context.getPackageManager().queryIntentActivities(shareIntent, 0);
-                            if (!resInfos.isEmpty()) {
-                                for (ResolveInfo resInfo : resInfos) {
-                                    String packageName = resInfo.activityInfo.packageName;
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+                            //copies the link to clipboard
+                            if (item.getTitle().equals("Copy link to clipboard")) {
 
-                                    if (packageName.contains("com.whatsapp") || packageName.contains("com.google.android.apps.messaging")
-                                            || packageName.contains("com.twitter.android") || packageName.contains("com.facebook.orca")
-                                            || packageName.contains("com.google.android.gm") || packageName.contains("com.facebook.katana")
-                                            || packageName.contains("com.google.android.talk") || packageName.contains("com.skype.raider")
-                                            || packageName.contains("com.google.android.apps.plus") || packageName.contains("com.android.mms")) {
-                                        Intent intent = new Intent();
-                                        intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
-                                        intent.setAction(Intent.ACTION_SEND);
-                                        intent.setType("text/plain");
-                                        intent.putExtra(Intent.EXTRA_TEXT, obj.getMedia());
-                                        intent.putExtra(Intent.EXTRA_SUBJECT, obj.getTitle());
-                                        intent.setPackage(packageName);
-                                        targetShareIntents.add(intent);
+                                clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+                                clipData = ClipData.newPlainText("text", obj.getLink());
+                                clipboardManager.setPrimaryClip(clipData);
+                                Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
+
+                            } else if (item.getTitle().equals("Share post")) {
+                                //gives us option to choose on which social network we want to share post
+                                List<Intent> targetShareIntents = new ArrayList<>();
+                                Intent shareIntent = new Intent();
+                                shareIntent.setAction(Intent.ACTION_SEND);
+                                shareIntent.setType("text/plain");
+                                List<ResolveInfo> resInfos = context.getPackageManager().queryIntentActivities(shareIntent, 0);
+                                if (!resInfos.isEmpty()) {
+                                    for (ResolveInfo resInfo : resInfos) {
+                                        String packageName = resInfo.activityInfo.packageName;
+
+                                        if (packageName.contains("com.whatsapp") || packageName.contains("com.google.android.apps.messaging")
+                                                || packageName.contains("com.twitter.android") || packageName.contains("com.facebook.orca")
+                                                || packageName.contains("com.google.android.gm") || packageName.contains("com.facebook.katana")
+                                                || packageName.contains("com.google.android.talk") || packageName.contains("com.skype.raider")
+                                                || packageName.contains("com.google.android.apps.plus") || packageName.contains("com.android.mms")) {
+                                            Intent intent = new Intent();
+                                            intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
+                                            intent.setAction(Intent.ACTION_SEND);
+                                            intent.setType("text/plain");
+                                            intent.putExtra(Intent.EXTRA_TEXT, obj.getMedia());
+                                            intent.putExtra(Intent.EXTRA_SUBJECT, obj.getTitle());
+                                            intent.setPackage(packageName);
+                                            targetShareIntents.add(intent);
+                                        }
+                                    }
+                                    if (!targetShareIntents.isEmpty()) {
+                                        Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
+                                        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+                                        chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(chooserIntent);
                                     }
                                 }
-                                if (!targetShareIntents.isEmpty()) {
-                                    Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
-                                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-                                    chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    context.startActivity(chooserIntent);
+                                //saves image on sdcard
+                            } else if (item.getTitle().equals("Save image")) {
+                                try {
+                                    File direct = new File(Environment.getExternalStorageDirectory()
+                                            + "/FlickrPhotos");
+
+                                    if (!direct.exists()) {
+                                        direct.mkdirs();
+                                    }
+
+                                    DownloadManager mgr = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+
+                                    Uri downloadUri = Uri.parse(obj.getMedia());
+                                    DownloadManager.Request request = new DownloadManager.Request(
+                                            downloadUri);
+                                    String title = obj.getTitle() + ".jpg";
+                                    request.setAllowedNetworkTypes(
+                                            DownloadManager.Request.NETWORK_WIFI
+                                                    | DownloadManager.Request.NETWORK_MOBILE)
+                                            .setAllowedOverRoaming(false).setTitle("Demo")
+                                            .setDescription("Flickr photos")
+                                            .setDestinationInExternalPublicDir("/FlickrPhotos", title);
+
+                                    mgr.enqueue(request);
+                                    Toast.makeText(context, "Photo saved to: /sdcard/FlickrPhotos", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(context, "Unable to safe image", Toast.LENGTH_SHORT).show();
+                                }
+                            } else if (item.getTitle().equals("Add to Favorites")) {
+                                sqlHelper = new SqlHelperFavorites(context);
+                                if (!sqlHelper.ifExists(obj)) {
+                                    sqlHelper.addContact(obj);
+                                    Toast.makeText(context, "Item is added to favorites", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, "Item is already added", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            //saves image on sdcard
-                        } else if (item.getTitle().equals("Save image")) {
-                            try {
-                                File direct = new File(Environment.getExternalStorageDirectory()
-                                        + "/FlickrPhotos");
-
-                                if (!direct.exists()) {
-                                    direct.mkdirs();
-                                }
-
-                                DownloadManager mgr = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-
-                                Uri downloadUri = Uri.parse(obj.getMedia());
-                                DownloadManager.Request request = new DownloadManager.Request(
-                                        downloadUri);
-                                String title = obj.getTitle() + ".jpg";
-                                request.setAllowedNetworkTypes(
-                                        DownloadManager.Request.NETWORK_WIFI
-                                                | DownloadManager.Request.NETWORK_MOBILE)
-                                        .setAllowedOverRoaming(false).setTitle("Demo")
-                                        .setDescription("Flickr photos")
-                                        .setDestinationInExternalPublicDir("/FlickrPhotos", title);
-
-                                mgr.enqueue(request);
-                                Toast.makeText(context, "Photo saved to: /sdcard/FlickrPhotos", Toast.LENGTH_SHORT).show();
-                            } catch (Exception e) {
-                                Toast.makeText(context, "Unable to safe image", Toast.LENGTH_SHORT).show();
-                            }
-                        } else if (item.getTitle().equals("Add to Favorites")) {
-                            sqlHelper = new SqlHelperFavorites(context);
-                            if (!sqlHelper.ifExists(obj)) {
-                                sqlHelper.addContact(obj);
-                                Toast.makeText(context, "Item is added to favorites", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(context, "Item is already added", Toast.LENGTH_SHORT).show();
-                            }
+                            return true;
                         }
-                        return true;
-                    }
-                });
-                popup.show();
+                    });
+                    popup.show();
+
+                    //listView Favorites
+                } else {
+                    popup.getMenuInflater().inflate(R.menu.favorites_menu, popup.getMenu());
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+                            //copies the link to clipboard
+                            if (item.getTitle().equals("Copy link to clipboard")) {
+
+                                clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+                                clipData = ClipData.newPlainText("text", obj.getLink());
+                                clipboardManager.setPrimaryClip(clipData);
+                                Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
+
+                            } else if (item.getTitle().equals("Share post")) {
+                                //gives us option to choose on which social network we want to share post
+                                List<Intent> targetShareIntents = new ArrayList<>();
+                                Intent shareIntent = new Intent();
+                                shareIntent.setAction(Intent.ACTION_SEND);
+                                shareIntent.setType("text/plain");
+                                List<ResolveInfo> resInfos = context.getPackageManager().queryIntentActivities(shareIntent, 0);
+                                if (!resInfos.isEmpty()) {
+                                    for (ResolveInfo resInfo : resInfos) {
+                                        String packageName = resInfo.activityInfo.packageName;
+
+                                        if (packageName.contains("com.whatsapp") || packageName.contains("com.google.android.apps.messaging")
+                                                || packageName.contains("com.twitter.android") || packageName.contains("com.facebook.orca")
+                                                || packageName.contains("com.google.android.gm") || packageName.contains("com.facebook.katana")
+                                                || packageName.contains("com.google.android.talk") || packageName.contains("com.skype.raider")
+                                                || packageName.contains("com.google.android.apps.plus") || packageName.contains("com.android.mms")) {
+                                            Intent intent = new Intent();
+                                            intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
+                                            intent.setAction(Intent.ACTION_SEND);
+                                            intent.setType("text/plain");
+                                            intent.putExtra(Intent.EXTRA_TEXT, obj.getMedia());
+                                            intent.putExtra(Intent.EXTRA_SUBJECT, obj.getTitle());
+                                            intent.setPackage(packageName);
+                                            targetShareIntents.add(intent);
+                                        }
+                                    }
+                                    if (!targetShareIntents.isEmpty()) {
+                                        Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
+                                        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+                                        chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(chooserIntent);
+                                    }
+                                }
+                                //saves image on sdcard
+                            } else if (item.getTitle().equals("Save image")) {
+                                try {
+                                    File direct = new File(Environment.getExternalStorageDirectory()
+                                            + "/FlickrPhotos");
+
+                                    if (!direct.exists()) {
+                                        direct.mkdirs();
+                                    }
+
+                                    DownloadManager mgr = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+
+                                    Uri downloadUri = Uri.parse(obj.getMedia());
+                                    DownloadManager.Request request = new DownloadManager.Request(
+                                            downloadUri);
+                                    String title = obj.getTitle() + ".jpg";
+                                    request.setAllowedNetworkTypes(
+                                            DownloadManager.Request.NETWORK_WIFI
+                                                    | DownloadManager.Request.NETWORK_MOBILE)
+                                            .setAllowedOverRoaming(false).setTitle("Demo")
+                                            .setDescription("Flickr photos")
+                                            .setDestinationInExternalPublicDir("/FlickrPhotos", title);
+
+                                    mgr.enqueue(request);
+                                    Toast.makeText(context, "Photo saved to: /sdcard/FlickrPhotos", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(context, "Unable to safe image", Toast.LENGTH_SHORT).show();
+                                }
+                            } else if (item.getTitle().equals("Delete from favorites")) {
+                                sqlHelper = new SqlHelperFavorites(context);
+                                sqlHelper.deleteFromBase(obj);
+                                Toast.makeText(context, "Item removed", Toast.LENGTH_SHORT).show();
+                                Intent intent1 = new Intent(context, FavoritesActivity.class);
+                                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                context.startActivity(intent1);
+                            }
+                            return true;
+                        }
+                    });
+                    popup.show();
+                }
             }
         });
 

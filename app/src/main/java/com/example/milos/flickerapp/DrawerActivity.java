@@ -95,7 +95,6 @@ public class DrawerActivity extends AppCompatActivity
         lv = (ListView) findViewById(R.id.listjson);
         gv = (GridView) findViewById(R.id.flickr_grid);
         gv.setVisibility(View.GONE);
-
         search = (EditText) findViewById(R.id.search);
         swipeRefreshList = (SwipeRefreshLayout) findViewById(R.id.list_refresh);
 

@@ -35,6 +35,8 @@ public class FavoritesActivity extends AppCompatActivity {
 
         context = this;
         getSupportActionBar().setTitle("Favorites");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         gridView = (GridView) findViewById(R.id.fav_grid);
         listView = (ListView) findViewById(R.id.fav_list);
@@ -62,6 +64,7 @@ public class FavoritesActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        //getMenuInflater().inflate(R.menu.back_menu,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -71,26 +74,35 @@ public class FavoritesActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        if (item.getTitle().toString().equalsIgnoreCase("List View")) {
-            listView.setVisibility(View.VISIBLE);
-            gridView.setVisibility(View.GONE);
-            //if there are no search results
-            if (flickrModels.size() == 0) {
-                textView.setText("Nothing was added");
-                textView.bringToFront();
-            } else {
-                flickrAdapter = new FlickrAdapter(context, R.layout.flickr_item, flickrModels);
-                listView.setAdapter(flickrAdapter);
-            }
-        } else {
-            if (item.getTitle().toString().equalsIgnoreCase("Grid View")) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+
+                return true;
+            case R.id.list_view:
+                listView.setVisibility(View.VISIBLE);
+                gridView.setVisibility(View.GONE);
+                //if there are no search results
+                if (flickrModels.size() == 0) {
+                    textView.setText("Nothing was added");
+                    textView.bringToFront();
+                } else {
+                    flickrAdapter = new FlickrAdapter(context, R.layout.flickr_item, flickrModels);
+                    listView.setAdapter(flickrAdapter);
+                }
+
+                return true;
+            case R.id.gird_view:
                 gridView.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
 
                 flickrGidAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrModels);
                 gridView.setAdapter(flickrGidAdapter);
-            }
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 }

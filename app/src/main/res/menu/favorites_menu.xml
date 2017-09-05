@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/share_fav"
+        android:icon="@drawable/share"
+        android:showAsAction="ifRoom"
+        android:title="Share post"
+        android:visible="true" />
+    <item
+        android:id="@+id/safe_fav"
+        android:icon="@drawable/save"
+        android:showAsAction="ifRoom"
+        android:title="Save image"
+        android:visible="true" />
+
+    <item
+        android:id="@+id/copy_fav"
+        android:icon="@drawable/download"
+        android:showAsAction="ifRoom"
+        android:title="Copy link to clipboard"
+        android:visible="true" />
+    <item
+        android:id="@+id/delete_fav"
+        android:icon="@drawable/delete"
+        android:showAsAction="ifRoom"
+        android:title="Delete from favorites"
+        android:visible="true" />
+
+</menu>

@@ -1,5 +1,6 @@
 package com.example.milos.flickerapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -68,6 +69,9 @@ public class FlickrGidAdapter extends ArrayAdapter<FlickrModel> {
                 intent.putExtra("author", obj.getAuthor());
                 intent.putExtra("image", obj.getMedia());
                 intent.putExtra("link", obj.getLink());
+                if ((context.getClass().getName().equalsIgnoreCase("com.example.milos.flickerapp.FavoritesActivity"))) {
+                    intent.putExtra("isFromGridAdapter", true);
+                }
                 context.getApplicationContext().startActivity(intent);
             }
         });

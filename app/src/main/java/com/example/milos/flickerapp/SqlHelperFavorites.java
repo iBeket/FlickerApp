@@ -134,4 +134,10 @@ public class SqlHelperFavorites extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return DatabaseUtils.queryNumEntries(db, TABLE_CONTACTS);
     }
+
+    public void deleteFromBase(FlickrModel flickrModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_CONTACTS + " WHERE " + KEY_IMAGE + "= '" + flickrModel.getMedia() + "'");
+        db.close();
+    }
 }

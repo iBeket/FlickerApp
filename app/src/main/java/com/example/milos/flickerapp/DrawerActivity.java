@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -27,7 +27,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -109,7 +108,7 @@ public class DrawerActivity extends AppCompatActivity
                 //new getData().execute();
                 //swipeRefreshList.setRefreshing(false);
                 finish();
-                Intent intent = new Intent(context,DrawerActivity.class);
+                Intent intent = new Intent(context, DrawerActivity.class);
                 startActivity(intent);
                 //flickrList.clear();
             }
@@ -152,6 +151,8 @@ public class DrawerActivity extends AppCompatActivity
                 handler1.postDelayed(this, delay1);
             }
         }, delay1);
+
+        setMenuCounter(R.id.nav_photos, 20);
     }
 
     public class getData extends AsyncTask<String, Void, Void> {
@@ -259,7 +260,7 @@ public class DrawerActivity extends AppCompatActivity
                                             lv.setAdapter(flickrAdapter);
 
                                             // Updating parsed JSON data into GridView
-                                            flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
+                                            flickrGridAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrList);
                                             flickrGridAdapter.notifyDataSetChanged();
                                             gv.setAdapter(flickrGridAdapter);
 
@@ -485,7 +486,7 @@ public class DrawerActivity extends AppCompatActivity
         sqlHelperFavorites = new SqlHelperFavorites(context);
 
         counter.setGravity(Gravity.CENTER);
-        counter.setPadding(10,10,10,10);
+        counter.setPadding(10, 10, 10, 10);
         counter.setTypeface(null, Typeface.BOLD);
         counter.setTextColor(getResources().getColor(R.color.color_text));
 
@@ -494,5 +495,10 @@ public class DrawerActivity extends AppCompatActivity
         String temp = String.valueOf(count);
 
         counter.setText(temp);
+    }
+
+    private void setMenuCounter(@IdRes int itemId, int count) {
+        TextView view = (TextView) navigationView.getMenu().findItem(itemId).getActionView();
+        view.setText(count > 0 ? String.valueOf(count) : null);
     }
 }

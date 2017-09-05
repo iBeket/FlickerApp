@@ -55,6 +55,7 @@ public class FavoritesActivity extends AppCompatActivity {
             flickrGidAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrModels);
             gridView.setAdapter(flickrGidAdapter);
         }
+
     }
 
     @Override
@@ -81,7 +82,6 @@ public class FavoritesActivity extends AppCompatActivity {
                 flickrAdapter = new FlickrAdapter(context, R.layout.flickr_item, flickrModels);
                 listView.setAdapter(flickrAdapter);
             }
-
         } else {
             if (item.getTitle().toString().equalsIgnoreCase("Grid View")) {
                 gridView.setVisibility(View.VISIBLE);

@@ -63,9 +63,13 @@ public class GridInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid_info);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         sqlHelper = new SqlHelperFavorites(getApplicationContext());
         flikrModel = new FlickrModel();
         context = this;
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // geting info from flickrgridAdapter
         titleG = getIntent().getStringExtra("title");
@@ -311,5 +315,17 @@ public class GridInfoActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //back key to go to the previous screen
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

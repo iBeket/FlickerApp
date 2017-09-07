@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "346932677551",
+    "project_id": "firebase-flickerapp"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346932677551:android:2d56384ad88bf405",
+        "android_client_info": {
+          "package_name": "com.example.milos.flickerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346932677551-2tf1mmhhvjjj67o238127egp6g2p7kbi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.milos.flickerapp",
+            "certificate_hash": "30603435ff0c47492386da460dc425b17bd7bcd4"
+          }
+        },
+        {
+          "client_id": "346932677551-8im1irlsjcp50lunt1vsfpa6okepg5si.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUlolEJz6z0JqQgMJA5apU8SsWw3jqK80"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

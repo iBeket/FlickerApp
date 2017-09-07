@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -450,8 +451,13 @@ public class DrawerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_exit) {
-            onBackPressed();
+        if (id == R.id.nav_sign_out) {
+            Intent intent = new Intent(this, SignInActivity.class);
+            intent.putExtra("signout", true);
+            AppState.loggedIn = false;
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.nav_photos) {
 
             lv.setVisibility(View.VISIBLE);
@@ -479,7 +485,7 @@ public class DrawerActivity extends AppCompatActivity
         return file;
     }
 
-    //shows the number of items in drawer menu
+    //shows the number of items in drawer menu of favorites
     private void initializeCountDrawer() {
         //Gravity property aligns the text
         sqlHelperFavorites = new SqlHelperFavorites(context);
@@ -496,6 +502,7 @@ public class DrawerActivity extends AppCompatActivity
         counter.setText(temp);
     }
 
+    //shows the number of items in drawer menu of FlickrList
     private void setMenuCounter(@IdRes int itemId, int count) {
         TextView view = (TextView) navigationView.getMenu().findItem(itemId).getActionView();
         view.setText(count > 0 ? String.valueOf(count) : null);

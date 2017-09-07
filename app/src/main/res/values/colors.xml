@@ -6,4 +6,5 @@
     <color name="popupMenu">#404040</color>
     <color name="color_white">#fff</color>
     <color name="color_text">#fff</color>
+    <color name="blue_grey_500">#607D8B</color>
 </resources>

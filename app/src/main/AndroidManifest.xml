@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".GridInfoActivity" />
         <activity android:name=".FavoritesActivity"/>
+        <activity android:name=".SignInActivity"/>
         <service android:name=".JSONService" />
         <activity
             android:name=".DrawerActivity"

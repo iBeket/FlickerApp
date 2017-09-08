@@ -12,8 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
@@ -226,11 +224,9 @@ public class GridInfoActivity extends AppCompatActivity {
                                 }
                             } else if (item.getTitle().equals("Share via email")) {
 
-                                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
-                                FragmentEmail fragment = FragmentEmail.newInstance();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.add(android.R.id.content, fragment, "Contant_fragment");
-                                fragmentTransaction.commit();
+                                Intent intent = new Intent(context, SendEmailActivity.class);
+                                intent.putExtra("imageEmail",flikrModel.getMedia());
+                                startActivity(intent);
                             }
                             return true;
                         }
@@ -321,11 +317,9 @@ public class GridInfoActivity extends AppCompatActivity {
                                 startActivity(intent);
                             } else if (item.getTitle().equals("Share via email")) {
 
-                                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
-                                FragmentEmail fragment = FragmentEmail.newInstance();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.add(android.R.id.content, fragment, "Contant_fragment");
-                                fragmentTransaction.commit();
+                                Intent intent = new Intent(context, SendEmailActivity.class);
+                                intent.putExtra("imageEmail",flikrModel.getMedia());
+                                startActivity(intent);
                             }
                             return true;
                         }

@@ -1,16 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ccc">
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+    android:background="#ccc"
+    android:padding="10dp">
+    <EditText
+        android:id="@+id/send_to"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fragment Two"
+        android:background="#ffff"
+        android:maxLength="20"
         android:textColor="#000"
-        android:layout_margin="50dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:padding="10dp"
+        android:hint="To:"
+        android:textColorHint="#8c8c8c"
+        android:textCursorDrawable="@null"
+        android:textStyle="bold"/>
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#2B93CC" />
+    <EditText
+        android:id="@+id/Cc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffff"
+        android:maxLength="20"
+        android:textColor="#000"
+        android:padding="10dp"
+        android:hint="Cc:"
+        android:textColorHint="#8c8c8c"
+        android:textCursorDrawable="@null"
+        android:textStyle="bold"/>
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#2B93CC" />
+    <EditText
+        android:id="@+id/Subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffff"
+        android:maxLength="20"
+        android:textColor="#000"
+        android:padding="10dp"
+        android:hint="Subject:"
+        android:textColorHint="#8c8c8c"
+        android:textCursorDrawable="@null"
+        android:textStyle="bold"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/email_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:hint="TEXT:"
+        android:textStyle="bold"
+        android:background="#ffff"/>
+
+</LinearLayout>

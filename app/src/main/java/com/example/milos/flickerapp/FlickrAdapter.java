@@ -13,9 +13,6 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -235,11 +232,9 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                                     Toast.makeText(context, "Item is already added", Toast.LENGTH_SHORT).show();
                                 }
                             } else if (item.getTitle().equals("Share via email")) {
-                                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
-                                FragmentEmail fragment = FragmentEmail.newInstance();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.add(android.R.id.content, fragment, "Contant_fragment");
-                                fragmentTransaction.commit();
+                                Intent intent = new Intent(context, SendEmailActivity.class);
+                                intent.putExtra("imageEmail",obj.getMedia());
+                                context.startActivity(intent);
                             }
                             return true;
                         }
@@ -331,11 +326,9 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                                 context.startActivity(intent1);
                             } else if (item.getTitle().equals("Share via email")) {
 
-                                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
-                                FragmentEmail fragment = FragmentEmail.newInstance();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.add(android.R.id.content, fragment, "Contant_fragment");
-                                fragmentTransaction.commit();
+                                Intent intent = new Intent(context, SendEmailActivity.class);
+                                intent.putExtra("imageEmail",obj.getMedia());
+                                context.startActivity(intent);
                             }
                             return true;
                         }

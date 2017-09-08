@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#2B93CC"
+    android:orientation="vertical"
+    android:padding="10dp"
+    >
+
+    <EditText
+        android:id="@+id/send_to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#ffff"
+        android:hint="To:"
+        android:maxLength="20"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textColorHint="#8c8c8c"
+        android:textCursorDrawable="@null"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="11dp"
+        android:foregroundGravity="center"
+        android:src="@drawable/plus_email"
+        android:visibility="visible" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/send_to"
+        android:background="#2B93CC" />
+
+    <EditText
+        android:id="@+id/Cc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line1"
+        android:background="#ffff"
+        android:hint="Cc:"
+        android:maxLength="20"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textColorHint="#8c8c8c"
+        android:textCursorDrawable="@null"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/Subject"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/send_to"
+        android:foregroundGravity="center"
+        android:src="@drawable/plus_email"
+        android:visibility="visible" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/Cc"
+        android:background="#2B93CC" />
+
+    <EditText
+        android:id="@+id/Subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line2"
+        android:background="#ffff"
+        android:hint="Subject:"
+        android:maxLength="20"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textColorHint="#8c8c8c"
+        android:textCursorDrawable="@null"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/text_email"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Subject"
+        android:layout_marginTop="10dp"
+        android:background="#ffff"
+        android:gravity="left"
+        android:hint="Text:"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:textColorHint="#8c8c8c"
+        android:textCursorDrawable="@null"
+        android:textStyle="bold" />
+
+</RelativeLayout>

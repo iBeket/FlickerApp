@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -351,12 +352,12 @@ public class DrawerActivity extends AppCompatActivity
 
                                 //if there is no internet connection update ListView
                                 flickrList = (ArrayList<FlickrModel>) sqlHelper.getAllInfo();
-                                flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
+                                flickrAdapter = new FlickrAdapter(context, R.layout.flickr_item, flickrList);
                                 flickrAdapter.notifyDataSetChanged();
                                 lv.setAdapter(flickrAdapter);
 
                                 //if there is no internet connection update GridView
-                                flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
+                                flickrGridAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrList);
                                 flickrGridAdapter.notifyDataSetChanged();
                                 gv.setAdapter(flickrGridAdapter);
 
@@ -382,12 +383,12 @@ public class DrawerActivity extends AppCompatActivity
             startService(new Intent(DrawerActivity.this, JSONService.class));
 
             // Updating parsed JSON data into ListView
-            flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
+            flickrAdapter = new FlickrAdapter(context, R.layout.flickr_item, flickrList);
             flickrAdapter.notifyDataSetChanged();
             lv.setAdapter(flickrAdapter);
 
             // Updating parsed JSON data into GridView
-            flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
+            flickrGridAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrList);
             flickrGridAdapter.notifyDataSetChanged();
             gv.setAdapter(flickrGridAdapter);
         }
@@ -395,23 +396,31 @@ public class DrawerActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                context, R.style.AppCompatAlertDialogStyle);
-        alertDialogBuilder.setTitle("         Are you sure you want to exit?");
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        System.exit(0);
-                    }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+        Fragment frag = getSupportFragmentManager().findFragmentByTag("Contant_fragment");
 
-                dialog.cancel();
-            }
-        });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+        if (frag != null && frag.isVisible()) {
+            getSupportFragmentManager().beginTransaction().
+                    remove(getSupportFragmentManager().findFragmentByTag("Contant_fragment")).commit();
+        } else {
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    context, R.style.AppCompatAlertDialogStyle);
+            alertDialogBuilder.setTitle("         Are you sure you want to exit?");
+            alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            System.exit(0);
+                        }
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    dialog.cancel();
+                }
+            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
     }
 
     @Override
@@ -438,7 +447,7 @@ public class DrawerActivity extends AppCompatActivity
                 gv.setVisibility(View.VISIBLE);
                 lv.setVisibility(View.GONE);
 
-                flickrGridAdapter = new FlickrGidAdapter(getApplicationContext(), R.layout.flickr_grid_item, flickrList);
+                flickrGridAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrList);
                 gv.setAdapter(flickrGridAdapter);
             }
         }

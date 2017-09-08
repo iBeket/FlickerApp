@@ -13,6 +13,9 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -47,6 +50,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
     private ClipboardManager clipboardManager;
     private ClipData clipData;
     private SqlHelperFavorites sqlHelper;
+    // private FragmentEmail fragment;
 
     public FlickrAdapter(Context context, int resource, ArrayList<FlickrModel> obj) {
         super(context, resource, obj);
@@ -230,6 +234,12 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                                 } else {
                                     Toast.makeText(context, "Item is already added", Toast.LENGTH_SHORT).show();
                                 }
+                            } else if (item.getTitle().equals("Share via email")) {
+                                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                                FragmentEmail fragment = FragmentEmail.newInstance();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.add(android.R.id.content, fragment, "Contant_fragment");
+                                fragmentTransaction.commit();
                             }
                             return true;
                         }
@@ -312,12 +322,20 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                                     Toast.makeText(context, "Unable to safe image", Toast.LENGTH_SHORT).show();
                                 }
                             } else if (item.getTitle().equals("Delete from favorites")) {
+
                                 sqlHelper = new SqlHelperFavorites(context);
                                 sqlHelper.deleteFromBase(obj);
                                 Toast.makeText(context, "Item removed", Toast.LENGTH_SHORT).show();
                                 Intent intent1 = new Intent(context, FavoritesActivity.class);
                                 intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent1);
+                            } else if (item.getTitle().equals("Share via email")) {
+
+                                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                                FragmentEmail fragment = FragmentEmail.newInstance();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.add(android.R.id.content, fragment, "Contant_fragment");
+                                fragmentTransaction.commit();
                             }
                             return true;
                         }

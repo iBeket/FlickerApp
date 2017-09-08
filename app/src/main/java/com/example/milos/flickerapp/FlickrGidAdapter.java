@@ -60,6 +60,7 @@ public class FlickrGidAdapter extends ArrayAdapter<FlickrModel> {
         viewHolder.imageGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(context.getApplicationContext(), GridInfoActivity.class);
                 intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("date", obj.getDate_taken());
@@ -72,6 +73,7 @@ public class FlickrGidAdapter extends ArrayAdapter<FlickrModel> {
                     intent.putExtra("isFromGridAdapter", true);
                 }
                 context.getApplicationContext().startActivity(intent);
+
             }
         });
 

@@ -27,4 +27,11 @@
         android:title="Delete from favorites"
         android:visible="true" />
 
+    <item
+        android:id="@+id/email"
+        android:icon="@drawable/email_logo"
+        android:showAsAction="ifRoom"
+        android:title="Share via email"
+        android:visible="true" />
+
 </menu>

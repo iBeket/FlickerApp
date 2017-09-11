@@ -4,8 +4,7 @@
     android:layout_height="fill_parent"
     android:background="#2B93CC"
     android:orientation="vertical"
-    android:padding="10dp"
-    >
+    android:padding="10dp">
 
     <EditText
         android:id="@+id/send_to"
@@ -14,7 +13,7 @@
         android:layout_marginTop="10dp"
         android:background="#ffff"
         android:hint="To:"
-        android:maxLength="20"
+        android:maxLength="50"
         android:padding="10dp"
         android:textColor="#000"
         android:textColorHint="#8c8c8c"
@@ -22,6 +21,7 @@
         android:textStyle="bold" />
 
     <ImageView
+        android:id="@+id/add_to_email"
         android:layout_width="40dp"
         android:layout_height="60dp"
         android:layout_alignParentEnd="true"
@@ -39,13 +39,13 @@
         android:background="#2B93CC" />
 
     <EditText
-        android:id="@+id/Cc"
+        android:id="@+id/send_to_cc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/line1"
         android:background="#ffff"
         android:hint="Cc:"
-        android:maxLength="20"
+        android:maxLength="50"
         android:padding="10dp"
         android:textColor="#000"
         android:textColorHint="#8c8c8c"
@@ -53,9 +53,10 @@
         android:textStyle="bold" />
 
     <ImageView
+        android:id="@+id/add_to_cc"
         android:layout_width="40dp"
         android:layout_height="60dp"
-        android:layout_above="@+id/Subject"
+        android:layout_above="@+id/subject_email"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/send_to"
@@ -67,19 +68,19 @@
         android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_below="@+id/Cc"
+        android:layout_below="@+id/send_to_cc"
         android:background="#2B93CC" />
 
     <EditText
-        android:id="@+id/Subject"
+        android:id="@+id/subject_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/line2"
         android:background="#ffff"
         android:hint="Subject:"
-        android:maxLength="20"
+        android:maxLength="50"
         android:padding="10dp"
-        android:textColor="#000"
+        android:textColor="#8c8c8c"
         android:textColorHint="#8c8c8c"
         android:textCursorDrawable="@null"
         android:textStyle="bold" />
@@ -87,8 +88,9 @@
     <EditText
         android:id="@+id/text_email"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/Subject"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/send_email_button"
+        android:layout_below="@+id/subject_email"
         android:layout_marginTop="10dp"
         android:background="#ffff"
         android:gravity="left"
@@ -98,5 +100,13 @@
         android:textColorHint="#8c8c8c"
         android:textCursorDrawable="@null"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/send_email_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Send Email"
+        android:textColor="#000" />
 
 </RelativeLayout>

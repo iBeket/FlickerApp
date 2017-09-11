@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -395,12 +394,6 @@ public class DrawerActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        Fragment frag = getSupportFragmentManager().findFragmentByTag("Contant_fragment");
-
-        if (frag != null && frag.isVisible()) {
-            getSupportFragmentManager().beginTransaction().
-                    remove(getSupportFragmentManager().findFragmentByTag("Contant_fragment")).commit();
-        } else {
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                     context, R.style.AppCompatAlertDialogStyle);
@@ -419,7 +412,6 @@ public class DrawerActivity extends AppCompatActivity
             });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
-        }
     }
 
     @Override

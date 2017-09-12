@@ -7,9 +7,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +42,7 @@ public class FragmentEmail extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         //Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_email, container, false);
-        EnableRuntimePermission();
+        getPermissionToReadUserContacts();
         return view;
     }
 
@@ -99,37 +101,35 @@ public class FragmentEmail extends Fragment {
         }
     }
 
+    public void getPermissionToReadUserContacts() {
 
-    public void EnableRuntimePermission() {
+        if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
 
-        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) getContext(), android.Manifest.permission.READ_CONTACTS)) {
+            if (shouldShowRequestPermissionRationale(
+                    android.Manifest.permission.READ_CONTACTS)) {
+            }
 
-            Toast.makeText(getContext(), "CONTACTS permission allows us to Access CONTACTS app", Toast.LENGTH_LONG).show();
-
-        } else {
-
-            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{android.Manifest.permission.READ_CONTACTS}, RQS_PICKCONTACT);
-
+            requestPermissions(new String[]{android.Manifest.permission.READ_CONTACTS},
+                    RQS_PICKCONTACT);
         }
     }
 
+    // Callback with the request from calling requestPermissions(...)
     @Override
-    public void onRequestPermissionsResult(int RC, String per[], int[] PResult) {
-
-        switch (RC) {
-
-            case RQS_PICKCONTACT:
-
-                if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    Toast.makeText(getContext(), "Permission Granted, Now your application can access CONTACTS.", Toast.LENGTH_LONG).show();
-
-                } else {
-
-                    Toast.makeText(getContext(), "Permission Canceled, Now your application cannot access CONTACTS.", Toast.LENGTH_LONG).show();
-
-                }
-                break;
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        // Make sure it's our original READ_CONTACTS request
+        if (requestCode == RQS_PICKCONTACT) {
+            if (grantResults.length == 1 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getContext(), "Read Contacts permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Read Contacts permission denied", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

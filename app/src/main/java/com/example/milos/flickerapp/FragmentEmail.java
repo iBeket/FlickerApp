@@ -1,6 +1,6 @@
 package com.example.milos.flickerapp;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -25,7 +24,7 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class FragmentEmail extends Fragment {
-    final int RQS_PICKCONTACT = 1;
+    //final int RQS_PICKCONTACT = 1;
     private TextView email_info;
 
     public static final FragmentEmail newInstance() {
@@ -53,7 +52,7 @@ public class FragmentEmail extends Fragment {
         email_info = view.findViewById(R.id.email_contacts);
         final Uri uriContact = ContactsContract.Contacts.CONTENT_URI;
         Intent intentPickContact = new Intent(Intent.ACTION_PICK, uriContact);
-        startActivityForResult(intentPickContact, RQS_PICKCONTACT);
+        startActivityForResult(intentPickContact, PermissionConstant.RQS_PICKCONTACT);
 
     }
 
@@ -63,7 +62,7 @@ public class FragmentEmail extends Fragment {
 
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == RQS_PICKCONTACT) {
+            if (requestCode == PermissionConstant.RQS_PICKCONTACT) {
                 Uri returnUri = data.getData();
                 Cursor cursor = getActivity().getContentResolver().query(returnUri, null, null, null, null);
 
@@ -71,10 +70,10 @@ public class FragmentEmail extends Fragment {
                     int columnIndex_ID = cursor.getColumnIndex(ContactsContract.Contacts._ID);
                     String contactID = cursor.getString(columnIndex_ID);
 
-                    int columnIndex_HASPHONENUMBER = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
-                    String stringHasPhoneNumber = cursor.getString(columnIndex_HASPHONENUMBER);
+                    //int columnIndex_HASPHONENUMBER = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
+                   // String stringHasPhoneNumber = cursor.getString(columnIndex_HASPHONENUMBER);
 
-                    if (stringHasPhoneNumber.equalsIgnoreCase("1")) {
+                    //if (stringHasPhoneNumber.equalsIgnoreCase("1")) {
                         Cursor cursorNum = getActivity().getContentResolver().query(
                                 ContactsContract.CommonDataKinds.Email.CONTENT_URI,
                                 null,
@@ -99,7 +98,7 @@ public class FragmentEmail extends Fragment {
                 }
             }
         }
-    }
+    //}
 
     public void getPermissionToReadUserContacts() {
 
@@ -111,7 +110,7 @@ public class FragmentEmail extends Fragment {
             }
 
             requestPermissions(new String[]{android.Manifest.permission.READ_CONTACTS},
-                    RQS_PICKCONTACT);
+                    PermissionConstant.RQS_PICKCONTACT);
         }
     }
 
@@ -121,7 +120,7 @@ public class FragmentEmail extends Fragment {
                                            @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
         // Make sure it's our original READ_CONTACTS request
-        if (requestCode == RQS_PICKCONTACT) {
+        if (requestCode == PermissionConstant.RQS_PICKCONTACT) {
             if (grantResults.length == 1 &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(getContext(), "Read Contacts permission granted", Toast.LENGTH_SHORT).show();

@@ -81,12 +81,11 @@ public class FragmentEmail extends Fragment {
                             int columnIndex_email = cursorNum.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
                             String stringEmail = cursorNum.getString(columnIndex_email);
                             SendEmailActivity sendEmail = (SendEmailActivity) getActivity();
-                            if(AppState.isClicked){
+                            if (AppState.isClicked) {
                                 sendEmail.sendTo.setText(stringEmail);
-                            }else if (AppState.isClickedCc){
+                            } else if (AppState.isClickedCc) {
                                 sendEmail.sendCc.setText(stringEmail);
                             }
-                           // email_info.setText(stringEmail);
                         } else {
                             Toast.makeText(getContext(), "This contact does not have Email Address", Toast.LENGTH_SHORT).show();
                         }

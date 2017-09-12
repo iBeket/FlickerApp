@@ -1,5 +1,7 @@
 package com.example.milos.flickerapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -43,12 +45,12 @@ public class SendEmailActivity extends AppCompatActivity {
         addTo = (ImageView) findViewById(R.id.add_to_email);
         addCc = (ImageView) findViewById(R.id.add_to_cc);
 
-        sendEmail = (Button) findViewById(R.id.send_email_button);
 
+        sendEmail = (Button) findViewById(R.id.send_email_button);
         sendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                composeEmail();
             }
         });
 
@@ -77,5 +79,26 @@ public class SendEmailActivity extends AppCompatActivity {
                 fragmentTransaction.commit();
             }
         });
+    }
+
+    public void composeEmail() {
+        String[] addresses = new String[1];
+        addresses[0] = sendTo.getText().toString();
+
+        String[] addressesCc = new String[1];
+        addressesCc[0] = sendCc.getText().toString();
+
+        String subject = getString(R.string.email_subject);
+        String emailBody = imageEmail;
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(intent.EXTRA_CC, addressesCc);
+        intent.putExtra(Intent.EXTRA_TEXT, emailBody);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }

@@ -1,11 +1,14 @@
 package com.example.milos.flickerapp;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +40,7 @@ public class FragmentEmail extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         //Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_email, container, false);
+        EnableRuntimePermission();
         return view;
     }
 
@@ -89,11 +93,43 @@ public class FragmentEmail extends Fragment {
                         } else {
                             Toast.makeText(getContext(), "This contact does not have Email Address", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        email_info.setText("Contacts are empty");
                     }
                 }
             }
+        }
+    }
+
+
+    public void EnableRuntimePermission() {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) getContext(), android.Manifest.permission.READ_CONTACTS)) {
+
+            Toast.makeText(getContext(), "CONTACTS permission allows us to Access CONTACTS app", Toast.LENGTH_LONG).show();
+
+        } else {
+
+            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{android.Manifest.permission.READ_CONTACTS}, RQS_PICKCONTACT);
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int RC, String per[], int[] PResult) {
+
+        switch (RC) {
+
+            case RQS_PICKCONTACT:
+
+                if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(getContext(), "Permission Granted, Now your application can access CONTACTS.", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    Toast.makeText(getContext(), "Permission Canceled, Now your application cannot access CONTACTS.", Toast.LENGTH_LONG).show();
+
+                }
+                break;
         }
     }
 }

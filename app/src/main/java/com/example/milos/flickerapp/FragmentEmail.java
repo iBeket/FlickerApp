@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,9 +83,17 @@ public class FragmentEmail extends Fragment {
                         String stringEmail = cursorNum.getString(columnIndex_email);
                         SendEmailActivity sendEmail = (SendEmailActivity) getActivity();
                         if (AppState.isClicked) {
-                            sendEmail.sendTo.setText(stringEmail);
+                            if (isValidEmail(stringEmail)) {
+                                sendEmail.sendTo.setText(stringEmail);
+                            } else {
+                                Toast.makeText(getContext(), "Invalid email format", Toast.LENGTH_SHORT).show();
+                            }
                         } else if (AppState.isClickedCc) {
-                            sendEmail.sendCc.setText(stringEmail);
+                            if (isValidEmail(stringEmail)) {
+                                sendEmail.sendCc.setText(stringEmail);
+                            } else {
+                                Toast.makeText(getContext(), "Invalid email format", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     } else {
                         Toast.makeText(getContext(), "This contact does not have Email Address", Toast.LENGTH_SHORT).show();
@@ -93,5 +102,13 @@ public class FragmentEmail extends Fragment {
             }
         }
     }
+
     //}
+    public final static boolean isValidEmail(CharSequence target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
 }

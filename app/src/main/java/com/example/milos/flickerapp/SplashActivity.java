@@ -31,8 +31,8 @@ public class SplashActivity extends AppCompatActivity {
                 R.anim.hyperspace_jump);
         mainFrame.startAnimation(hyperspaceJumpAnimation);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,}, 0);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_CONTACTS}, 0);
         } else {
             int secondsDelayed = 1;
             new Handler().postDelayed(new Runnable() {
@@ -59,7 +59,7 @@ public class SplashActivity extends AppCompatActivity {
             int secondsDelayed = 1;
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    Toast.makeText(SplashActivity.this, "You are not able to safe photos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SplashActivity.this, "You are not able to save photos", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SplashActivity.this, SignInActivity.class));
                     finish();
                 }

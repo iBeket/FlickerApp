@@ -233,7 +233,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                                 }
                             } else if (item.getTitle().equals("Share via email")) {
                                 Intent intent = new Intent(context, SendEmailActivity.class);
-                                intent.putExtra("imageEmail",obj.getMedia());
+                                intent.putExtra("imageEmail", obj.getMedia());
                                 context.startActivity(intent);
                             }
                             return true;
@@ -327,7 +327,7 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
                             } else if (item.getTitle().equals("Share via email")) {
 
                                 Intent intent = new Intent(context, SendEmailActivity.class);
-                                intent.putExtra("imageEmail",obj.getMedia());
+                                intent.putExtra("imageEmail", obj.getMedia());
                                 context.startActivity(intent);
                             }
                             return true;

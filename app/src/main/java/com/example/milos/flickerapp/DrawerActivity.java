@@ -395,23 +395,23 @@ public class DrawerActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
 
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                    context, R.style.AppCompatAlertDialogStyle);
-            alertDialogBuilder.setTitle("         Are you sure you want to exit?");
-            alertDialogBuilder
-                    .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            System.exit(0);
-                        }
-                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                context, R.style.AppCompatAlertDialogStyle);
+        alertDialogBuilder.setTitle("         Are you sure you want to exit?");
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        System.exit(0);
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
 
-                    dialog.cancel();
-                }
-            });
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     @Override

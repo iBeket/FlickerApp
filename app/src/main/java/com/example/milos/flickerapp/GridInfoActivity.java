@@ -225,7 +225,7 @@ public class GridInfoActivity extends AppCompatActivity {
                             } else if (item.getTitle().equals("Share via email")) {
 
                                 Intent intent = new Intent(context, SendEmailActivity.class);
-                                intent.putExtra("imageEmail",flikrModel.getMedia());
+                                intent.putExtra("imageEmail", flikrModel.getMedia());
                                 startActivity(intent);
                             }
                             return true;
@@ -318,7 +318,7 @@ public class GridInfoActivity extends AppCompatActivity {
                             } else if (item.getTitle().equals("Share via email")) {
 
                                 Intent intent = new Intent(context, SendEmailActivity.class);
-                                intent.putExtra("imageEmail",flikrModel.getMedia());
+                                intent.putExtra("imageEmail", flikrModel.getMedia());
                                 startActivity(intent);
                             }
                             return true;

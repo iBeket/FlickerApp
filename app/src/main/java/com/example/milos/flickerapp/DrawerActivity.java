@@ -452,12 +452,20 @@ public class DrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_sign_out) {
-            Intent intent = new Intent(this, SignInActivity.class);
-            intent.putExtra("signout", true);
-            AppState.loggedIn = false;
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+
+            if (getIntent().getBooleanExtra("isMaybe", false)) {
+                Intent intentMaybe = new Intent(this, SignInActivity.class);
+                intentMaybe.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentMaybe);
+                finish();
+            } else {
+                Intent intent = new Intent(this, SignInActivity.class);
+                intent.putExtra("signout", true);
+                AppState.loggedIn = false;
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
         } else if (id == R.id.nav_photos) {
 
             lv.setVisibility(View.VISIBLE);

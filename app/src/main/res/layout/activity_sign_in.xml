@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
@@ -18,19 +19,20 @@
 
         <ImageView
             android:id="@+id/google_icon"
-            android:layout_width="95dp"
-            android:layout_height="48dp"
+            android:layout_width="102dp"
+            android:layout_height="90dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:layout_weight="0.20"
+            android:layout_weight="0.09"
             android:contentDescription="@string/desc_google_icon"
-            android:src="@drawable/common_google_signin_btn_icon_dark_focused" />
+            android:src="@drawable/g_logo" />
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/title_text"
             android:textColor="#cccccc"
@@ -40,6 +42,7 @@
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:text="@string/signed_out"
             android:textColor="#cccccc"
             android:textSize="14sp" />
@@ -74,13 +77,34 @@
         android:layout_weight="1"
         android:background="#fff">
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/sign_in_button"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/sign_in_maybe_later"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:visibility="visible"
-            tools:visibility="gone" />
+            tools:visibility="gone">
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                app:colorScheme="dark" />
+
+            <Button
+                android:id="@+id/maybe_later"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Maybe Later"
+                android:theme="@style/ThemeOverlay.MaybeLater" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/sign_out_and_disconnect"

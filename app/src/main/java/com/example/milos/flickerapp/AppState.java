@@ -8,4 +8,5 @@ public class AppState {
     public static Boolean loggedIn;
     public static Boolean isClicked;
     public static Boolean isClickedCc;
+    public static Boolean isMaybe;
 }

@@ -11,7 +11,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IdRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -65,6 +67,7 @@ public class DrawerActivity extends AppCompatActivity
     private TextView counter;
     private NavigationView navigationView;
     private SqlHelperFavorites sqlHelperFavorites;
+    private TextView floatText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,24 @@ public class DrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         counter = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.nav_favorites));
+
+        floatText = (TextView) findViewById(R.id.float_text);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentMaybe = new Intent(context, SignInActivity.class);
+                intentMaybe.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentMaybe);
+                finish();
+            }
+        });
+        if (AppState.loggedIn) {
+            fab.setVisibility(View.INVISIBLE);
+            floatText.setVisibility(View.INVISIBLE);
+        }
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -450,22 +471,23 @@ public class DrawerActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_sign_out) {
-
+        if (id == R.id.nav_sign_in) {
             if (getIntent().getBooleanExtra("isMaybe", false)) {
                 Intent intentMaybe = new Intent(this, SignInActivity.class);
                 intentMaybe.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentMaybe);
                 finish();
-            } else {
-                Intent intent = new Intent(this, SignInActivity.class);
-                intent.putExtra("signout", true);
-                AppState.loggedIn = false;
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
             }
+        }
+        if (id == R.id.nav_sign_out) {
+            //
+            Intent intent = new Intent(this, SignInActivity.class);
+            intent.putExtra("signout", true);
+            AppState.loggedIn = false;
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+
         } else if (id == R.id.nav_photos) {
 
             lv.setVisibility(View.VISIBLE);

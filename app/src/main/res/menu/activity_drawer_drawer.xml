@@ -7,16 +7,21 @@
             android:id="@+id/nav_photos"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Photos"
-            app:actionLayout="@layout/count_xml"/>
+            app:actionLayout="@layout/count_xml" />
         <item
             android:id="@+id/nav_favorites"
             android:icon="@drawable/fav"
             android:title="Favorites"
-            app:actionLayout="@layout/count_xml"/>
+            app:actionLayout="@layout/count_xml" />
         <item
             android:id="@+id/nav_sign_out"
             android:icon="@drawable/sign_out"
             android:title="Sign-Out" />
+
+        <item
+            android:id="@+id/nav_sign_in"
+            android:icon="@drawable/sign_in"
+            android:title="Sign-In" />
     </group>
 
 </menu>

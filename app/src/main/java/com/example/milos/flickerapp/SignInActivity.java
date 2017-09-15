@@ -59,6 +59,7 @@ public class SignInActivity extends AppCompatActivity implements
         maybeLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AppState.isMaybe = true;
                 Intent intent = new Intent(context, DrawerActivity.class);
                 intent.putExtra("isMaybe", true);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -147,6 +148,8 @@ public class SignInActivity extends AppCompatActivity implements
     // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result) {
 
+        AppState.loggedIn = false;
+
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (getIntent().getBooleanExtra("signout", false)) {
             // Signed in successfully, show authenticated UI.
@@ -159,7 +162,6 @@ public class SignInActivity extends AppCompatActivity implements
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             startActivity(new Intent(this, DrawerActivity.class));
             finish();
-
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
@@ -188,6 +190,7 @@ public class SignInActivity extends AppCompatActivity implements
                         Intent intent = new Intent(context, SignInActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        ConnectionState.setSiginIn(false);
                         // [END_EXCLUDE]
                     }
                 });
@@ -205,6 +208,7 @@ public class SignInActivity extends AppCompatActivity implements
                         Intent intent = new Intent(context, SignInActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        ConnectionState.setSiginIn(false);
                         // [END_EXCLUDE]
                     }
                 });

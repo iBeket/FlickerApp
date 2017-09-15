@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -47,7 +46,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class DrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
 
     private Context context;
     private ProgressDialog dialog;
@@ -80,6 +79,8 @@ public class DrawerActivity extends AppCompatActivity
         getSupportActionBar().setTitle("Flickr App");
 
         context = this;
+
+        //displays if there are items after search is done
         entries = (TextView) findViewById(R.id.entries);
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -87,10 +88,13 @@ public class DrawerActivity extends AppCompatActivity
         counter = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.nav_favorites));
 
+        Menu menu = navigationView.getMenu();
+
+        //text inside float button
         floatText = (TextView) findViewById(R.id.float_text);
 
+        //float button that will appear if user is not sign in
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,9 +104,14 @@ public class DrawerActivity extends AppCompatActivity
                 finish();
             }
         });
+
+        //checks if user is logged in and if it is set float button invisible
         if (AppState.loggedIn) {
             fab.setVisibility(View.INVISIBLE);
             floatText.setVisibility(View.INVISIBLE);
+            menu.findItem(R.id.nav_sign_in).setVisible(false);
+        } else {
+            menu.findItem(R.id.nav_sign_out).setVisible(false);
         }
 
 
@@ -536,5 +545,24 @@ public class DrawerActivity extends AppCompatActivity
     private void setMenuCounter(@IdRes int itemId, int count) {
         TextView view = (TextView) navigationView.getMenu().findItem(itemId).getActionView();
         view.setText(count > 0 ? String.valueOf(count) : null);
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
     }
 }

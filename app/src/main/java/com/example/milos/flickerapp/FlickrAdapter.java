@@ -47,7 +47,6 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
     private ClipboardManager clipboardManager;
     private ClipData clipData;
     private SqlHelperFavorites sqlHelper;
-    // private FragmentEmail fragment;
 
     public FlickrAdapter(Context context, int resource, ArrayList<FlickrModel> obj) {
         super(context, resource, obj);

@@ -57,7 +57,6 @@ public class GridInfoActivity extends AppCompatActivity {
     private ClipData clipData;
     private SqlHelperFavorites sqlHelper;
     private FlickrModel flikrModel;
-    private FragmentEmail fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,6 @@ public class GridInfoActivity extends AppCompatActivity {
 
         sqlHelper = new SqlHelperFavorites(getApplicationContext());
         flikrModel = new FlickrModel();
-        fragment = new FragmentEmail();
         context = this;
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -82,6 +80,7 @@ public class GridInfoActivity extends AppCompatActivity {
         imageG = getIntent().getStringExtra("image");
         isFromGrid = getIntent().getBooleanExtra("isFromGridAdapter", false);
 
+        //puting information in flickr model
         flikrModel.setTitle(titleG);
         flikrModel.setAuthor(authorG);
         flikrModel.setTags(tagG);

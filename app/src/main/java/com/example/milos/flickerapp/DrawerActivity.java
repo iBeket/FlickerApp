@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -48,25 +49,25 @@ import java.util.TimerTask;
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+    final String TAG = "JSON";
     private Context context;
     private ProgressDialog dialog;
     private ListView lv;
     private GridView gv;
+    private TextView floatText;
+    private TextView counter;
+    private TextView entries;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
     ArrayList<FlickrModel> flickrList = new ArrayList<>();
     private FlickrAdapter flickrAdapter;
     private EditText search;
-    final String TAG = "JSON";
-    public static final String baseURL = "https://api.flickr.com/services/feeds/photos_public.gne?tags=planet&format=json&nojsoncallback=1";
-    private JSONPareser pareser = new JSONPareser();
     private FlickrGidAdapter flickrGridAdapter;
     private SwipeRefreshLayout swipeRefreshList;
+    private JSONPareser pareser = new JSONPareser();
     private SqlHelper sqlHelper;
-    private TextView entries;
-    private DrawerLayout drawer;
-    private TextView counter;
-    private NavigationView navigationView;
     private SqlHelperFavorites sqlHelperFavorites;
-    private TextView floatText;
+    public static final String baseURL = "https://api.flickr.com/services/feeds/photos_public.gne?tags=planet&format=json&nojsoncallback=1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,7 +242,8 @@ public class DrawerActivity extends AppCompatActivity
 
                                                         JSONObject media;
                                                         media = jsonObject.getJSONObject("media");
-                                                        model.setMedia(media.getString("m"));
+                                                        String mediaHi = String.valueOf(media.getString("m").replace("farm5","c1"));
+                                                        model.setMedia(mediaHi);
 
                                                         String title = String.valueOf(jsonObject.getString("title"));
                                                         model.setTitle(title);
@@ -328,8 +330,10 @@ public class DrawerActivity extends AppCompatActivity
                         FlickrModel model = new FlickrModel();
 
                         JSONObject media;
+
                         media = jsonObject.getJSONObject("media");
-                        model.setMedia(media.getString("m"));
+                        String mediaHi = String.valueOf(media.getString("m").replace("farm5","c1"));
+                        model.setMedia(mediaHi);
 
                         String title = String.valueOf(jsonObject.getString("title")).replace("- The Caturday", "").replace(": http://thecaturday.us", "");
                         model.setTitle(title);
@@ -422,6 +426,7 @@ public class DrawerActivity extends AppCompatActivity
         }
     }
 
+    //from main activity if user press back button it will ask him we he wants to exit the app
     @Override
     public void onBackPressed() {
 
@@ -478,7 +483,7 @@ public class DrawerActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_sign_in) {

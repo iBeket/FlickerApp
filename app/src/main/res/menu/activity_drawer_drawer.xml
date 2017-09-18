@@ -21,7 +21,7 @@
         <item
             android:id="@+id/nav_sign_in"
             android:icon="@drawable/sign_in"
-            android:title="Sign-In" />
+            android:title="@string/Sign_in" />
     </group>
 
 </menu>

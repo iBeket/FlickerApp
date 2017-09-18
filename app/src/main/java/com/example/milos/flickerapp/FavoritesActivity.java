@@ -49,6 +49,7 @@ public class FavoritesActivity extends AppCompatActivity {
         sqlHelper = new SqlHelperFavorites(context);
         flickrModels = (ArrayList<FlickrModel>) sqlHelper.getAllInfo();
 
+        //if there is no image added to favorites
         if (flickrModels.size() == 0) {
             textView.setText("Nothing was added");
             textView.bringToFront();

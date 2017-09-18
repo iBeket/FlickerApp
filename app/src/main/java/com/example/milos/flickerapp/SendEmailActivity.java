@@ -54,6 +54,7 @@ public class SendEmailActivity extends AppCompatActivity {
             }
         });
 
+        //when clicked go to contacts fragment
         addTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +68,7 @@ public class SendEmailActivity extends AppCompatActivity {
             }
         });
 
+        //when clicked go to contacts fragment
         addCc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

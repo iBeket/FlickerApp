@@ -54,6 +54,7 @@ public class JSONService extends Service {
         readWebPage();
     }
 
+    //checks every 15 minutes if someone posted a photo if true it will notify user
     public void readWebPage() {
         pareser = new JSONPareser();
         pareserNew = new JSONPareser();

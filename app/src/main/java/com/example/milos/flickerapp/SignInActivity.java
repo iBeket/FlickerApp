@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -162,7 +163,8 @@ public class SignInActivity extends AppCompatActivity implements
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             startActivity(new Intent(this, DrawerActivity.class));
             finish();
-        } else {
+        } else if (!result.isSuccess()) {
+            AppState.isConnected = false;
             // Signed out, show unauthenticated UI.
             updateUI(false);
         }
@@ -172,9 +174,12 @@ public class SignInActivity extends AppCompatActivity implements
 
     // [START signIn]
     private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-
+        if (AppState.isConnected == false) {
+            Toast.makeText(context, "Unable to connect, check internet connectivity", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        }
     }
     // [END signIn]
 

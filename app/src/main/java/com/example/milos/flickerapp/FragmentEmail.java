@@ -77,7 +77,7 @@ public class FragmentEmail extends Fragment {
                             null,
                             null);
 
-                    //Get the first phone number
+                    //Get the first email
                     if (cursorNum.moveToNext()) {
                         int columnIndex_email = cursorNum.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
                         String stringEmail = cursorNum.getString(columnIndex_email);

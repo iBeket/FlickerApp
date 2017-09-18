@@ -31,6 +31,7 @@ public class SplashActivity extends AppCompatActivity {
                 R.anim.hyperspace_jump);
         mainFrame.startAnimation(hyperspaceJumpAnimation);
 
+        //handles permissions that will be displayed to user when app starts
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_CONTACTS}, 0);
         } else {

@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:elevation="6dp"
-        android:text="Sing In"
+        android:text="Sign In"
         android:textColor="@android:color/white"
         app:layout_anchor="@id/fab"
         app:layout_anchorGravity="center" />

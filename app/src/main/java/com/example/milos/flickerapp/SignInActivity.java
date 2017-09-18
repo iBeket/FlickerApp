@@ -185,12 +185,10 @@ public class SignInActivity extends AppCompatActivity implements
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
-
                         updateUI(false);
                         Intent intent = new Intent(context, SignInActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-                        ConnectionState.setSiginIn(false);
                         // [END_EXCLUDE]
                     }
                 });
@@ -208,7 +206,6 @@ public class SignInActivity extends AppCompatActivity implements
                         Intent intent = new Intent(context, SignInActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-                        ConnectionState.setSiginIn(false);
                         // [END_EXCLUDE]
                     }
                 });

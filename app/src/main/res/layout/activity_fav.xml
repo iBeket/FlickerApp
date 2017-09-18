@@ -9,7 +9,7 @@
         android:id="@+id/fav_info"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#8c8c8c"
+        android:background="#fff"
         android:gravity="center"
         android:padding="30dp"
         android:textColor="#595959"

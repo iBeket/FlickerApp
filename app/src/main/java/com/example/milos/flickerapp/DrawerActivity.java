@@ -46,7 +46,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class DrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private Context context;
     private ProgressDialog dialog;
@@ -427,11 +427,12 @@ public class DrawerActivity extends AppCompatActivity
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context, R.style.AppCompatAlertDialogStyle);
-        alertDialogBuilder.setTitle("         Are you sure you want to exit?");
+        alertDialogBuilder.setTitle("Are you sure you want to exit?");
         alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
                         System.exit(0);
                     }
                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -545,24 +546,5 @@ public class DrawerActivity extends AppCompatActivity
     private void setMenuCounter(@IdRes int itemId, int count) {
         TextView view = (TextView) navigationView.getMenu().findItem(itemId).getActionView();
         view.setText(count > 0 ? String.valueOf(count) : null);
-    }
-
-    @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
-
-    }
-
-    @Override
-    public void onDrawerOpened(View drawerView) {
-    }
-
-    @Override
-    public void onDrawerClosed(View drawerView) {
-
-    }
-
-    @Override
-    public void onDrawerStateChanged(int newState) {
-
     }
 }

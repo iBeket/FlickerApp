@@ -7,4 +7,5 @@
     <color name="color_white">#fff</color>
     <color name="color_text">#fff</color>
     <color name="blue_grey_500">#4885ed</color>
+    <color name="Progress">#4885ed</color>
 </resources>

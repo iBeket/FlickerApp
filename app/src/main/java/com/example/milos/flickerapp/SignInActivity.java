@@ -3,6 +3,7 @@ package com.example.milos.flickerapp;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -163,8 +164,8 @@ public class SignInActivity extends AppCompatActivity implements
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             startActivity(new Intent(this, DrawerActivity.class));
             finish();
-        } else if (!result.isSuccess()) {
-            AppState.isConnected = false;
+
+        } else{
             // Signed out, show unauthenticated UI.
             updateUI(false);
         }
@@ -174,7 +175,7 @@ public class SignInActivity extends AppCompatActivity implements
 
     // [START signIn]
     private void signIn() {
-        if (AppState.isConnected == false) {
+        if (!isNetworkAvailable(context)) {
             Toast.makeText(context, "Unable to connect, check internet connectivity", Toast.LENGTH_SHORT).show();
         } else {
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -275,5 +276,11 @@ public class SignInActivity extends AppCompatActivity implements
                 revokeAccess();
                 break;
         }
+    }
+
+    //method that checks if app have internet access
+    public boolean isNetworkAvailable(Context context) {
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 }

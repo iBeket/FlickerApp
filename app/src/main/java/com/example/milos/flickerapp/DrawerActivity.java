@@ -375,6 +375,7 @@ public class DrawerActivity extends AppCompatActivity
                     });
                 }
             } else {
+
                 Log.e(TAG, "Couldn't get json from server.");
                 runOnUiThread(
                         new Runnable() {

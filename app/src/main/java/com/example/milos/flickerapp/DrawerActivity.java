@@ -47,7 +47,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class DrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     final String TAG = "JSON";
     private Context context;
@@ -242,7 +242,7 @@ public class DrawerActivity extends AppCompatActivity
 
                                                         JSONObject media;
                                                         media = jsonObject.getJSONObject("media");
-                                                        String mediaHi = String.valueOf(media.getString("m").replace("farm5","c1"));
+                                                        String mediaHi = String.valueOf(media.getString("m").replace("farm5", "c1"));
                                                         model.setMedia(mediaHi);
 
                                                         String title = String.valueOf(jsonObject.getString("title"));
@@ -332,7 +332,7 @@ public class DrawerActivity extends AppCompatActivity
                         JSONObject media;
 
                         media = jsonObject.getJSONObject("media");
-                        String mediaHi = String.valueOf(media.getString("m").replace("farm5","c1"));
+                        String mediaHi = String.valueOf(media.getString("m").replace("farm5", "c1"));
                         model.setMedia(mediaHi);
 
                         String title = String.valueOf(jsonObject.getString("title")).replace("- The Caturday", "").replace(": http://thecaturday.us", "");

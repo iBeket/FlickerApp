@@ -165,7 +165,7 @@ public class SignInActivity extends AppCompatActivity implements
             startActivity(new Intent(this, DrawerActivity.class));
             finish();
 
-        } else{
+        } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
         }

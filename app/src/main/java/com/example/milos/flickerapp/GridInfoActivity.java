@@ -244,7 +244,7 @@ public class GridInfoActivity extends AppCompatActivity {
                                 clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                                 clipData = ClipData.newPlainText("text", linkG);
                                 clipboardManager.setPrimaryClip(clipData);
-                                Toast.makeText(context,  context.getString(R.string.copy_link_pop), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.copy_link_pop), Toast.LENGTH_SHORT).show();
 
                             } else if (item.getTitle().equals(context.getString(R.string.fav_share_post))) {
                                 //gives us option to choose on which social network we want to share post

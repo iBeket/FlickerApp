@@ -37,7 +37,7 @@ public class SendEmailActivity extends AppCompatActivity {
         emailText.setText(imageEmail);
 
         subject = (EditText) findViewById(R.id.subject_email);
-        subject.setText(subject.getHint() + " Check this image out");
+        subject.setText(subject.getHint() + getString(R.string.email_subject));
 
         sendTo = (EditText) findViewById(R.id.send_to);
         sendCc = (EditText) findViewById(R.id.send_to_cc);

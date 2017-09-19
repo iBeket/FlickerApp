@@ -86,17 +86,17 @@ public class FragmentEmail extends Fragment {
                             if (isValidEmail(stringEmail)) {
                                 sendEmail.sendTo.setText(stringEmail);
                             } else {
-                                Toast.makeText(getContext(), "Invalid email format", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), getString(R.string.wrong_email_format), Toast.LENGTH_SHORT).show();
                             }
                         } else if (AppState.isClickedCc) {
                             if (isValidEmail(stringEmail)) {
                                 sendEmail.sendCc.setText(stringEmail);
                             } else {
-                                Toast.makeText(getContext(), "Invalid email format", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), getString(R.string.wrong_email_format), Toast.LENGTH_SHORT).show();
                             }
                         }
                     } else {
-                        Toast.makeText(getContext(), "This contact does not have Email Address", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.email_does_not_exist), Toast.LENGTH_SHORT).show();
                     }
                 }
             }

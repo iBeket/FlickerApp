@@ -5,33 +5,33 @@
         android:id="@+id/share_fav"
         android:icon="@drawable/share"
         android:showAsAction="ifRoom"
-        android:title="Share post"
+        android:title="@string/fav_share_post"
         android:visible="true" />
     <item
         android:id="@+id/safe_fav"
         android:icon="@drawable/save"
         android:showAsAction="ifRoom"
-        android:title="Save image"
+        android:title="@string/fav_save_image"
         android:visible="true" />
 
     <item
         android:id="@+id/copy_fav"
         android:icon="@drawable/download"
         android:showAsAction="ifRoom"
-        android:title="Copy link to clipboard"
+        android:title="@string/fav_copy_link"
         android:visible="true" />
     <item
         android:id="@+id/delete_fav"
         android:icon="@drawable/delete"
         android:showAsAction="ifRoom"
-        android:title="Delete from favorites"
+        android:title="@string/fav_delete_from_fav"
         android:visible="true" />
 
     <item
         android:id="@+id/email"
         android:icon="@drawable/email_logo"
         android:showAsAction="ifRoom"
-        android:title="Share via email"
+        android:title="@string/fav_share_email"
         android:visible="true" />
 
 </menu>

@@ -176,7 +176,7 @@ public class SignInActivity extends AppCompatActivity implements
     // [START signIn]
     private void signIn() {
         if (!isNetworkAvailable(context)) {
-            Toast.makeText(context, "Unable to connect, check internet connectivity", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.connection_failed, Toast.LENGTH_SHORT).show();
         } else {
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
             startActivityForResult(signInIntent, RC_SIGN_IN);

@@ -1,15 +1,78 @@
 <resources>
-    <string name="app_name">FlickerApp</string>
     <string name="title_activity_drawer">DrawerActivity</string>
-    <string name="title_text">FlickrApp Sign-In</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 
     <string name="action_settings">Settings</string>
-    <string name="signed_in_fmt">Signed in as: %s</string>
     <string name="desc_google_icon">Google Logo</string>
-    <string name="signed_out">Signed out</string>
-    <string name="loading">Loading…</string>
+
+    <!--activity_main-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="app_name">FlickerApp</string>
+    <string name="dialog_please_wait">Please wait</string>
+    <string name="alert_dialog_question">Are you sure you want to exit?</string>
+    <string name="alert_dialog_yes">Yes</string>
+    <string name="alert_dialog_no">No</string>
+
+    <!--float_button-->
+    <string name="float_button_sign_in">Sign In</string>
+
+    <!--send_email_activity-->
+    <string name="cc">Cc:</string>
+    <string name="to">To:</string>
+    <string name="subject">Subject:</string>
+    <string name="text_email">Text:</string>
+    <string name="button_send_email">Send Email</string>
     <string name="email_subject">Check out this image</string>
-    <string name="Sign_in">Sign In</string>
+
+    <!--sign_in_activity-->
+    <string name="title_text">FlickrApp Sign-In</string>
+    <string name="signed_out">Signed out</string>
+    <string name="signed_in_fmt">Signed in as: %s</string>
+    <string name="maybe_later">Maybe Later</string>
+    <string name="button_sign_out">Sign out</string>
+    <string name="button_disconnect">disconnect</string>
+    <string name="connection_failed">"Unable to connect, check internet connectivity"</string>
+    <string name="loading">Loading…</string>
+
+    <!--action_bar_menu-->
+    <string name="action_bar_list_view">List View</string>
+    <string name="action_bar_grid_view">Grid View</string>
+
+    <!--activity_drawer_main-->
+    <string name="drawer_photos">Photos</string>
+    <string name="drawer_favorites">Favorites</string>
+    <string name="drawer_sign_out">Sign Out</string>
+    <string name="drawer_sign_in">Sign In</string>
+
+    <!--favorites_menu-->
+    <string name="fav_share_post">Share Post</string>
+    <string name="fav_save_image">Save Image</string>
+    <string name="fav_copy_link">Copy Link to Clipboard</string>
+    <string name="fav_delete_from_fav">Delete from Favorites</string>
+    <string name="fav_share_email">Share via Email</string>
+    <string name="fav_nothing_added">Nothing was Added</string>
+    <string name="fav_name">Favorites</string>
+
+    <!--popUpMenu-->
+    <string name="pop_share_post">Share Post</string>
+    <string name="pop_save_image">Save Image</string>
+    <string name="pop_copy_link">Copy Link to Clipboard</string>
+    <string name="pop_add_to_fav">Add to Favorites</string>
+    <string name="pop_share_email">Share via Email</string>
+
+    <!--email_fragment-->
+    <string name="wrong_email_format">Invalid email format</string>
+    <string name="email_does_not_exist">This contact does not have Email Address</string>
+
+    <!--popupMenuToasts-->
+    <string name="copy_link_pop">Link copied to clipboard</string>
+    <string name="choose_app_to_share">Choose App to Share</string>
+    <string name="photo_saved">Photo saved to: /sdcard/FlickrPhotos</string>
+    <string name="photo_not_saved">Unable to safe image</string>
+    <string name="item_add_to_fav">Item is added to favorites</string>
+    <string name="item_already_added">Item is already added</string>
+    <string name="item_deleted_from_fav">Item removed</string>
+
+
 </resources>

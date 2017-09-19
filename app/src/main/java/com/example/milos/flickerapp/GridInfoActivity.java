@@ -139,7 +139,7 @@ public class GridInfoActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                //grid view home screen
+                //list view home screen
                 if (!isFromGrid) {
                     popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
 
@@ -147,13 +147,13 @@ public class GridInfoActivity extends AppCompatActivity {
                         public boolean onMenuItemClick(MenuItem item) {
 
                             //copies the link to clipboard
-                            if (item.getTitle().equals("Copy link to clipboard")) {
+                            if (item.getTitle().equals(context.getString(R.string.pop_copy_link))) {
                                 clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                                 clipData = ClipData.newPlainText("text", linkG);
                                 clipboardManager.setPrimaryClip(clipData);
-                                Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.copy_link_pop), Toast.LENGTH_SHORT).show();
 
-                            } else if (item.getTitle().equals("Share post")) {
+                            } else if (item.getTitle().equals(context.getString(R.string.pop_share_post))) {
                                 //gives us option to choose on which social network we want to share post
                                 List<Intent> targetShareIntents = new ArrayList<>();
                                 Intent shareIntent = new Intent();
@@ -180,14 +180,14 @@ public class GridInfoActivity extends AppCompatActivity {
                                         }
                                     }
                                     if (!targetShareIntents.isEmpty()) {
-                                        Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
+                                        Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), context.getString(R.string.choose_app_to_share));
                                         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
                                         chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         context.startActivity(chooserIntent);
                                     }
                                 }
                                 //saves image on sdcard
-                            } else if (item.getTitle().equals("Save image")) {
+                            } else if (item.getTitle().equals(context.getString(R.string.pop_save_image))) {
                                 try {
                                     File direct = new File(Environment.getExternalStorageDirectory()
                                             + "/FlickrPhotos");
@@ -210,18 +210,18 @@ public class GridInfoActivity extends AppCompatActivity {
                                             .setDestinationInExternalPublicDir("/FlickrPhotos", title);
 
                                     mgr.enqueue(request);
-                                    Toast.makeText(context, "Photo saved to: /sdcard/FlickrPhotos", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getString(R.string.photo_saved), Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
-                                    Toast.makeText(context, "Unable to safe image", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getString(R.string.photo_not_saved), Toast.LENGTH_SHORT).show();
                                 }
-                            } else if (item.getTitle().equals("Add to Favorites")) {
+                            } else if (item.getTitle().equals(context.getString(R.string.pop_add_to_fav))) {
                                 if (!sqlHelper.ifExists(flikrModel)) {
                                     sqlHelper.addContact(flikrModel);
-                                    Toast.makeText(context, "Item is added to favorites", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getString(R.string.item_add_to_fav), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(context, "Item is already added", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getString(R.string.item_already_added), Toast.LENGTH_SHORT).show();
                                 }
-                            } else if (item.getTitle().equals("Share via email")) {
+                            } else if (item.getTitle().equals(context.getString(R.string.pop_share_email))) {
 
                                 Intent intent = new Intent(context, SendEmailActivity.class);
                                 intent.putExtra("imageEmail", flikrModel.getMedia());
@@ -240,13 +240,13 @@ public class GridInfoActivity extends AppCompatActivity {
                         public boolean onMenuItemClick(MenuItem item) {
 
                             //copies the link to clipboard
-                            if (item.getTitle().equals("Copy link to clipboard")) {
+                            if (item.getTitle().equals(context.getString(R.string.fav_copy_link))) {
                                 clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                                 clipData = ClipData.newPlainText("text", linkG);
                                 clipboardManager.setPrimaryClip(clipData);
-                                Toast.makeText(context, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context,  context.getString(R.string.copy_link_pop), Toast.LENGTH_SHORT).show();
 
-                            } else if (item.getTitle().equals("Share post")) {
+                            } else if (item.getTitle().equals(context.getString(R.string.fav_share_post))) {
                                 //gives us option to choose on which social network we want to share post
                                 List<Intent> targetShareIntents = new ArrayList<>();
                                 Intent shareIntent = new Intent();
@@ -273,14 +273,14 @@ public class GridInfoActivity extends AppCompatActivity {
                                         }
                                     }
                                     if (!targetShareIntents.isEmpty()) {
-                                        Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
+                                        Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), context.getString(R.string.choose_app_to_share));
                                         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
                                         chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         context.startActivity(chooserIntent);
                                     }
                                 }
                                 //saves image on sdcard
-                            } else if (item.getTitle().equals("Save image")) {
+                            } else if (item.getTitle().equals(context.getString(R.string.fav_save_image))) {
                                 try {
                                     File direct = new File(Environment.getExternalStorageDirectory()
                                             + "/FlickrPhotos");
@@ -303,18 +303,18 @@ public class GridInfoActivity extends AppCompatActivity {
                                             .setDestinationInExternalPublicDir("/FlickrPhotos", title);
 
                                     mgr.enqueue(request);
-                                    Toast.makeText(context, "Photo saved to: /sdcard/FlickrPhotos", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getString(R.string.photo_saved), Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
-                                    Toast.makeText(context, "Unable to safe image", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getString(R.string.photo_not_saved), Toast.LENGTH_SHORT).show();
                                 }
-                            } else if (item.getTitle().equals("Delete from favorites")) {
+                            } else if (item.getTitle().equals(context.getString(R.string.fav_delete_from_fav))) {
 
                                 sqlHelper.deleteFromBase(flikrModel);
-                                Toast.makeText(context, "Item removed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.item_deleted_from_fav), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(context, FavoritesActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
-                            } else if (item.getTitle().equals("Share via email")) {
+                            } else if (item.getTitle().equals(context.getString(R.string.fav_share_email))) {
 
                                 Intent intent = new Intent(context, SendEmailActivity.class);
                                 intent.putExtra("imageEmail", flikrModel.getMedia());

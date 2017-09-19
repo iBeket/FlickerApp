@@ -5,13 +5,13 @@
     <item
         android:id="@+id/list_view"
         android:icon="@drawable/list"
-        android:title="List View"
+        android:title="@string/action_bar_list_view"
         android:visible="true"
         app:showAsAction="always|withText" />
     <item
         android:id="@+id/gird_view"
         android:icon="@drawable/grid"
-        android:title="Grid View"
+        android:title="@string/action_bar_grid_view"
         android:visible="true"
         app:showAsAction="always|withText" />
 </menu>

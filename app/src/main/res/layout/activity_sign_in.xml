@@ -84,7 +84,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Maybe Later"
+                android:text="@string/maybe_later"
                 android:textAllCaps="false"
                 android:textStyle="normal"
                 android:theme="@style/ThemeOverlay.MaybeLater" />
@@ -107,7 +107,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="sign_out"
+                android:text="@string/button_sign_out"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
 
             <Button
@@ -115,7 +115,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="disconnect"
+                android:text="@string/button_disconnect"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
         </LinearLayout>
     </RelativeLayout>

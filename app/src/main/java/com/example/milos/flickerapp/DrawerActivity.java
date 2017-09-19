@@ -190,7 +190,7 @@ public class DrawerActivity extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = new ProgressDialog(context, R.style.AppCompatAlertDialogStyle);
-            dialog.setMessage("Please wait");
+            dialog.setMessage(getString(R.string.dialog_please_wait));
             dialog.setCancelable(false);
             dialog.show();
 
@@ -433,15 +433,15 @@ public class DrawerActivity extends AppCompatActivity
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context, R.style.AppCompatAlertDialogStyle);
-        alertDialogBuilder.setTitle("Are you sure you want to exit?");
+        alertDialogBuilder.setTitle(getString(R.string.alert_dialog_question));
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.alert_dialog_yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                         System.exit(0);
                     }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(getString(R.string.alert_dialog_no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
                 dialog.cancel();

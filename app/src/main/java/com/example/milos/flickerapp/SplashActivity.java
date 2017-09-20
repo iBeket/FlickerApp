@@ -60,7 +60,7 @@ public class SplashActivity extends AppCompatActivity {
             int secondsDelayed = 1;
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    Toast.makeText(SplashActivity.this, "You are not able to save photos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SplashActivity.this, getString(R.string.unable_to_save_photo), Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SplashActivity.this, SignInActivity.class));
                     finish();
                 }

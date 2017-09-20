@@ -88,8 +88,8 @@ public class JSONService extends Service {
                 (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.logo)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo))
-                        .setContentTitle("FlickrApp")
-                        .setContentText("Someone posted new image, check it out")
+                        .setContentTitle(getString(R.string.app_name))
+                        .setContentText(getString(R.string.notification_message))
                         .setDefaults(Notification.DEFAULT_SOUND)
                         .setAutoCancel(true);
 

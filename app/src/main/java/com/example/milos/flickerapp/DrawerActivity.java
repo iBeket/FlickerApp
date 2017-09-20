@@ -77,7 +77,7 @@ public class DrawerActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Flickr App");
+        getSupportActionBar().setTitle(getString(R.string.app_name));
 
         context = this;
 
@@ -297,7 +297,7 @@ public class DrawerActivity extends AppCompatActivity
 
                                             //if there are no search results
                                             if (flickrList.size() == 0) {
-                                                entries.setText("No results found");
+                                                entries.setText(getString(R.string.no_results));
                                                 entries.bringToFront();
                                             } else {
                                                 lv.bringToFront();
@@ -394,10 +394,7 @@ public class DrawerActivity extends AppCompatActivity
                                 flickrGridAdapter.notifyDataSetChanged();
                                 gv.setAdapter(flickrGridAdapter);
 
-                                Toast.makeText(getApplicationContext(),
-                                        "No internet connection please check your connectivity",
-                                        Toast.LENGTH_LONG)
-                                        .show();
+                                Toast.makeText(getApplicationContext(),getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
                             }
                         });
             }
@@ -464,14 +461,14 @@ public class DrawerActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        if (item.getTitle().toString().equalsIgnoreCase("List View")) {
+        if (item.getTitle().toString().equalsIgnoreCase(getString(R.string.action_bar_list_view))) {
             lv.setVisibility(View.VISIBLE);
             gv.setVisibility(View.GONE);
 
             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
             lv.setAdapter(flickrAdapter);
         } else {
-            if (item.getTitle().toString().equalsIgnoreCase("Grid View")) {
+            if (item.getTitle().toString().equalsIgnoreCase(getString(R.string.action_bar_grid_view))) {
                 gv.setVisibility(View.VISIBLE);
                 lv.setVisibility(View.GONE);
 

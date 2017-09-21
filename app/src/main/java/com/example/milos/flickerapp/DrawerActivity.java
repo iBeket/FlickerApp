@@ -67,7 +67,6 @@ public class DrawerActivity extends AppCompatActivity
     private JSONPareser pareser = new JSONPareser();
     private SqlHelper sqlHelper;
     private SqlHelperFavorites sqlHelperFavorites;
-    private int count =0;
     public static final String baseURL = "https://api.flickr.com/services/feeds/photos_public.gne?tags=planet&format=json&nojsoncallback=1";
 
     @Override
@@ -287,6 +286,14 @@ public class DrawerActivity extends AppCompatActivity
 
                                         @Override
                                         protected void onPostExecute(Void aVoid) {
+                                            //number of pictures that appear after search
+                                            int count = 0;
+                                            for (int i = 0; i < flickrList.size(); i++) {
+                                                if (flickrList.get(i) != null) {
+                                                    count++;
+                                                }
+                                            }
+                                            setMenuCounter(R.id.nav_photos, count);
 
                                             // Updating parsed JSON data into ListView
                                             flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
@@ -306,15 +313,6 @@ public class DrawerActivity extends AppCompatActivity
                                                 lv.bringToFront();
                                                 gv.bringToFront();
                                             }
-
-                                            //number of pictures that appear after search
-                                            for (int i = 0; i < flickrList.size(); i++) {
-                                                if (flickrList.size() > 0) {
-                                                    count++;
-                                                }
-                                            }
-                                            setMenuCounter(R.id.nav_photos, count);
-
                                         }
                                     }.execute();
                                 }

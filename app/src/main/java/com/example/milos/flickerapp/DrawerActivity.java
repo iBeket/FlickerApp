@@ -67,6 +67,7 @@ public class DrawerActivity extends AppCompatActivity
     private JSONPareser pareser = new JSONPareser();
     private SqlHelper sqlHelper;
     private SqlHelperFavorites sqlHelperFavorites;
+    private int count =0;
     public static final String baseURL = "https://api.flickr.com/services/feeds/photos_public.gne?tags=planet&format=json&nojsoncallback=1";
 
     @Override
@@ -225,6 +226,7 @@ public class DrawerActivity extends AppCompatActivity
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+
                                     final String tags = baseURL.replace("planet", s.toString());
 
                                     new AsyncTask<Void, Void, Void>() {
@@ -268,6 +270,7 @@ public class DrawerActivity extends AppCompatActivity
                                                     e.toString();
                                                 }
                                             } else {
+
                                                 Log.e(TAG, "Couldn't get json from server.");
                                                 runOnUiThread(new Runnable() {
                                                     @Override
@@ -303,6 +306,15 @@ public class DrawerActivity extends AppCompatActivity
                                                 lv.bringToFront();
                                                 gv.bringToFront();
                                             }
+
+                                            //number of pictures that appear after search
+                                            for (int i = 0; i < flickrList.size(); i++) {
+                                                if (flickrList.size() > 0) {
+                                                    count++;
+                                                }
+                                            }
+                                            setMenuCounter(R.id.nav_photos, count);
+
                                         }
                                     }.execute();
                                 }
@@ -363,6 +375,7 @@ public class DrawerActivity extends AppCompatActivity
                         sqlHelper.addContact(model);
                     }
                 } catch (final JSONException e) {
+
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
@@ -394,7 +407,7 @@ public class DrawerActivity extends AppCompatActivity
                                 flickrGridAdapter.notifyDataSetChanged();
                                 gv.setAdapter(flickrGridAdapter);
 
-                                Toast.makeText(getApplicationContext(),getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
                             }
                         });
             }

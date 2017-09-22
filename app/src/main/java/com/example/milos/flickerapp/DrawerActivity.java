@@ -263,7 +263,6 @@ public class DrawerActivity extends AppCompatActivity
                                                         model.setAuthor(author);
 
                                                         flickrList.add(model);
-                                                        //  sqlHelper.addContact(model);
                                                     }
                                                 } catch (Exception e) {
                                                     e.toString();
@@ -309,6 +308,7 @@ public class DrawerActivity extends AppCompatActivity
                                             if (flickrList.size() == 0) {
                                                 entries.setText(getString(R.string.no_results));
                                                 entries.bringToFront();
+                                                setMenuCounter(R.id.nav_photos, 0);
                                             } else {
                                                 lv.bringToFront();
                                                 gv.bringToFront();
@@ -330,10 +330,11 @@ public class DrawerActivity extends AppCompatActivity
             String jsonStr = pareser.makeServiceCall(baseURL);
             if (jsonStr != null) {
                 try {
-                    JSONObject obj = new JSONObject(jsonStr);
-                    JSONArray list = obj.getJSONArray("items");
 
                     sqlHelper.clearDatabase();
+
+                    JSONObject obj = new JSONObject(jsonStr);
+                    JSONArray list = obj.getJSONArray("items");
 
                     for (int i = 0; i < list.length(); i++) {
                         JSONObject jsonObject = list.getJSONObject(i);
@@ -559,6 +560,6 @@ public class DrawerActivity extends AppCompatActivity
     //shows the number of items in drawer menu of FlickrList
     private void setMenuCounter(@IdRes int itemId, int count) {
         TextView view = (TextView) navigationView.getMenu().findItem(itemId).getActionView();
-        view.setText(count > 0 ? String.valueOf(count) : null);
+        view.setText(count >= 0 ? String.valueOf(count) : null);
     }
 }

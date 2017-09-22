@@ -69,7 +69,7 @@
     <string name="copy_link_pop">Link copied to clipboard</string>
     <string name="choose_app_to_share">Choose App to Share</string>
     <string name="photo_saved">Photo saved to: /sdcard/FlickrPhotos</string>
-    <string name="photo_not_saved">Unable to safe image</string>
+    <string name="photo_not_saved">Unable to save image</string>
     <string name="item_add_to_fav">Item is added to favorites</string>
     <string name="item_already_added">Item is already added</string>
     <string name="item_deleted_from_fav">Item removed</string>

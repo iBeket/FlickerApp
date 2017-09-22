@@ -33,7 +33,7 @@
     <string name="fav_copy_link">Kopiraj Link Slike</string>
     <string name="email_subject">Vidi ovu sliku</string>
     <string name="email_does_not_exist">Ovaj kontakt ne sadrži Email Adresu</string>
-    <string name="drawer_sign_out">Odjavljen</string>
+    <string name="drawer_sign_out">Odjavi Se</string>
     <string name="drawer_sign_in">Prijavi se</string>
     <string name="drawer_photos">Slike</string>
     <string name="drawer_favorites">Omiljeno</string>

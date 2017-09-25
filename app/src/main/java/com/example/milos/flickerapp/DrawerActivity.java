@@ -234,39 +234,8 @@ public class DrawerActivity extends AppCompatActivity
                                             flickrList.clear();
                                             String searchBar = pareser.makeServiceCall(tags);
                                             if (searchBar != null) {
-                                                try {
-                                                    JSONObject obj = new JSONObject(searchBar);
-                                                    JSONArray list = obj.getJSONArray("items");
-                                                    for (int i = 0; i < list.length(); i++) {
-                                                        JSONObject jsonObject = list.getJSONObject(i);
-                                                        FlickrModel model = new FlickrModel();
-
-                                                        JSONObject media;
-                                                        media = jsonObject.getJSONObject("media");
-                                                        String mediaHi = String.valueOf(media.getString("m").replace("farm5", "c1"));
-                                                        model.setMedia(mediaHi);
-
-                                                        String title = String.valueOf(jsonObject.getString("title"));
-                                                        model.setTitle(title);
-
-                                                        model.setLink(jsonObject.getString("link"));
-
-                                                        String dateTaken = jsonObject.getString("date_taken");
-                                                        int index = dateTaken.indexOf('T');
-                                                        String date = dateTaken.substring(0, index);
-                                                        model.setDate_taken(date);
-                                                        //  model.setDescription(jsonObject.getString("description"));
-                                                        String hashTag = "#" + String.valueOf(jsonObject.getString("tags")).replace(" ", " #");
-                                                        model.setTags(hashTag);
-
-                                                        String author = "By:" + String.valueOf(jsonObject.getString("author").replace("nobody@flickr.com", "").replace("(", "").replace(")", ""));
-                                                        model.setAuthor(author);
-
-                                                        flickrList.add(model);
-                                                    }
-                                                } catch (Exception e) {
-                                                    e.toString();
-                                                }
+                                                //gets info from given URL
+                                                getInfoFromUrl(searchBar);
                                             } else {
 
                                                 Log.e(TAG, "Couldn't get json from server.");
@@ -294,15 +263,7 @@ public class DrawerActivity extends AppCompatActivity
                                             }
                                             setMenuCounter(R.id.nav_photos, count);
 
-                                            // Updating parsed JSON data into ListView
-                                            flickrAdapter = new FlickrAdapter(getApplicationContext(), R.layout.flickr_item, flickrList);
-                                            flickrAdapter.notifyDataSetChanged();
-                                            lv.setAdapter(flickrAdapter);
-
-                                            // Updating parsed JSON data into GridView
-                                            flickrGridAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrList);
-                                            flickrGridAdapter.notifyDataSetChanged();
-                                            gv.setAdapter(flickrGridAdapter);
+                                            populateListGridView();
 
                                             //if there are no search results
                                             if (flickrList.size() == 0) {
@@ -424,15 +385,8 @@ public class DrawerActivity extends AppCompatActivity
             // start notification service
             startService(new Intent(DrawerActivity.this, JSONService.class));
 
-            // Updating parsed JSON data into ListView
-            flickrAdapter = new FlickrAdapter(context, R.layout.flickr_item, flickrList);
-            flickrAdapter.notifyDataSetChanged();
-            lv.setAdapter(flickrAdapter);
+            populateListGridView();
 
-            // Updating parsed JSON data into GridView
-            flickrGridAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrList);
-            flickrGridAdapter.notifyDataSetChanged();
-            gv.setAdapter(flickrGridAdapter);
         }
     }
 
@@ -561,5 +515,55 @@ public class DrawerActivity extends AppCompatActivity
     private void setMenuCounter(@IdRes int itemId, int count) {
         TextView view = (TextView) navigationView.getMenu().findItem(itemId).getActionView();
         view.setText(count >= 0 ? String.valueOf(count) : null);
+    }
+
+    //gets all information from given URL
+    private void getInfoFromUrl(String url) {
+        try {
+            JSONObject obj = new JSONObject(url);
+            JSONArray list = obj.getJSONArray("items");
+            for (int i = 0; i < list.length(); i++) {
+                JSONObject jsonObject = list.getJSONObject(i);
+                FlickrModel model = new FlickrModel();
+
+                JSONObject media;
+                media = jsonObject.getJSONObject("media");
+                String mediaHi = String.valueOf(media.getString("m").replace("farm5", "c1"));
+                model.setMedia(mediaHi);
+
+                String title = String.valueOf(jsonObject.getString("title"));
+                model.setTitle(title);
+
+                model.setLink(jsonObject.getString("link"));
+
+                String dateTaken = jsonObject.getString("date_taken");
+                int index = dateTaken.indexOf('T');
+                String date = dateTaken.substring(0, index);
+                model.setDate_taken(date);
+                //  model.setDescription(jsonObject.getString("description"));
+                String hashTag = "#" + String.valueOf(jsonObject.getString("tags")).replace(" ", " #");
+                model.setTags(hashTag);
+
+                String author = "By:" + String.valueOf(jsonObject.getString("author").replace("nobody@flickr.com", "").replace("(", "").replace(")", ""));
+                model.setAuthor(author);
+
+                flickrList.add(model);
+            }
+        } catch (Exception e) {
+            e.toString();
+        }
+    }
+
+    private void populateListGridView() {
+
+        // Updating parsed JSON data into ListView
+        flickrAdapter = new FlickrAdapter(context, R.layout.flickr_item, flickrList);
+        flickrAdapter.notifyDataSetChanged();
+        lv.setAdapter(flickrAdapter);
+
+        // Updating parsed JSON data into GridView
+        flickrGridAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrList);
+        flickrGridAdapter.notifyDataSetChanged();
+        gv.setAdapter(flickrGridAdapter);
     }
 }

@@ -29,6 +29,7 @@ public class JSONService extends Service {
     private JSONPareser pareserNew;
     private String jsonStrOld;
     private String jsonStrNew;
+    private Context context;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -38,6 +39,7 @@ public class JSONService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
         Log.d(TAG, "onCreate");
     }
 
@@ -61,7 +63,6 @@ public class JSONService extends Service {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-
                 jsonStrOld = pareser.makeServiceCall(baseURL);
                 return null;
             }
@@ -76,7 +77,8 @@ public class JSONService extends Service {
                         if (!jsonStrOld.equals(jsonStrNew)) {
                             addNotification();
                             jsonStrOld = jsonStrNew;
-                        }
+                            AppState.loggedIn=true;
+                            }
                     }
                 }, 0, 15, TimeUnit.MINUTES);
             }

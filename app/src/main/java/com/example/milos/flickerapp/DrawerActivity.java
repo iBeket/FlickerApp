@@ -115,7 +115,6 @@ public class DrawerActivity extends AppCompatActivity
             menu.findItem(R.id.nav_sign_out).setVisible(false);
         }
 
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);

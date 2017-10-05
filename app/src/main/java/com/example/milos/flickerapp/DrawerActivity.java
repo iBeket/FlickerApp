@@ -184,7 +184,7 @@ public class DrawerActivity extends AppCompatActivity
         setMenuCounter(R.id.nav_photos, 20);
     }
 
-    public class getData extends AsyncTask<String, Void, Void> {
+    private class getData extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -262,8 +262,6 @@ public class DrawerActivity extends AppCompatActivity
                                             }
                                             setMenuCounter(R.id.nav_photos, count);
 
-                                            populateListGridView();
-
                                             //if there are no search results
                                             if (flickrList.size() == 0) {
                                                 entries.setText(getString(R.string.no_results));
@@ -273,6 +271,8 @@ public class DrawerActivity extends AppCompatActivity
                                                 lv.bringToFront();
                                                 gv.bringToFront();
                                             }
+
+                                            populateListGridView();
                                         }
                                     }.execute();
                                 }
@@ -516,7 +516,7 @@ public class DrawerActivity extends AppCompatActivity
         view.setText(count >= 0 ? String.valueOf(count) : null);
     }
 
-    //gets all information from given URL
+    //gets all information from the given URL
     private void getInfoFromUrl(String url) {
         try {
             JSONObject obj = new JSONObject(url);

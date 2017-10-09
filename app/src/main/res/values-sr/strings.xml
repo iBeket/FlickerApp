@@ -54,4 +54,12 @@
     <string name="title_text">FlickrApp Prijavljivanje</string>
     <string name="drawer_upload_photo">Postavi Sliku</string>
     <string name="upload_image_name">Postavi Sliku</string>
+    <string name="button_chooser">"Pritisni dugme "</string>
+    <string name="send_email_name">Pošlji Email</string>
+    <string name="upload_camera">Slikaj</string>
+    <string name="upload_description">Dodaj Opis Slike</string>
+    <string name="upload_photo_button">Postavi Sliku</string>
+    <string name="upload_gallery">Preuzmi iz Galerije</string>
+    <string name="upload_tags">Dodaj Tagove</string>
+    <string name="upload_title">Dodaj Naziv</string>
 </resources>

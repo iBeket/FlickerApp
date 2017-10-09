@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -120,7 +121,7 @@ public class SignInActivity extends AppCompatActivity implements
             showProgressDialog();
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
+                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
                     hideProgressDialog();
                     handleSignInResult(googleSignInResult);
                 }
@@ -161,6 +162,7 @@ public class SignInActivity extends AppCompatActivity implements
         } else if (result.isSuccess()) {
             AppState.loggedIn = true;
             GoogleSignInAccount acct = result.getSignInAccount();
+            assert acct != null;
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             startActivity(new Intent(this, DrawerActivity.class));
             finish();
@@ -189,7 +191,7 @@ public class SignInActivity extends AppCompatActivity implements
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
-                    public void onResult(Status status) {
+                    public void onResult(@NonNull Status status) {
                         // [START_EXCLUDE]
                         updateUI(false);
                         Intent intent = new Intent(context, SignInActivity.class);
@@ -206,7 +208,7 @@ public class SignInActivity extends AppCompatActivity implements
         Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
-                    public void onResult(Status status) {
+                    public void onResult(@NonNull Status status) {
                         // [START_EXCLUDE]
                         updateUI(false);
                         Intent intent = new Intent(context, SignInActivity.class);
@@ -219,7 +221,7 @@ public class SignInActivity extends AppCompatActivity implements
     // [END revokeAccess]
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);

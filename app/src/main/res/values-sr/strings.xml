@@ -52,4 +52,6 @@
     <string name="action_bar_list_view">Lista</string>
     <string name="action_bar_grid_view">Kvadrat</string>
     <string name="title_text">FlickrApp Prijavljivanje</string>
+    <string name="drawer_upload_photo">Postavi Sliku</string>
+    <string name="upload_image_name">Postavi Sliku</string>
 </resources>

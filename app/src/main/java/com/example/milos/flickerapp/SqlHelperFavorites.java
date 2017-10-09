@@ -27,7 +27,7 @@ public class SqlHelperFavorites extends SQLiteOpenHelper {
     private static final String KEY_TITLE = "title";
     private static final String LOCAL_PATH = "localPath";
 
-    public SqlHelperFavorites(Context context) {
+    SqlHelperFavorites(Context context) {
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -48,7 +48,7 @@ public class SqlHelperFavorites extends SQLiteOpenHelper {
     }
 
     // Adding new contact
-    public void addContact(FlickrModel flickrModel) {
+    void addContact(FlickrModel flickrModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_IMAGE, flickrModel.getMedia());
@@ -80,17 +80,16 @@ public class SqlHelperFavorites extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         try {
-            FlickrModel flickrModel = new FlickrModel(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
             // return single item
-            return flickrModel;
+            return new FlickrModel(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         } catch (Exception e) {
             return null;
         }
     }
 
     // Getting All Contacts
-    public List<FlickrModel> getAllInfo() {
-        List<FlickrModel> contactList = new ArrayList<FlickrModel>();
+    List<FlickrModel> getAllInfo() {
+        List<FlickrModel> contactList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;
 
@@ -119,9 +118,9 @@ public class SqlHelperFavorites extends SQLiteOpenHelper {
     }
 
     //checks if item is already added
-    public boolean ifExists(FlickrModel flickrModel) {
+    boolean ifExists(FlickrModel flickrModel) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
+        Cursor cursor;
         String checkQuery = "SELECT " + KEY_IMAGE + " FROM " + TABLE_CONTACTS + " WHERE " + KEY_IMAGE + "= '" + flickrModel.getMedia() + "'";
         cursor = db.rawQuery(checkQuery, null);
         boolean exists = (cursor.getCount() > 0);
@@ -130,13 +129,13 @@ public class SqlHelperFavorites extends SQLiteOpenHelper {
     }
 
     //number of rows in database
-    public long getCount() {
+    long getCount() {
         SQLiteDatabase db = this.getReadableDatabase();
         return DatabaseUtils.queryNumEntries(db, TABLE_CONTACTS);
     }
 
     //deletes particular row from database
-    public void deleteFromBase(FlickrModel flickrModel) {
+    void deleteFromBase(FlickrModel flickrModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_CONTACTS + " WHERE " + KEY_IMAGE + "= '" + flickrModel.getMedia() + "'");
         db.close();

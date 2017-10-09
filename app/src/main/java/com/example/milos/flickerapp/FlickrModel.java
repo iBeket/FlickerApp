@@ -10,14 +10,11 @@ public class FlickrModel {
     private String link;
     private String media;
     private String date_taken;
-    private String description;
-    private String published;
     private String author;
-    private String author_id;
     private String tags;
     private String localPath;
 
-    public FlickrModel(String media, String author, String tags, String date_taken, String title, String localPath) {
+    FlickrModel(String media, String author, String tags, String date_taken, String title, String localPath) {
         this.media = media;
         this.author = author;
         this.tags = tags;
@@ -26,7 +23,7 @@ public class FlickrModel {
         this.localPath = localPath;
     }
 
-    public FlickrModel() {
+    FlickrModel() {
     }
 
     public String getTitle() {
@@ -37,75 +34,51 @@ public class FlickrModel {
         this.title = title;
     }
 
-    public String getLink() {
+    String getLink() {
         return link;
     }
 
-    public void setLink(String link) {
+    void setLink(String link) {
         this.link = link;
     }
 
-    public String getMedia() {
+    String getMedia() {
         return media;
     }
 
-    public void setMedia(String media) {
+    void setMedia(String media) {
         this.media = media;
     }
 
-    public String getDate_taken() {
+    String getDate_taken() {
         return date_taken;
     }
 
-    public void setDate_taken(String date_taken) {
+    void setDate_taken(String date_taken) {
         this.date_taken = date_taken;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getPublished() {
-        return published;
-    }
-
-    public void setPublished(String published) {
-        this.published = published;
-    }
-
-    public String getAuthor() {
+    String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    void setAuthor(String author) {
         this.author = author;
     }
 
-    public String getAuthor_id() {
-        return author_id;
-    }
-
-    public void setAuthor_id(String author_id) {
-        this.author_id = author_id;
-    }
-
-    public String getTags() {
+    String getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    void setTags(String tags) {
         this.tags = tags;
     }
 
-    public String getLocalPath() {
+    String getLocalPath() {
         return localPath;
     }
 
-    public void setLocalPath(String localPath) {
+    void setLocalPath(String localPath) {
         this.localPath = localPath;
     }
 }

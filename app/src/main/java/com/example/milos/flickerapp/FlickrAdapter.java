@@ -44,12 +44,10 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
     private Context context;
     private ScaleAnimation scale;
-    private ClipboardManager clipboardManager;
-    private ClipData clipData;
     private SqlHelperFavorites sqlHelper;
 
 
-    public FlickrAdapter(Context context, int resource, ArrayList<FlickrModel> obj) {
+    FlickrAdapter(Context context, int resource, ArrayList<FlickrModel> obj) {
         super(context, resource, obj);
         this.context = context;
     }
@@ -251,8 +249,8 @@ public class FlickrAdapter extends ArrayAdapter<FlickrModel> {
     //copies image link on clipboard
     private void copyLinkClipboard(FlickrModel obj) {
 
-        clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
-        clipData = ClipData.newPlainText("text", obj.getLink());
+        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText("text", obj.getLink());
         clipboardManager.setPrimaryClip(clipData);
         Toast.makeText(context, context.getString(R.string.copy_link_pop), Toast.LENGTH_SHORT).show();
     }

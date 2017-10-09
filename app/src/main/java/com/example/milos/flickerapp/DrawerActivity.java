@@ -66,7 +66,6 @@ public class DrawerActivity extends AppCompatActivity
     private SwipeRefreshLayout swipeRefreshList;
     private JSONPareser pareser = new JSONPareser();
     private SqlHelper sqlHelper;
-    private SqlHelperFavorites sqlHelperFavorites;
     public static final String baseURL = "https://api.flickr.com/services/feeds/photos_public.gne?tags=planet&format=json&nojsoncallback=1";
 
     @Override
@@ -130,7 +129,7 @@ public class DrawerActivity extends AppCompatActivity
 
         new getData().execute();
 
-        swipeRefreshList.setColorScheme(new int[]{android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_dark, android.R.color.holo_green_light});
+        swipeRefreshList.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_dark, android.R.color.holo_green_light);
         swipeRefreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -476,6 +475,8 @@ public class DrawerActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_favorites) {
             startActivity(new Intent(DrawerActivity.this, FavoritesActivity.class));
+        } else if(id == R.id.nav_upload_photo){
+            startActivity(new Intent(DrawerActivity.this, UploadImageActivity.class));
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -488,7 +489,7 @@ public class DrawerActivity extends AppCompatActivity
         try {
             String fileName = Uri.parse(url).getLastPathSegment();
             file = File.createTempFile(fileName, null, context.getCacheDir());
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
         return file;
     }
@@ -496,7 +497,7 @@ public class DrawerActivity extends AppCompatActivity
     //shows the number of items in drawer menu of favorites
     private void initializeCountDrawer() {
         //Gravity property aligns the text
-        sqlHelperFavorites = new SqlHelperFavorites(context);
+        SqlHelperFavorites sqlHelperFavorites = new SqlHelperFavorites(context);
 
         counter.setGravity(Gravity.CENTER);
         counter.setPadding(10, 10, 10, 10);

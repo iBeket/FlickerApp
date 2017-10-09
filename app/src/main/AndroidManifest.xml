@@ -26,6 +26,7 @@
         <activity android:name=".FavoritesActivity" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".SendEmailActivity" />
+        <activity android:name=".UploadImageActivity" />
 
         <service android:name=".JSONService" />
         <activity

@@ -4,14 +4,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.app.Activity.RESULT_OK;
@@ -21,15 +20,10 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class FragmentEmail extends Fragment {
-    //final int RQS_PICKCONTACT = 1;
-    private TextView email_info;
 
-    public static final FragmentEmail newInstance() {
+    public static FragmentEmail newInstance() {
 
-        FragmentEmail f = new FragmentEmail();
-        Bundle bd = new Bundle();
-
-        return f;
+        return new FragmentEmail();
     }
 
 
@@ -37,15 +31,13 @@ public class FragmentEmail extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         //Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_email, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_email, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        email_info = view.findViewById(R.id.email_contacts);
         final Uri uriContact = ContactsContract.Contacts.CONTENT_URI;
         Intent intentPickContact = new Intent(Intent.ACTION_PICK, uriContact);
         startActivityForResult(intentPickContact, PermissionConstant.RQS_PICKCONTACT);
@@ -54,8 +46,7 @@ public class FragmentEmail extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-
+        /* TODO Auto-generated method stub */
 
         if (resultCode == RESULT_OK) {
             if (requestCode == PermissionConstant.RQS_PICKCONTACT) {
@@ -104,11 +95,7 @@ public class FragmentEmail extends Fragment {
     }
 
     //}
-    public final static boolean isValidEmail(CharSequence target) {
-        if (TextUtils.isEmpty(target)) {
-            return false;
-        } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-        }
+    public static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }

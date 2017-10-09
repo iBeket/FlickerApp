@@ -26,7 +26,7 @@ public class SqlHelper extends SQLiteOpenHelper {
     private static final String KEY_TITLE = "title";
     private static final String LOCAL_PATH = "localPath";
 
-    public SqlHelper(Context context) {
+    SqlHelper(Context context) {
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -47,7 +47,7 @@ public class SqlHelper extends SQLiteOpenHelper {
     }
 
     // Adding new contact
-    public void addContact(FlickrModel flickrModel) {
+    void addContact(FlickrModel flickrModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_IMAGE, flickrModel.getMedia());
@@ -62,7 +62,7 @@ public class SqlHelper extends SQLiteOpenHelper {
     }
 
     //Delete items from the database
-    public void clearDatabase() {
+    void clearDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CONTACTS, null, null);
         db.execSQL("delete from " + TABLE_CONTACTS);
@@ -88,7 +88,7 @@ public class SqlHelper extends SQLiteOpenHelper {
     }
 
     // Getting All Contacts
-    public List<FlickrModel> getAllInfo() {
+    List<FlickrModel> getAllInfo() {
         List<FlickrModel> contactList = new ArrayList<FlickrModel>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;

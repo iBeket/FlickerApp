@@ -2,6 +2,7 @@ package com.example.milos.flickerapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,7 @@ public class FlickrGidAdapter extends ArrayAdapter<FlickrModel> {
 
     private Context context;
 
-    public FlickrGidAdapter(Context context, int resource, ArrayList<FlickrModel> obj) {
+    FlickrGidAdapter(Context context, int resource, ArrayList<FlickrModel> obj) {
         super(context, resource, obj);
         this.context = context;
     }
@@ -36,7 +37,8 @@ public class FlickrGidAdapter extends ArrayAdapter<FlickrModel> {
     }
 
     // create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent) {
+    @NonNull
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

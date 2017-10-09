@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,35 +19,34 @@ import android.widget.ImageView;
 public class SendEmailActivity extends AppCompatActivity {
 
     private String imageEmail;
-    private EditText emailText;
-    private EditText subject;
     public EditText sendTo;
     public EditText sendCc;
-    private ImageView addTo;
-    private ImageView addCc;
-    private Button sendEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_email);
 
+        getSupportActionBar().setTitle(getString(R.string.send_email_name));
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         imageEmail = getIntent().getStringExtra("imageEmail");
 
-        emailText = (EditText) findViewById(R.id.text_email);
+        EditText emailText = (EditText) findViewById(R.id.text_email);
         emailText.setText(imageEmail);
 
-        subject = (EditText) findViewById(R.id.subject_email);
+        EditText subject = (EditText) findViewById(R.id.subject_email);
         subject.setText(subject.getHint() + getString(R.string.email_subject));
 
         sendTo = (EditText) findViewById(R.id.send_to);
         sendCc = (EditText) findViewById(R.id.send_to_cc);
 
-        addTo = (ImageView) findViewById(R.id.add_to_email);
-        addCc = (ImageView) findViewById(R.id.add_to_cc);
+        ImageView addTo = (ImageView) findViewById(R.id.add_to_email);
+        ImageView addCc = (ImageView) findViewById(R.id.add_to_cc);
 
 
-        sendEmail = (Button) findViewById(R.id.send_email_button);
+        Button sendEmail = (Button) findViewById(R.id.send_email_button);
         sendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,5 +102,15 @@ public class SendEmailActivity extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return true;
     }
 }

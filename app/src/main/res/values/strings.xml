@@ -24,6 +24,7 @@
     <string name="text_email">Text:</string>
     <string name="button_send_email">Send Email</string>
     <string name="email_subject">Check out this image</string>
+    <string name="send_email_name">Send Email</string>
 
     <!--sign_in_activity-->
     <string name="title_text">FlickrApp Sign-In</string>
@@ -44,6 +45,7 @@
     <string name="drawer_favorites">Favorites</string>
     <string name="drawer_sign_out">Sign Out</string>
     <string name="drawer_sign_in">Sign In</string>
+    <string name="drawer_upload_photo">Upload Photo</string>
 
     <!--favorites_menu-->
     <string name="fav_share_post">Share Post</string>
@@ -73,6 +75,19 @@
     <string name="item_add_to_fav">Item is added to favorites</string>
     <string name="item_already_added">Item is already added</string>
     <string name="item_deleted_from_fav">Item removed</string>
+
+    <!--upload_image-->
+    <string name="upload_image_name">Upload Image</string>
+    <string name="upload_title">Add the Title of the Image</string>
+    <string name="upload_description">Add the Description for the Image</string>
+    <string name="upload_tags">Add Tags for the Image</string>
+    <string name="upload_photo_button">Upload Photo</string>
+    <string name="button_chooser">Press button to choose next action</string>
+
+    <!--upload_menu-->
+    <string name="upload_gallery">Upload from Gallery</string>
+    <string name="upload_camera">Take a Picture</string>
+
 
     <!--jsonService-->
     <string name="notification_message">Someone posted new image, check it out</string>

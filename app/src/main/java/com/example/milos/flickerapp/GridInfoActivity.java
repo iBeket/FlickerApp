@@ -53,8 +53,6 @@ public class GridInfoActivity extends AppCompatActivity {
     private Boolean isFromGrid;
 
     private Context context;
-    private ClipboardManager clipboardManager;
-    private ClipData clipData;
     private SqlHelperFavorites sqlHelper;
     private FlickrModel flikrModel;
 
@@ -231,8 +229,8 @@ public class GridInfoActivity extends AppCompatActivity {
     //copies image link on clipboard
     private void copyLinkClipboard() {
 
-        clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
-        clipData = ClipData.newPlainText("text", linkG);
+        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText("text", linkG);
         clipboardManager.setPrimaryClip(clipData);
         Toast.makeText(context, context.getString(R.string.copy_link_pop), Toast.LENGTH_SHORT).show();
     }

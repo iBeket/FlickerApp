@@ -18,9 +18,9 @@ import java.net.URL;
  */
 
 public class JSONPareser {
-    final String TAG = "JSONParser";
+    private final String TAG = "JSONParser";
 
-    public String makeServiceCall(String reqUrl) {
+    String makeServiceCall(String reqUrl) {
         String response = null;
         try {
             URL url = new URL(reqUrl);
@@ -47,7 +47,7 @@ public class JSONPareser {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
         StringBuilder sb = new StringBuilder();
 
-        String line = "";
+        String line;
         try {
             while ((line = reader.readLine()) != null) {
                 sb.append(line).append('\n');

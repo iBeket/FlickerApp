@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
 
         //handles permissions that will be displayed to user when app starts
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_CONTACTS}, 0);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_CONTACTS, Manifest.permission.CAMERA}, 0);
         } else {
             int secondsDelayed = 1;
             new Handler().postDelayed(new Runnable() {

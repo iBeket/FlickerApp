@@ -475,7 +475,7 @@ public class DrawerActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_favorites) {
             startActivity(new Intent(DrawerActivity.this, FavoritesActivity.class));
-        } else if(id == R.id.nav_upload_photo){
+        } else if (id == R.id.nav_upload_photo) {
             startActivity(new Intent(DrawerActivity.this, UploadImageActivity.class));
         }
 

@@ -89,9 +89,16 @@ public class UploadImageActivity extends AppCompatActivity {
                             startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
                         } else if (item.getTitle().equals(context.getString(R.string.upload_gallery))) {
-                            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                            photoPickerIntent.setType("image/*");
-                            startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                            Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                            getIntent.setType("image/*");
+
+                            Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            pickIntent.setType("image/*");
+
+                            Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+                            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+
+                            startActivityForResult(chooserIntent, SELECT_PHOTO);
                         }
                         return true;
                     }
@@ -108,6 +115,7 @@ public class UploadImageActivity extends AppCompatActivity {
 
         switch (requestCode) {
             case SELECT_PHOTO:
+
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
                     InputStream imageStream = null;
@@ -120,8 +128,8 @@ public class UploadImageActivity extends AppCompatActivity {
                     uploadImage.setImageBitmap(imageGallery);
                 }
             case CAMERA_REQUEST:
-                if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {
 
+                if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {
                     Bundle extras = imageReturnedIntent.getExtras();
                     Bitmap bmp = (Bitmap) extras.get("data");
                     uploadImage.setImageBitmap(bmp);

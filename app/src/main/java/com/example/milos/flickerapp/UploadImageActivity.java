@@ -5,18 +5,16 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -62,11 +60,15 @@ public class UploadImageActivity extends AppCompatActivity {
         uploadTags = (EditText) findViewById(R.id.tags_upload);
         uploadButton = (Button) findViewById(R.id.upload_image_button);
 
+
         uploadButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-                if (!isImagePlaced) {
-                    Toast.makeText(context, "Choose image before trying to upload", Toast.LENGTH_SHORT).show();
+                if (!isImagePlaced || uploadImage.getDrawable().getConstantState() == getDrawable(R.drawable.ic_add_a_photo_black_34dp).getConstantState()) {
+                    Toast.makeText(context, "Choose an image before trying to upload", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "fine", Toast.LENGTH_SHORT).show();
                 }
             }
         });

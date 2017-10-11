@@ -54,7 +54,7 @@
     <string name="title_text">FlickrApp Prijavljivanje</string>
     <string name="drawer_upload_photo">Postavi Sliku</string>
     <string name="upload_image_name">Postavi Sliku</string>
-    <string name="button_chooser">Klikni na sliku kamere</string>
+    <string name="action_camera_chooser">Klikni na sliku kamere</string>
     <string name="send_email_name">Pošlji Email</string>
     <string name="upload_camera">Slikaj</string>
     <string name="upload_description">Dodaj Opis Slike</string>

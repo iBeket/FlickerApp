@@ -82,7 +82,7 @@
     <string name="upload_description">Add the Description for the Image</string>
     <string name="upload_tags">Add Tags for the Image</string>
     <string name="upload_photo_button">Upload Photo</string>
-    <string name="button_chooser">Press on camera to choose next action</string>
+    <string name="action_camera_chooser">Press on camera to choose next action</string>
 
     <!--upload_menu-->
     <string name="upload_gallery">Upload from Gallery</string>

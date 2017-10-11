@@ -7,14 +7,18 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -31,12 +35,13 @@ public class UploadImageActivity extends AppCompatActivity {
     private static final int SELECT_PHOTO = 100;
     private static final int CAMERA_REQUEST = 1992;
 
-    ImageButton uploadButtonOptions;
-    ImageView uploadImage;
-    EditText uploadTitle;
-    EditText uploadDescription;
-    EditText uploadTags;
-    Button uploadButton;
+    private ImageView uploadImage;
+    private EditText uploadTitle;
+    private EditText uploadDescription;
+    private EditText uploadTags;
+    private Button uploadButton;
+
+    private Boolean isImagePlaced = false;
 
     Context context;
 
@@ -56,9 +61,18 @@ public class UploadImageActivity extends AppCompatActivity {
         uploadDescription = (EditText) findViewById(R.id.description_upload);
         uploadTags = (EditText) findViewById(R.id.tags_upload);
         uploadButton = (Button) findViewById(R.id.upload_image_button);
-        uploadButtonOptions = (ImageButton) findViewById(R.id.button_upload);
 
-        uploadButtonOptions.setOnClickListener(new View.OnClickListener() {
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isImagePlaced) {
+                    Toast.makeText(context, "Choose image before trying to upload", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -96,7 +110,7 @@ public class UploadImageActivity extends AppCompatActivity {
                             pickIntent.setType("image/*");
 
                             Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-                            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+                            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
 
                             startActivityForResult(chooserIntent, SELECT_PHOTO);
                         }
@@ -115,7 +129,6 @@ public class UploadImageActivity extends AppCompatActivity {
 
         switch (requestCode) {
             case SELECT_PHOTO:
-
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
                     InputStream imageStream = null;
@@ -127,6 +140,7 @@ public class UploadImageActivity extends AppCompatActivity {
                     Bitmap imageGallery = BitmapFactory.decodeStream(imageStream);
                     uploadImage.setImageBitmap(imageGallery);
                 }
+                isImagePlaced = true;
             case CAMERA_REQUEST:
 
                 if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {
@@ -134,6 +148,7 @@ public class UploadImageActivity extends AppCompatActivity {
                     Bitmap bmp = (Bitmap) extras.get("data");
                     uploadImage.setImageBitmap(bmp);
                 }
+                isImagePlaced = true;
         }
     }
 

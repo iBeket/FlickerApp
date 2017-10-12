@@ -106,6 +106,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_shape"
         android:text="@string/button_send_email"
         android:textColor="#000" />
 

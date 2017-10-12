@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 /**
  * Created by Milos on 08-Sep-17.
@@ -21,6 +22,8 @@ public class SendEmailActivity extends AppCompatActivity {
     private String imageEmail;
     public EditText sendTo;
     public EditText sendCc;
+
+    private Boolean isToAdded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +48,16 @@ public class SendEmailActivity extends AppCompatActivity {
         ImageView addTo = (ImageView) findViewById(R.id.add_to_email);
         ImageView addCc = (ImageView) findViewById(R.id.add_to_cc);
 
-
-        Button sendEmail = (Button) findViewById(R.id.send_email_button);
+        final Button sendEmail = (Button) findViewById(R.id.send_email_button);
         sendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                composeEmail();
+                if (!isToAdded || sendTo.getText().toString().trim().length() == 0) {
+                    Toast.makeText(SendEmailActivity.this, "You need to enter Email Address first", Toast.LENGTH_SHORT).show();
+                } else {
+                    composeEmail();
+                }
+
             }
         });
 
@@ -60,6 +67,7 @@ public class SendEmailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AppState.isClicked = true;
                 AppState.isClickedCc = false;
+                isToAdded = true;
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentEmail fragment = FragmentEmail.newInstance();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

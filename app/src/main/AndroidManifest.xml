@@ -35,6 +35,7 @@
         <activity
             android:name=".DrawerActivity"
             android:label="@string/title_activity_drawer"
+            android:launchMode="singleTop"
             android:theme="@style/popupMenuStyle.NoActionBar" />
     </application>
 </manifest>

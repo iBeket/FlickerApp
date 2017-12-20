@@ -1,5 +1,6 @@
 package com.example.milos.flickerapp;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -16,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.example.milos.flickerapp.DrawerActivity.baseURL;
 
 /**
@@ -55,6 +57,7 @@ public class JSONService extends Service {
     }
 
     //checks every 15 minutes if someone posted a photo if true it will notify user
+    @SuppressLint("StaticFieldLeak")
     public void readWebPage() {
         pareser = new JSONPareser();
         pareserNew = new JSONPareser();

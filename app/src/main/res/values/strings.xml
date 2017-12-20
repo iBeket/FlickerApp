@@ -46,6 +46,7 @@
     <string name="drawer_sign_out">Sign Out</string>
     <string name="drawer_sign_in">Sign In</string>
     <string name="drawer_upload_photo">Upload Photo</string>
+    <string name="drawer_change_background">Change Background</string>
 
     <!--favorites_menu-->
     <string name="fav_share_post">Share Post</string>

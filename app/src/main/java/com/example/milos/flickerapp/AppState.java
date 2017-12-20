@@ -5,8 +5,8 @@ package com.example.milos.flickerapp;
  */
 
 public class AppState {
-    static Boolean loggedIn;
-    static Boolean isClicked;
-    static Boolean isClickedCc;
-    static Boolean isMaybe;
+    static boolean loggedIn;
+    static boolean isClicked;
+    static boolean isClickedCc;
+    static boolean isMaybe;
 }

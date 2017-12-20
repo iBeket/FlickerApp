@@ -3,6 +3,7 @@ package com.example.milos.flickerapp;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,11 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Milos on 06-Sep-17.
  */
@@ -37,11 +43,12 @@ public class SignInActivity extends AppCompatActivity implements
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
 
-    private GoogleApiClient mGoogleApiClient;
+    public static GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
     private Context context;
     private Button maybeLater;
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,8 @@ public class SignInActivity extends AppCompatActivity implements
 
         context = this;
 
+        pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+
         // Button listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
@@ -63,11 +72,18 @@ public class SignInActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 AppState.isMaybe = true;
+                AppState.loggedIn = false;
                 Intent intent = new Intent(context, DrawerActivity.class);
                 intent.putExtra("isMaybe", true);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
+
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("isMaybePressed", true);
+                editor.putLong("fiveDaysAndCounting", new Date().getTime());
+                editor.clear();
+                editor.apply();
             }
         });
 
@@ -132,6 +148,22 @@ public class SignInActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        if (!mGoogleApiClient.isConnected()) {
+
+            if (pref.getBoolean("isMaybePressed", false)) {
+
+                long date = pref.getLong("fiveDaysAndCounting", 0);
+                long newDate = TimeUnit.DAYS.toMillis(5);
+
+                if (!getIntent().getBooleanExtra("fromDrawerActivity", false) && !getIntent().getBooleanExtra("signout", false) &&
+                        !getIntent().getBooleanExtra("fromDrawer", false)) {
+                    if ((date + newDate) > (new Date().getTime())) {
+                        maybeLater.performClick();
+                    }
+                }
+            }
+        }
+
         hideProgressDialog();
     }
 
@@ -151,8 +183,6 @@ public class SignInActivity extends AppCompatActivity implements
     // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result) {
 
-        AppState.loggedIn = false;
-
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (getIntent().getBooleanExtra("signout", false)) {
             // Signed in successfully, show authenticated UI.
@@ -160,6 +190,7 @@ public class SignInActivity extends AppCompatActivity implements
             AppState.loggedIn = false;
 
         } else if (result.isSuccess()) {
+            result.getStatus();
             AppState.loggedIn = true;
             GoogleSignInAccount acct = result.getSignInAccount();
             assert acct != null;

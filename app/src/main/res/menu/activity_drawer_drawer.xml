@@ -17,6 +17,12 @@
             android:id="@+id/nav_upload_photo"
             android:icon="@drawable/upload_photo"
             android:title="@string/drawer_upload_photo" />
+
+        <item
+            android:id="@+id/nav_change_background"
+            android:icon="@drawable/change_background"
+            android:title="@string/drawer_change_background" />
+
         <item
             android:id="@+id/nav_sign_out"
             android:icon="@drawable/sign_out"

@@ -1,10 +1,13 @@
 package com.example.milos.flickerapp;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -66,12 +69,14 @@ public class DrawerActivity extends AppCompatActivity
     private SwipeRefreshLayout swipeRefreshList;
     private JSONPareser pareser = new JSONPareser();
     private SqlHelper sqlHelper;
+    private SharedPreferences sharedPreferences;
     public static final String baseURL = "https://api.flickr.com/services/feeds/photos_public.gne?tags=planet&format=json&nojsoncallback=1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -79,6 +84,8 @@ public class DrawerActivity extends AppCompatActivity
         getSupportActionBar().setTitle(getString(R.string.app_name));
 
         context = this;
+
+        sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         //displays if there are items after search is done
         entries = (TextView) findViewById(R.id.entries);
@@ -100,6 +107,7 @@ public class DrawerActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intentMaybe = new Intent(context, SignInActivity.class);
                 intentMaybe.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intentMaybe.putExtra("fromDrawerActivity",true);
                 startActivity(intentMaybe);
                 finish();
             }
@@ -112,6 +120,7 @@ public class DrawerActivity extends AppCompatActivity
             menu.findItem(R.id.nav_sign_in).setVisible(false);
         } else {
             menu.findItem(R.id.nav_sign_out).setVisible(false);
+
         }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -129,7 +138,6 @@ public class DrawerActivity extends AppCompatActivity
 
         new getData().execute();
 
-        swipeRefreshList.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_blue_light, android.R.color.holo_green_dark, android.R.color.holo_green_light);
         swipeRefreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -221,6 +229,7 @@ public class DrawerActivity extends AppCompatActivity
                         @Override
                         public void run() {
                             runOnUiThread(new Runnable() {
+                                @SuppressLint("StaticFieldLeak")
                                 @Override
                                 public void run() {
 
@@ -450,9 +459,10 @@ public class DrawerActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_sign_in) {
             if (getIntent().getBooleanExtra("isMaybe", false)) {
-                Intent intentMaybe = new Intent(this, SignInActivity.class);
-                intentMaybe.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentMaybe);
+                Intent intentMaybe1 = new Intent(context, SignInActivity.class);
+                intentMaybe1.putExtra("fromDrawer",true);
+                intentMaybe1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentMaybe1);
                 finish();
             }
         }
@@ -477,6 +487,28 @@ public class DrawerActivity extends AppCompatActivity
             startActivity(new Intent(DrawerActivity.this, FavoritesActivity.class));
         } else if (id == R.id.nav_upload_photo) {
             startActivity(new Intent(DrawerActivity.this, UploadImageActivity.class));
+        } else if (id == R.id.nav_change_background) {
+
+            if (AppState.loggedIn) {
+                Intent launcApp = new Intent();
+                launcApp.setAction(Intent.ACTION_SEND);
+                launcApp.setType("text/plain");
+
+                // Verify that the intent will resolve to an activity
+                if (launcApp.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(launcApp, 1234);
+                }
+            } else {
+                Toast.makeText(context, "This feature is not available, please Sign In", Toast.LENGTH_SHORT).show();
+            }
+
+          /*  Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.example.milos.colorpicker");
+            if (launchIntent != null) {
+                launchIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivityForResult(launchIntent, 1234);//null pointer check in case package name was not found
+            }*/
+
+
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -565,5 +597,15 @@ public class DrawerActivity extends AppCompatActivity
         flickrGridAdapter = new FlickrGidAdapter(context, R.layout.flickr_grid_item, flickrList);
         flickrGridAdapter.notifyDataSetChanged();
         gv.setAdapter(flickrGridAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+
+        if (requestCode == 1234 && resultCode == RESULT_OK) {
+            String color;
+            color = imageReturnedIntent.getStringExtra("COLOR_STRING");
+            search.setBackgroundColor(Color.parseColor(color));
+        }
     }
 }

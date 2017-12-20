@@ -2,7 +2,9 @@ package com.example.milos.flickerapp;
 
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +16,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * Created by Milos on 08-Aug-17.
@@ -21,7 +26,7 @@ import android.widget.Toast;
 
 public class SplashActivity extends AppCompatActivity {
 
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         getSupportActionBar().hide();
@@ -30,6 +35,8 @@ public class SplashActivity extends AppCompatActivity {
         Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this,
                 R.anim.hyperspace_jump);
         mainFrame.startAnimation(hyperspaceJumpAnimation);
+
+        final SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         //handles permissions that will be displayed to user when app starts
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
